@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "font_1";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/BurfordRusticInline-400_1.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "font_2";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/BurfordRusticInline-400_2.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "font_3";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/BurfordRusticInline-400_3.otf") format("opentype");
+}
+
+* {
+  font-family: "font_2";
+}
