@@ -1,26 +1,40 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "font_1";
-  font-weight: 400;
-  font-style: normal;
-  src: url("/fonts/BurfordRusticInline-400_1.otf") format("opentype");
-}
-
-@font-face {
-  font-family: "font_2";
+  font-family: "buford";
   font-weight: 400;
   font-style: normal;
   src: url("/fonts/BurfordRusticInline-400_2.otf") format("opentype");
 }
 
 @font-face {
-  font-family: "font_3";
+  font-family: "poppins";
   font-weight: 400;
   font-style: normal;
-  src: url("/fonts/BurfordRusticInline-400_3.otf") format("opentype");
+  src: url("/fonts/Poppins-Regular.ttf") format("opentype");
 }
 
-* {
-  font-family: "font_2";
+@font-face {
+  font-family: "poppinsBold";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/Poppins-Bold.ttf") format("opentype");
+}
+
+@theme {
+  --color-black: #000;
+
+  --font-buford: "buford";
+  --font-poppins: "poppins";
+  --font-poppinsBold: "poppinsBold";
+}
+
+h1 {
+  @apply text-4xl font-bold
+}
+
+#root {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
 }
