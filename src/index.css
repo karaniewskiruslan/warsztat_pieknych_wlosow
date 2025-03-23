@@ -11,14 +11,14 @@
   font-family: "poppins";
   font-weight: 400;
   font-style: normal;
-  src: url("/fonts/Poppins-Regular.ttf") format("opentype");
+  src: url("/fonts/Poppins-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "poppinsBold";
-  font-weight: 400;
+  font-family: "poppins";
+  font-weight: 700;
   font-style: normal;
-  src: url("/fonts/Poppins-Bold.ttf") format("opentype");
+  src: url("/fonts/Poppins-Bold.ttf") format("truetype");
 }
 
 @theme {
@@ -26,11 +26,16 @@
 
   --font-buford: "buford";
   --font-poppins: "poppins";
-  --font-poppinsBold: "poppinsBold";
+  --breakpoint-mobile: 640px;
+  --breakpoint-tablet: 1024px;
 }
 
 h1 {
-  @apply text-4xl font-bold
+  @apply mb-8 text-4xl font-bold;
+}
+
+h2 {
+  @apply text-3xl font-bold;
 }
 
 #root {

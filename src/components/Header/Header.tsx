@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import logo from "../../../public/img/logo_transparent.webp";
+import logo from "../../../public/img/logo_transparent_name.webp";
 import { menuOptions } from "./Header.data";
 
 const Header = () => {
