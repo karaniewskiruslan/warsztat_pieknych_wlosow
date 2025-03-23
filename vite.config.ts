@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/warsztat-peknych-wlosow/',
+  base: "/warsztat_pieknych_wlosow/",
   plugins: [react(), tailwindcss()],
 });
