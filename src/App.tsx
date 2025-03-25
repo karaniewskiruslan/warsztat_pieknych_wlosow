@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="font-poppins mx-auto w-full max-w-7xl px-15 py-12">
+      <main className="font-poppins tablet:px-15 mx-auto w-full max-w-7xl px-8 py-12">
         <Routes>
           <Route index path="/" element={<Main />} />
           <Route path="/masters" element={<Masters />} />

@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer
       data-footer
-      className="font-buford flex w-full bg-black px-4 py-2 text-2xl text-white"
+      className="font-buford flex w-full bg-black px-4 py-2 mobile:text-2xl text-xl text-white"
     >
       {`©
       ${

@@ -9,7 +9,7 @@ const ContactText = ({ contactOpt }: Props) => {
     <>
       <article className="w-fit">
         <a href={contactOpt.link} target="_blank">
-          <h2>{contactOpt.title}</h2>
+          <h2 className="underline">{contactOpt.title}</h2>
         </a>
       </article>
     </>

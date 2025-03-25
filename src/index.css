@@ -28,18 +28,42 @@
   --font-poppins: "poppins";
   --breakpoint-mobile: 640px;
   --breakpoint-tablet: 1024px;
+
+  --animate-burgerMenu-open: burgerMenu-open 0.5s ease-in-out;
+  --animate-burgerMenu-close: burgerMenu-close 0.5s ease-in-out;
+
+  @keyframes burgerMenu-open {
+    0% {
+      opacity: 0;
+      transform: translateX(100dvw);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes burgerMenu-close {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(100dvw);
+      opacity: 0;
+    }
+  }
 }
 
 h1 {
-  @apply mb-8 text-4xl font-bold;
+  @apply mobile:text-4xl mb-8 w-fit text-3xl font-bold;
 }
 
 h2 {
-  @apply text-3xl font-bold;
+  @apply mobile:text-3xl text-2xl font-bold;
 }
 
 #root {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100dvh;
+  max-width: 100dvw;
 }
