@@ -10,6 +10,11 @@ export const contact = [
     body: "+48 786 649 394",
   },
   {
+    isLink: false,
+    title: "Godziny pracy",
+    body: ["wtorek-niedziela", "10:00-21:00"],
+  },
+  {
     isLink: true,
     title: "Instagram",
     link: "https://www.instagram.com/natalia_hair.waw",

@@ -1,33 +1,24 @@
 import { NavLink } from "react-router";
-import logo from "../../../../public/img/logo_transparent_name.webp";
-import burgerMenuClose from "../../../../public/img/CloseBurgerMenu.svg";
+import logo from "/img/logo_transparent_name.webp";
+import burgerMenuClose from "/img/CloseBurgerMenu.svg";
 import { menuOptions } from "../Header.data";
-import { useState } from "react";
 import classNames from "classnames";
 
 type Props = {
+  isBurgerOpen: boolean;
   onClickCloseMenu: (state?: boolean) => void;
 };
 
-const BurgerMenu = ({ onClickCloseMenu }: Props) => {
-  const [isClosing, setIsClosing] = useState(false);
-
+const BurgerMenu = ({ onClickCloseMenu, isBurgerOpen }: Props) => {
   const handleClickCloseMenu = () => {
-    setIsClosing(true);
-  };
-
-  const endOfAnimation = () => {
-    if (isClosing) {
-      onClickCloseMenu(false);
-    }
+    if (isBurgerOpen) onClickCloseMenu();
   };
 
   return (
     <section
-      onAnimationEnd={endOfAnimation}
       className={classNames(
-        "fixed top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-16 bg-black text-white",
-        isClosing ? "animate-burgerMenu-close" : "animate-burgerMenu-open",
+        "fixed top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-16 bg-black text-white duration-300 ease-in-out",
+        isBurgerOpen ? "translate-0 opacity-100" : "translate-x-full opacity-0",
       )}
     >
       <button

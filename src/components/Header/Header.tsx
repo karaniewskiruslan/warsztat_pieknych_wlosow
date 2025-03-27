@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NavLink } from "react-router";
-import logo from "../../../public/img/logo_transparent_name.webp";
-import burgerMenuIcon from "../../../public/img/BurgerMenu.svg";
+import logo from "/img/logo_transparent_name.webp";
+import burgerMenuIcon from "/img/BurgerMenu.svg";
 import { menuOptions } from "./Header.data";
 import { useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
@@ -44,14 +44,18 @@ const Header = () => {
           </button>
         ) : (
           menuOptions.map((option) => (
-            <NavLink to={option.to} key={option.title}>
+            <NavLink
+              to={option.to}
+              key={option.title}
+              className="tablet:text-2xl text-base"
+            >
               {option.title}
             </NavLink>
           ))
         )}
       </nav>
-      {screenWidth && isBurgerMenu && (
-        <BurgerMenu onClickCloseMenu={toggleMenu} />
+      {screenWidth && (
+        <BurgerMenu onClickCloseMenu={toggleMenu} isBurgerOpen={isBurgerMenu} />
       )}
     </header>
   );

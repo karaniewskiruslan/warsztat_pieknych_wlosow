@@ -1,27 +1,17 @@
-import { Route, Routes } from "react-router";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import Main from "./components/Main/Main";
-import Masters from "./components/Masters/Masters";
-import Services from "./components/Services/Services";
-import Booking from "./components/Booking/Booking";
-import Contact from "./components/Contact/Contact";
-import EmptyPage from "./components/EmptyPage/EmptyPage";
+import { lazy, Suspense } from "react";
+import Loading from "./components/Loading.tsx";
+
+const MarkdownPreview = lazy(() => import("./components/RoutesContainer.tsx"));
 
 function App() {
   return (
     <>
       <Header />
-      <main className="font-poppins tablet:px-15 mx-auto w-full max-w-7xl px-8 py-12">
-        <Routes>
-          <Route index path="/" element={<Main />} />
-          <Route path="/masters" element={<Masters />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<EmptyPage />} />
-        </Routes>
-      </main>
+      <Suspense fallback={<Loading />}>
+        <MarkdownPreview />
+      </Suspense>
       <Footer />
     </>
   );
