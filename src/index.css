@@ -28,29 +28,6 @@
   --font-poppins: "poppins";
   --breakpoint-mobile: 640px;
   --breakpoint-tablet: 1024px;
-
-  --animate-burgerMenu-open: burgerMenu-open 0.5s ease-in-out;
-  --animate-burgerMenu-close: burgerMenu-close 0.5s ease-in-out;
-
-  @keyframes burgerMenu-open {
-    0% {
-      opacity: 0;
-      transform: translateX(100dvw);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes burgerMenu-close {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(100dvw);
-      opacity: 0;
-    }
-  }
 }
 
 h1 {
@@ -59,6 +36,10 @@ h1 {
 
 h2 {
   @apply mobile:text-3xl text-2xl font-bold;
+}
+
+h3 {
+  @apply mobile:text-2xl text-xl font-bold;
 }
 
 #root {

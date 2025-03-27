@@ -5,12 +5,14 @@ import Services from "./Services/Services";
 import Booking from "./Booking/Booking";
 import Contact from "./Contact/Contact";
 import EmptyPage from "./EmptyPage/EmptyPage";
+import Admin from "./Admin/Admin";
 
 const RoutesContainer = () => {
   return (
     <main className="font-poppins tablet:px-15 mx-auto w-full max-w-7xl px-8 py-12">
       <Routes>
         <Route index path="/" element={<Main />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/masters" element={<Masters />} />
         <Route path="/services" element={<Services />} />
         <Route path="/booking" element={<Booking />} />

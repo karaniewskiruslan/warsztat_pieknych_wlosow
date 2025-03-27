@@ -1,8 +1,18 @@
+import { mainContent } from "./Main.data";
+
 const Main = () => {
   return (
-    <div>
+    <section>
       <h1>Witaj w Warsztat Pięknych Włosów</h1>
-    </div>
+      <section className="flex flex-col gap-4">
+        {mainContent.map((content) => (
+          <div className="flex flex-col gap-2" key={content.title}>
+            <h3>{content.title}</h3>
+            <p>{content.content}</p>
+          </div>
+        ))}
+      </section>
+    </section>
   );
 };
 
