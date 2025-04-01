@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { NavLink } from "react-router";
 import logo from "/img/logo_transparent_name.webp";
 import burgerMenuIcon from "/img/BurgerMenu.svg";
@@ -7,6 +6,7 @@ import { useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import useWindowSize from "../../hooks/useWindowSize.hook";
 import useScrollLock from "../../hooks/useScrollLock.hook";
+import { AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const [isBurgerMenu, toggleBurgerMenu] = useState(false);
@@ -14,15 +14,15 @@ const Header = () => {
   const screenWidth = width < 640;
   useScrollLock(isBurgerMenu && screenWidth);
 
-  const toggleMenu = (state?: boolean) => {
-    toggleBurgerMenu(state ?? !isBurgerMenu);
+  const toggleMenu = (state: boolean) => {
+    toggleBurgerMenu(state);
   };
 
   useEffect(() => {
     if (!screenWidth) {
       toggleBurgerMenu(false);
     }
-  }, [width]);
+  }, [screenWidth, toggleBurgerMenu]);
 
   return (
     <header
@@ -36,11 +36,7 @@ const Header = () => {
             onClick={() => toggleMenu(true)}
             className="size-10 cursor-pointer"
           >
-            <img
-              src={burgerMenuIcon}
-              alt="Burger menu"
-              onClick={() => toggleBurgerMenu(!isBurgerMenu)}
-            />
+            <img src={burgerMenuIcon} alt="Burger menu" />
           </button>
         ) : (
           menuOptions.map((option) => (
@@ -54,9 +50,11 @@ const Header = () => {
           ))
         )}
       </nav>
-      {screenWidth && (
-        <BurgerMenu onClickCloseMenu={toggleMenu} isBurgerOpen={isBurgerMenu} />
-      )}
+      <AnimatePresence mode="wait">
+        {screenWidth && isBurgerMenu && (
+          <BurgerMenu onClickCloseMenu={toggleMenu} />
+        )}
+      </AnimatePresence>
     </header>
   );
 };

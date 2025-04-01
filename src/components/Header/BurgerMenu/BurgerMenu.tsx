@@ -2,27 +2,24 @@ import { NavLink } from "react-router";
 import logo from "/img/logo_transparent_name.webp";
 import burgerMenuClose from "/img/CloseBurgerMenu.svg";
 import { menuOptions } from "../Header.data";
-import classNames from "classnames";
+import { motion } from "framer-motion";
 
 type Props = {
-  isBurgerOpen: boolean;
-  onClickCloseMenu: (state?: boolean) => void;
+  onClickCloseMenu: (state: boolean) => void;
 };
 
-const BurgerMenu = ({ onClickCloseMenu, isBurgerOpen }: Props) => {
-  const handleClickCloseMenu = () => {
-    if (isBurgerOpen) onClickCloseMenu();
-  };
-
+const BurgerMenu = ({ onClickCloseMenu }: Props) => {
   return (
-    <section
-      className={classNames(
-        "fixed top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-16 bg-black text-white duration-300 ease-in-out",
-        isBurgerOpen ? "translate-0 opacity-100" : "translate-x-full opacity-0",
-      )}
+    <motion.section
+      key="burger-menu"
+      initial={{ translateX: "100%", opacity: 0 }}
+      animate={{ translateX: "0%", opacity: 1 }}
+      exit={{ translateX: "100%", opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-16 bg-black text-white ease-in-out"
     >
       <button
-        onClick={handleClickCloseMenu}
+        onClick={() => onClickCloseMenu(false)}
         className="absolute top-4 right-8 size-10 cursor-pointer"
       >
         <img src={burgerMenuClose} alt="Close menu" />
@@ -33,13 +30,13 @@ const BurgerMenu = ({ onClickCloseMenu, isBurgerOpen }: Props) => {
           <NavLink
             to={option.to}
             key={option.title}
-            onClick={handleClickCloseMenu}
+            onClick={() => onClickCloseMenu(false)}
           >
             {option.title}
           </NavLink>
         ))}
       </nav>
-    </section>
+    </motion.section>
   );
 };
 
