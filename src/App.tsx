@@ -17,7 +17,7 @@ function App() {
       );
     };
 
-    checkScrollable(); // Initial check
+    checkScrollable();
     window.addEventListener("resize", checkScrollable);
 
     return () => window.removeEventListener("resize", checkScrollable);

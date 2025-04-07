@@ -42,6 +42,10 @@ h3 {
   @apply mobile:text-2xl text-xl font-bold;
 }
 
+p {
+  @apply mobile:text-2xl text-xl;
+}
+
 #root {
   display: grid;
   grid-template-rows: auto 1fr auto;

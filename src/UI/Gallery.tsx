@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 type Props = {
   gallery: string[];
   scrollDirection: "X" | "Y";
-  pagination: number;
-  delay: number;
 };
 
 const variantX = {
@@ -65,10 +63,14 @@ const wrap = (min: number, max: number, value: number) => {
   return ((((value - min) % (max - min)) + (max - min)) % (max - min)) + min;
 };
 
-const Gallery = ({ gallery, scrollDirection, pagination, delay }: Props) => {
+const Gallery = ({ gallery, scrollDirection }: Props) => {
   const [[image, direction], setImage] = useState([0, 0]);
 
   const imageIndex = wrap(0, gallery.length, image);
+  const intervalDuration = Math.random() * 6000 + 2000;
+  const pagination = Math.round(
+    Math.random() * (gallery.length - 1) * (Math.random() < 0.5 ? -1 : 1),
+  );
   const handleAutoPaginate = (newDirection: number) => {
     setImage([image + newDirection, newDirection]);
   };
@@ -76,19 +78,11 @@ const Gallery = ({ gallery, scrollDirection, pagination, delay }: Props) => {
   const variantsOption = scrollDirection === "X" ? variantX : variantY;
 
   useEffect(() => {
-    const initialDelay = setTimeout(() => {
+    const interval = setTimeout(() => {
       handleAutoPaginate(pagination);
-    }, 2000 + delay);
+    }, intervalDuration);
 
-    return () => clearTimeout(initialDelay);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleAutoPaginate(pagination);
-    }, 36000);
-
-    return () => clearInterval(interval);
+    return () => clearTimeout(interval);
   }, [pagination, image]);
 
   return (
@@ -102,7 +96,7 @@ const Gallery = ({ gallery, scrollDirection, pagination, delay }: Props) => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ ...variantsOption.transition, delay: delay / 1000 }}
+          transition={variantsOption.transition}
           className="absolute size-full"
         />
       </AnimatePresence>

@@ -55,15 +55,11 @@ export const mainContent: MainContent[] = [
       "Zdrowe i zadbane włosy to nie tylko sprawa estetyczna, ale także symbol ogólnego stanu organizmu. Zabiegana regularnie pielęgnacja dostosowana do typu włosów zapobiega ich osłabaniu, wypadaniu oraz rozdwajaniu końcówek. Poprawne nawilżanie, ochrona przed wysoką temperaturą oraz zrównoważona dieta bogata w witaminy i minerały wspierają ich siłę i blask. Pamiętaj, że zdrowe włosy są wynikiem codziennej troski i dobrej obsady kosmetyków!",
     gallery1: {
       gallery: galleryPhotos1,
-      pagination: 1,
       scrollDirection: "X",
-      delay: 0,
     },
     gallery2: {
       gallery: galleryPhotos2,
-      pagination: -2,
       scrollDirection: "Y",
-      delay: 6000,
     },
   },
   {
@@ -73,15 +69,11 @@ export const mainContent: MainContent[] = [
       "W Warsztacie Pięknych Włosów dbamy o to, aby każda wizyta była wyjątkowym doświadczeniem. Mistrz włosów Natalia z 30-letnim doświadczeniem w branży fryzjerskiej, z pasją i zaangażowaniem, zawsze służy profesjonalnym doradztwem i pomocą w doborze odpowiednich zabiegów pielęgnacyjnych.",
     gallery1: {
       gallery: galleryPhotos3,
-      pagination: 2,
       scrollDirection: "Y",
-      delay: 12000,
     },
     gallery2: {
       gallery: galleryPhotos4,
-      pagination: -1,
       scrollDirection: "X",
-      delay: 18000,
     },
   },
   {
@@ -90,15 +82,11 @@ export const mainContent: MainContent[] = [
       "Oprócz usług fryzjerskich także proponujemy manicure i pedicure. Waleria, master z doświadczeniem 15 lat zostawia naszych klientów z pozytywnym humorem i używa nowoczesne materiały, dlatego wasze paznokcie będą wyróżniać Ci dłużej, niż jesteś w stanie sobie wyobrazić. Także możesz skorzystać z usługi terapii światłem, dostarczająca niezbędne elementy do skóry twarza i zapewnia efekt omłodzenia.",
     gallery1: {
       gallery: galleryPhotos5,
-      pagination: 4,
       scrollDirection: "X",
-      delay: 24000,
     },
     gallery2: {
       gallery: galleryPhotos6,
-      pagination: -1,
       scrollDirection: "Y",
-      delay: 30000,
     },
   },
 ];
