@@ -6,6 +6,7 @@ import Booking from "./Booking/Booking";
 import Contact from "./Contact/Contact";
 import EmptyPage from "./EmptyPage/EmptyPage";
 import Admin from "./Admin/Admin";
+import Master from "./Masters/Master/Master";
 
 const RoutesContainer = () => {
   return (
@@ -14,6 +15,7 @@ const RoutesContainer = () => {
         <Route index path="/" element={<Main />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/masters" element={<Masters />} />
+        <Route path="/masters/:name" element={<Master />} />
         <Route path="/services" element={<Services />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/contact" element={<Contact />} />

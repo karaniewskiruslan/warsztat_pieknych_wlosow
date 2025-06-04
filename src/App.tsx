@@ -27,7 +27,7 @@ function App() {
     <>
       {isScrollable && (
         <motion.div
-          className="fixed top-0 left-0 h-1 w-full bg-gray-200"
+          className="fixed top-0 left-0 z-30 h-1 w-full bg-gray-200"
           style={{
             scaleX: scrollYProgress,
             originX: 0,

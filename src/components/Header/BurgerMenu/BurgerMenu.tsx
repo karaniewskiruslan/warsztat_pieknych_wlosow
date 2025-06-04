@@ -16,7 +16,7 @@ const BurgerMenu = ({ onClickCloseMenu }: Props) => {
       animate={{ translateX: "0%", opacity: 1 }}
       exit={{ translateX: "100%", opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-16 bg-black text-white ease-in-out"
+      className="fixed top-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center gap-16 bg-black text-white ease-in-out"
     >
       <button
         onClick={() => onClickCloseMenu(false)}

@@ -42,8 +42,8 @@ h3 {
   @apply mobile:text-2xl text-xl font-bold;
 }
 
-p {
-  @apply mobile:text-2xl text-xl;
+p:not([data-offer]) {
+  @apply mobile:text-lg text-base;
 }
 
 #root {

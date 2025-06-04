@@ -1,5 +1,6 @@
+import { NavLink } from "react-router";
 import { MasterInfo } from "../../types/masterInfo";
-import { LayoutGroup, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 type Props = {
   master: MasterInfo;
@@ -8,13 +9,15 @@ type Props = {
 const detailsVariants = {
   initial: { opacity: 0, height: 0 },
   exit: { opacity: 0, height: 0 },
-  animate: { opacity: 1, height: "auto" },
   hover: { opacity: 1, height: "auto" },
 };
 
 const MastersIcon = ({ master }: Props) => {
+  const MotionNavLink = motion(NavLink);
+
   return (
-    <motion.div
+    <MotionNavLink
+      to={`/masters/${master.name}`}
       initial="initial"
       whileHover="hover"
       transition={{ duration: 0.3 }}
@@ -25,20 +28,18 @@ const MastersIcon = ({ master }: Props) => {
         alt={master.name}
         className="pointer-events-none absolute h-full w-full"
       />
-      <article className="px-4 py-2">
+      <motion.article className="px-4 py-2" layout>
         <h2>{master.name}</h2>
         <h3>{master.profession}</h3>
-        <LayoutGroup>
-          <motion.section
-            layout
-            variants={detailsVariants}
-            className="overflow-hidden"
-          >
-            <h3>{master.experience}</h3>
-          </motion.section>
-        </LayoutGroup>
-      </article>
-    </motion.div>
+        <motion.section
+          key={master.id}
+          variants={detailsVariants}
+          className="overflow-hidden"
+        >
+          <p>{master.experience}</p>
+        </motion.section>
+      </motion.article>
+    </MotionNavLink>
   );
 };
 
