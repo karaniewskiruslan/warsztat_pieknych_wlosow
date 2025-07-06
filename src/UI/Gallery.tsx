@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Transition } from "framer-motion";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -72,7 +72,7 @@ const Gallery = ({ gallery, scrollDirection }: Props) => {
     Math.random() * (gallery.length - 1) * (Math.random() < 0.5 ? -1 : 1),
   );
   const handleAutoPaginate = (newDirection: number) => {
-    setImage([image + newDirection, newDirection]);
+    setImage(([prev]) => [prev + newDirection, newDirection]);
   };
 
   const variantsOption = scrollDirection === "X" ? variantX : variantY;
@@ -96,7 +96,7 @@ const Gallery = ({ gallery, scrollDirection }: Props) => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={variantsOption.transition}
+          transition={variantsOption.transition as Transition}
           className="absolute size-full"
         />
       </AnimatePresence>
