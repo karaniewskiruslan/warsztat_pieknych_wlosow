@@ -27,6 +27,7 @@ function App() {
     <>
       {isScrollable && (
         <motion.div
+          data-testid="scroll-progress-bar"
           className="fixed top-0 left-0 z-30 h-1 w-full bg-gray-200"
           style={{
             scaleX: scrollYProgress,

@@ -1,11 +1,19 @@
 import { motion } from "framer-motion";
 import { useParams, useNavigate } from "react-router";
 import { mastersInfo } from "../Masters.data";
+import { MasterInfo } from "../../../types/masterInfo";
 
-const Master = () => {
+type Props = {
+  masterInfo?: MasterInfo;
+};
+
+const Master = ({ masterInfo }: Props) => {
   const { name } = useParams();
   const navigate = useNavigate();
-  const masterInfo = mastersInfo.find((master) => master.name === name)!;
+  const info =
+    masterInfo ?? mastersInfo.find((master) => master.name === name)!;
+
+  if (!info) return <div data-testid="master-not-found">Master not found</div>;
 
   return (
     <motion.div
@@ -13,6 +21,7 @@ const Master = () => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6 }}
       className="relative"
+      data-testid="master"
     >
       <button
         onClick={() => navigate(-1)}
@@ -22,7 +31,7 @@ const Master = () => {
       </button>
       <h1>Master {name}</h1>
       <h2>
-        {masterInfo.profession} | {masterInfo.experience}
+        {info.profession} | {info.experience}
       </h2>
     </motion.div>
   );

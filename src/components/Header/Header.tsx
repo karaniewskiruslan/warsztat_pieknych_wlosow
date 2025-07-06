@@ -26,7 +26,7 @@ const Header = () => {
 
   return (
     <header
-      data-header
+      data-testid="header"
       className="font-buford flex w-full justify-between bg-black px-8 py-4 text-3xl text-white"
     >
       <img src={logo} alt="Logo" className="h-10" />
