@@ -18,7 +18,7 @@ describe("Header", () => {
       <>
         <Header />
         <Routes>
-          <Route path="/" element={<div data-testid="home">Home</div>} />
+          <Route path="/" element={<div data-testid="home-test">Home</div>} />
           <Route path="/masters" element={<Masters />} />
         </Routes>
       </>,
@@ -28,7 +28,8 @@ describe("Header", () => {
 
     await userEvent.click(navButton);
 
-    expect(screen.getByTestId("masters")).toBeInTheDocument();
+    expect(screen.queryByTestId("home-test")).not.toBeInTheDocument();
+    expect(await screen.findByTestId("masters")).toBeInTheDocument();
   });
 
   it("Need to show burger menu icon on small displays and open menu after click it", async () => {

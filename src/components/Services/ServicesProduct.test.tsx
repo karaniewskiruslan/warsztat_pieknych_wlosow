@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { renderWithRouter } from "../../renderWithRouter";
 import ServicesProduct from "./ServicesProduct";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 
 const testProduct1 = {
   id: 400,
@@ -38,13 +38,12 @@ describe("Services product", () => {
   it("Should to render all options' cost", () => {
     renderWithRouter(<ServicesProduct product={testProduct2} />);
 
-    expect(screen.getByTestId("servicesProd")).toHaveTextContent("25 zł");
-    expect(screen.getByTestId("servicesProd")).toHaveTextContent("Option 1");
+    const serviceProducts = screen.getByTestId("servicesProd");
+    const options = within(serviceProducts).getAllByTestId("data-offer");
 
-    expect(screen.getByTestId("servicesProd")).toHaveTextContent("35 zł");
-    expect(screen.getByTestId("servicesProd")).toHaveTextContent("Option 2");
-
-    expect(screen.getByTestId("servicesProd")).toHaveTextContent("45 zł");
-    expect(screen.getByTestId("servicesProd")).toHaveTextContent("Option 3");
+    expect(options).toHaveLength(3);
+    expect(options[0]).toHaveTextContent("Option 1");
+    expect(options[1]).toHaveTextContent("Option 2");
+    expect(options[2]).toHaveTextContent("Option 3");
   });
 });

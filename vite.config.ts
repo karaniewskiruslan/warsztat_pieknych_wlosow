@@ -9,8 +9,8 @@ export default defineConfig({
   base: "/warsztat_pieknych_wlosow/",
   plugins: [react(), tailwindcss()],
   test: {
-    environment: "jsdom",
     globals: true,
-    setupFiles: ["src/setupTests.ts"],
+    environment: "jsdom",
+    setupFiles: ["test/setupTests.ts"],
   },
 });
