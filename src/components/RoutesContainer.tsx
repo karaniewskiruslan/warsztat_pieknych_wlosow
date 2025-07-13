@@ -6,7 +6,7 @@ import Booking from "./Booking/Booking";
 import EmptyPage from "./EmptyPage/EmptyPage";
 import Admin from "./Admin/Admin";
 import Master from "./Masters/Master/Master";
-import Contact from "./_TempContact/Contact";
+import Contact from "./Contact/Contact";
 
 const RoutesContainer = () => {
   return (
