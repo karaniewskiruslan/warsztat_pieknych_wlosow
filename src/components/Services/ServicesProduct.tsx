@@ -25,6 +25,7 @@ const ServicesProduct = ({ product }: Props) => {
         <>
           <p className="text-center font-bold">{product.name}</p>
           <article
+            data-testid="servicesProd-options"
             className={`absolute w-full bg-gray-100 ${!isOpen ? "pointer-events-none opacity-0" : ""} bottom-0 z-10 translate-y-5/6 rounded-b-sm p-1 duration-150`}
           >
             {product.options.map((option, i) => {
@@ -32,7 +33,10 @@ const ServicesProduct = ({ product }: Props) => {
                 Array.isArray(product.cost) && product.cost[i];
 
               return (
-                <div key={i} className="flex w-full items-center justify-between text-sm">
+                <div
+                  key={i}
+                  className="flex w-full items-center justify-between text-sm"
+                >
                   <p data-testid="data-offer" data-offer className="font-bold">
                     {option}
                   </p>

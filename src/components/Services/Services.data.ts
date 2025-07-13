@@ -55,7 +55,7 @@ export const services: Services[] = [
   },
   {
     id: 6,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Strzyżenie damskie",
     category: "Podstawowy usługi fryzjera",
     options: ["Krótkie-średnie", "Średnie-długie"],
@@ -63,7 +63,7 @@ export const services: Services[] = [
   },
   {
     id: 7,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Podcinanie końcówek maszynką",
     category: "Podstawowy usługi fryzjera",
     options: ["Bez mycia", "Z myciem"],
@@ -71,7 +71,7 @@ export const services: Services[] = [
   },
   {
     id: 8,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Modelowanie włosów",
     category: "Podstawowy usługi fryzjera",
     options: [],
@@ -79,7 +79,7 @@ export const services: Services[] = [
   },
   {
     id: 9,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Farbowanie włosów (Pasemka, Balojaż)",
     category: "Podstawowy usługi fryzjera",
     options: [],
@@ -87,7 +87,7 @@ export const services: Services[] = [
   },
   {
     id: 10,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Farbowanie odrostów (Pasemka, Balojaż)",
     category: "Podstawowy usługi fryzjera",
     options: [],
@@ -95,7 +95,7 @@ export const services: Services[] = [
   },
   {
     id: 11,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Farbowanie AirTouch",
     category: "Podstawowy usługi fryzjera",
     options: ["Do ramion", "Do łopatki", "Do pasa"],
@@ -103,7 +103,7 @@ export const services: Services[] = [
   },
   {
     id: 11,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Kolorowa kąpiel",
     category: "Podstawowy usługi fryzjera",
     options: ["Neutralizacja żółtego", "Nadanie niuansowi kolor"],
@@ -111,7 +111,7 @@ export const services: Services[] = [
   },
   {
     id: 12,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Tonowanie ton w ton i ciemniejszy",
     category: "Podstawowy usługi fryzjera",
     options: ["Do ramion", "Do łopatki", "Do pasa"],
@@ -119,7 +119,7 @@ export const services: Services[] = [
   },
   {
     id: 13,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Konsultacja fryzjera",
     category: "Podstawowy usługi fryzjera",
     options: [],
@@ -127,7 +127,7 @@ export const services: Services[] = [
   },
   {
     id: 14,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Farbowanie odrostów ciemny",
     category: "Podstawowy usługi fryzjera",
     options: ["Krótkie", "Średnie", "Długie"],
@@ -135,7 +135,7 @@ export const services: Services[] = [
   },
   {
     id: 15,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Farbowanie odrostów blond",
     category: "Podstawowy usługi fryzjera",
     options: ["Krótkie", "Średnie", "Długie"],
@@ -143,7 +143,7 @@ export const services: Services[] = [
   },
   {
     id: 16,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Farbowanie włosów farbą klienta",
     category: "Podstawowy usługi fryzjera",
     options: ["Krótkie", "Średnie", "Długie"],
@@ -151,7 +151,7 @@ export const services: Services[] = [
   },
   {
     id: 17,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Kręcenie włosów BIO",
     category: "Trwałe usługi fryzjera",
     options: ["Do ramion", "Do łopatki", "Do pasa"],
@@ -159,7 +159,7 @@ export const services: Services[] = [
   },
   {
     id: 18,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Męskie kręcenie włosów BIO",
     category: "Trwałe usługi fryzjera",
     options: [],
@@ -167,7 +167,7 @@ export const services: Services[] = [
   },
   {
     id: 19,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
     name: "Objętość korzenia",
     category: "Trwałe usługi fryzjera",
     options: ["Krótkie włosy", "Do ramion", "Do łopatki", "Do pasa"],

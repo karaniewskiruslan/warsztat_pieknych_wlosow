@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { renderWithRouter } from "../../renderWithRouter";
 import ServicesProduct from "./ServicesProduct";
 import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 const testProduct1 = {
   id: 400,
@@ -45,5 +46,22 @@ describe("Services product", () => {
     expect(options[0]).toHaveTextContent("Option 1");
     expect(options[1]).toHaveTextContent("Option 2");
     expect(options[2]).toHaveTextContent("Option 3");
+  });
+
+  it("Should open cost info window after clicking a button", async () => {
+    renderWithRouter(<ServicesProduct product={testProduct2} />);
+
+    const serviceProducts = screen.getByTestId("servicesProd");
+    const button = within(serviceProducts).getByRole("button");
+
+    expect(
+      within(serviceProducts).getByTestId("servicesProd-options"),
+    ).toHaveClass("pointer-events-none");
+
+    await userEvent.click(button);
+
+    expect(
+      within(serviceProducts).getByTestId("servicesProd-options"),
+    ).not.toHaveClass("pointer-events-none");
   });
 });
