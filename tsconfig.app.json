@@ -3,7 +3,7 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "es2022",
     "useDefineForClassFields": true,
-    "lib": ["es2023", "DOM", "DOM.Iterable"],
+    "lib": ["ES2023", "DOM", "ESNext", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
