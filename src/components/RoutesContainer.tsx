@@ -3,10 +3,10 @@ import Main from "./Main/Main";
 import Masters from "./Masters/Masters";
 import Services from "./Services/Services";
 import Booking from "./Booking/Booking";
-import Contact from "./Contact/Contact";
 import EmptyPage from "./EmptyPage/EmptyPage";
 import Admin from "./Admin/Admin";
 import Master from "./Masters/Master/Master";
+import Contact from "./Contact/Contact";
 
 const RoutesContainer = () => {
   return (
