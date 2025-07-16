@@ -13,7 +13,7 @@ const detailsVariants = {
 };
 
 const MastersIcon = ({ master }: Props) => {
-  const MotionNavLink = motion(NavLink);
+  const MotionNavLink = motion.create(NavLink);
 
   return (
     <MotionNavLink
@@ -24,7 +24,7 @@ const MastersIcon = ({ master }: Props) => {
       className="relative flex aspect-square cursor-pointer items-end overflow-hidden rounded-3xl border-transparent bg-gray-100 duration-300 hover:scale-105 hover:border-2 hover:border-gray-200"
     >
       <img
-        src=""
+        src="time"
         alt={master.name}
         className="pointer-events-none absolute h-full w-full"
       />
