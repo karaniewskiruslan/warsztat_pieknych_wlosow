@@ -1,3 +1,4 @@
+import { Outlet } from "react-router";
 import { mastersInfo } from "./Masters.data";
 import MastersIcon from "./MastersIcon";
 
@@ -10,6 +11,7 @@ const Masters = () => {
           <MastersIcon key={master.id} master={master} />
         ))}
       </section>
+      <Outlet />
     </div>
   );
 };

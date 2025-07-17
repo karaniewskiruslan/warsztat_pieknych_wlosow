@@ -5,7 +5,7 @@ import Loading from "./components/Loading.tsx";
 import { motion, useScroll } from "motion/react";
 import usePageHeight from "./hooks/usePageHeight.hook.ts";
 
-const MarkdownPreview = lazy(() => import("./components/RoutesContainer.tsx"));
+const MarkdownPreview = lazy(() => import("./components/Layout.tsx"));
 
 function App() {
   const { scrollYProgress } = useScroll();
