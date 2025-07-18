@@ -18,12 +18,13 @@ function App() {
           data-testid="scroll-progress-bar"
           className="fixed top-0 left-0 z-30 h-1 w-full bg-gray-200"
           style={{
-            scaleX: scrollYProgress ?? 0,
+            scaleX: scrollYProgress,
             originX: 0,
           }}
           transition={{ duration: 0.2 }}
         />
       )}
+
       <Header />
       <Suspense fallback={<Loading />}>
         <MarkdownPreview />

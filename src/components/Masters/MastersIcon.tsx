@@ -1,9 +1,9 @@
 import { NavLink } from "react-router";
-import { MasterInfo } from "../../types/masterInfo";
+import { masterType } from "../../types/masterType";
 import { motion } from "framer-motion";
 
 type Props = {
-  master: MasterInfo;
+  master: masterType;
 };
 
 const detailsVariants = {

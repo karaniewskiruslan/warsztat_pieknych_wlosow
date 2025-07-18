@@ -30,6 +30,10 @@
   --breakpoint-tablet: 1024px;
 }
 
+html {
+  position: relative;
+}
+
 h1 {
   @apply mobile:text-4xl mb-8 w-fit text-3xl font-bold;
 }
@@ -44,6 +48,10 @@ h3 {
 
 p:not([data-offer]) {
   @apply mobile:text-lg text-base;
+}
+
+section.master-section {
+  @apply space-y-4;
 }
 
 #root {

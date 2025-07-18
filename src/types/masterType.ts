@@ -1,9 +1,9 @@
-export type MasterInfo = {
+export type masterType = {
   id: number;
   name: string;
   profession: string;
   experience: string;
   description: string[];
-  masterPhotos: string[];
-  masterTools: string[];
+  masterWorksPhotos: string[];
+  masterPhoto: string;
 };

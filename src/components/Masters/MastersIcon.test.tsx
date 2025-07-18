@@ -18,8 +18,8 @@ const testMaster = {
   profession: TEST_PROFESSION,
   experience: TEST_EXPERIENCE,
   description: [""],
-  masterPhotos: ["photo 1", "photo 2"],
-  masterTools: ["photo 1", "photo 2"],
+  masterWorksPhotos: ["photo 1", "photo 2"],
+  masterPhoto: "photo master",
 };
 
 describe("Masters icon", () => {
