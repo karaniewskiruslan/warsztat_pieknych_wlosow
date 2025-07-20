@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 
 const EmptyPage = () => {
   return (
-    <section>
+    <section data-testid="empty-page">
       <h1>Error page</h1>
       <p>Pewnie coś Cię pomyliło i trafiłeś nie na tą stronę.</p>
       <p>

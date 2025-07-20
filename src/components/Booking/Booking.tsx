@@ -1,6 +1,6 @@
 const Booking = () => {
   return (
-    <div>
+    <div data-testid="booking">
       <h1>Jak do nas się zapisać</h1>
     </div>
   );
