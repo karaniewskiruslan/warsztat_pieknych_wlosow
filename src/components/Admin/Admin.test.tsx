@@ -8,5 +8,5 @@ describe("Admin", () => {
     renderWithRouter(<Admin />, "/admin");
 
     expect(screen.getByTestId("admin")).toBeInTheDocument();
-  })
-})
+  });
+});
