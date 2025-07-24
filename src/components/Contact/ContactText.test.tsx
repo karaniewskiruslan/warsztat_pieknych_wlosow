@@ -19,13 +19,15 @@ const test2 = {
 
 describe("Contact text", () => {
   it("Should render link if have link is true", () => {
-    renderWithRouter(<ContactText contactOpt={test1} />);
+    renderWithRouter(<ContactText contactOpt={test1} />, "/contact");
 
+    expect(screen.getByRole("link")).toBeInTheDocument();
     expect(screen.getByRole("link")).toHaveAttribute("href", TEST_LINK);
+    expect(screen.getByRole("link")).toHaveAttribute("target", "_blank");
   });
 
   it("Should render info part if link is false", () => {
-    renderWithRouter(<ContactText contactOpt={test2} />);
+    renderWithRouter(<ContactText contactOpt={test2} />, "/contact");
 
     expect(screen.getByRole("heading")).toHaveTextContent(/telefon/i);
     expect(screen.getByRole("paragraph")).toHaveTextContent("+48 123 456 789");
