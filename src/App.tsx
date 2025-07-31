@@ -6,7 +6,7 @@ import { motion, useScroll } from "motion/react";
 import usePageHeight from "./hooks/usePageHeight.hook.ts";
 import { useLocation } from "react-router";
 
-const MarkdownPreview = lazy(() => import("./components/Layout.tsx"));
+const Layout = lazy(() => import("./components/Layout.tsx"));
 
 function App() {
   const { scrollYProgress } = useScroll();
@@ -33,7 +33,7 @@ function App() {
 
       <Header />
       <Suspense fallback={<Loading />}>
-        <MarkdownPreview />
+        <Layout />
       </Suspense>
       <Footer />
     </>

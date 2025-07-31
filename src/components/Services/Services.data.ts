@@ -3,7 +3,7 @@ import { Services } from "../../types/services";
 export const services: Services[] = [
   {
     id: 0,
-    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/HairSkinPeeling.svg",
     name: "Peeling skóry włosów",
     category: "Podstawowy usługi fryzjera",
     options: ["Krótkie włosy", "Do ramion", "Do łopatki", "Do pasa"],
@@ -11,7 +11,7 @@ export const services: Services[] = [
   },
   {
     id: 1,
-    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/HairLamination.svg",
     name: "Laminowanie włosów",
     category: "Podstawowy usługi fryzjera",
     options: ["Do ramion", "Do łopatki", "Do pasa"],
@@ -19,7 +19,7 @@ export const services: Services[] = [
   },
   {
     id: 2,
-    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/UrgentHairRestoration.svg",
     name: "Odbudowa włosów SOS",
     category: "Podstawowy usługi fryzjera",
     options: ["Do ramion", "Do łopatki", "Do pasa"],
@@ -27,7 +27,7 @@ export const services: Services[] = [
   },
   {
     id: 3,
-    image: "/warsztat_pieknych_wlosow/img/services/Scissors.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/ManHaircut.svg",
     name: "Strzyżenie męskie",
     category: "Podstawowy usługi fryzjera",
     options: [

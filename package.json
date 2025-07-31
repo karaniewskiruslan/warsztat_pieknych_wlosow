@@ -2,7 +2,7 @@
   "name": "warsztat_pieknych_wlosow",
   "private": true,
   "homepage": "https://karaniewskiruslan.github.io/warsztat_pieknych_wlosow/",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
