@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Services } from "../../types/services";
+import classNames from "classnames";
 
 type Props = {
   product: Services;
@@ -26,7 +27,10 @@ const ServicesProduct = ({ product }: Props) => {
           <p className="text-center font-bold">{product.name}</p>
           <article
             data-testid="servicesProd-options"
-            className={`absolute w-full bg-gray-100 ${!isOpen ? "pointer-events-none opacity-0" : ""} bottom-0 z-10 translate-y-5/6 rounded-b-sm p-1 duration-150`}
+            className={classNames(
+              "absolute flex flex-col gap-1 bottom-0 z-10 w-full translate-y-5/6 rounded-b-sm bg-gray-100 p-1 duration-150",
+              { "pointer-events-none opacity-0": !isOpen },
+            )}
           >
             {product.options.map((option, i) => {
               const productCost =
@@ -49,9 +53,9 @@ const ServicesProduct = ({ product }: Props) => {
           </article>
           <button
             onClick={() => setIsOpen((prev) => !prev)}
-            className="z-50 size-7 cursor-pointer rounded-full bg-gray-200"
+            className="z-50 h-7 w-28 cursor-pointer rounded-full bg-gray-200 px-2 uppercase"
           >
-            {isOpen ? "-" : "+"}
+            {isOpen ? "ukryj" : "opcji"}
           </button>
         </>
       ) : (

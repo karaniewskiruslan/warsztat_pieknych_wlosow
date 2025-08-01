@@ -15,16 +15,7 @@ const Footer = () => {
           ? currentData
           : CREATION_YEAR + "-" + currentData
       }, wszystkie prawa są zastrzeżone`}
-      . Icona Manicure zrobiona Oleną Panasovską z
-      <a
-        href="https://thenounproject.com/browse/icons/term/manicure/"
-        target="_blank"
-        title="Manicure Icons"
-        className="px-2"
-      >
-        Noun Project
-      </a>
-      (CC BY 3.0)
+      .
     </footer>
   );
 };
