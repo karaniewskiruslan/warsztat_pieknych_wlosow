@@ -175,7 +175,7 @@ export const services: Services[] = [
   },
   {
     id: 20,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/ManicureHybrid.svg",
     name: "Manicure hybrydowy",
     category: "Usługi manicure",
     options: ["Zwykły", "French"],
@@ -191,7 +191,7 @@ export const services: Services[] = [
   },
   {
     id: 22,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/NailsFixing.svg",
     name: "Naprawa paznokcia",
     category: "Usługi manicure",
     options: [],
@@ -199,7 +199,7 @@ export const services: Services[] = [
   },
   {
     id: 23,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Massage.svg",
     name: "Masaż dłoni",
     category: "Usługi manicure",
     options: [],
@@ -207,7 +207,7 @@ export const services: Services[] = [
   },
   {
     id: 24,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/AdditionNailsStr.svg",
     name: "Dodatkowe wzmocnienie paznokcia",
     category: "Usługi manicure",
     options: [],
@@ -215,7 +215,7 @@ export const services: Services[] = [
   },
   {
     id: 25,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/ExpressManicure.svg",
     name: "Express Manicure",
     category: "Usługi manicure",
     options: [],
@@ -223,7 +223,7 @@ export const services: Services[] = [
   },
   {
     id: 26,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Pedicure.svg",
     name: "Pedicure",
     category: "Pedicure",
     options: [
@@ -237,15 +237,15 @@ export const services: Services[] = [
   },
   {
     id: 27,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/PedicureManicure.svg",
     name: "Pedicure + manicure",
-    category: "Usługi manicure",
+    category: "Pedicure",
     options: [],
     cost: 300,
   },
   {
     id: 28,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/LightTherapy.svg",
     name: "Światłoterapia",
     category: "Terapia światłem oraz fotoodmładzanie",
     options: ["10 minut", "100 minut"],
@@ -253,7 +253,7 @@ export const services: Services[] = [
   },
   {
     id: 29,
-    image: "/warsztat_pieknych_wlosow/img/services/Manicure.svg",
+    image: "/warsztat_pieknych_wlosow/img/services/Photorejuvenation.svg",
     name: "Fotoodmładzanie",
     category: "Terapia światłem oraz fotoodmładzanie",
     options: ["1 zabieg", "5 zabieg"],
