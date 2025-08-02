@@ -28,7 +28,7 @@ const ServicesProduct = ({ product }: Props) => {
           <article
             data-testid="servicesProd-options"
             className={classNames(
-              "absolute flex flex-col gap-1 bottom-0 z-10 w-full translate-y-5/6 rounded-b-sm bg-gray-100 p-1 duration-150",
+              "absolute bottom-0 z-10 flex w-full translate-y-11/12 flex-col gap-1 rounded-b-sm bg-gray-100 p-1 duration-150",
               { "pointer-events-none opacity-0": !isOpen },
             )}
           >

@@ -8,21 +8,26 @@ import Contact from "./components/Contact/Contact";
 import Booking from "./components/Booking/Booking";
 import Services from "./components/Services/Services";
 import App from "./App";
+import AdminPanel from "./components/Admin/AdminPanel/AdminPanel";
 
 export const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <App />,
+      Component: App,
       children: [
-        { index: true, element: <Main /> },
-        { path: "admin", element: <Admin /> },
-        { path: "masters", element: <Masters /> },
-        { path: "masters/:name", element: <Master /> },
-        { path: "services", element: <Services /> },
-        { path: "booking", element: <Booking /> },
-        { path: "contact", element: <Contact /> },
-        { path: "*", element: <EmptyPage /> },
+        { index: true, Component: Main },
+        {
+          path: "admin",
+          Component: Admin,
+          children: [{ path: "panel", Component: AdminPanel }],
+        },
+        { path: "masters", Component: Masters },
+        { path: "masters/:name", Component: Master },
+        { path: "services", Component: Services },
+        { path: "booking", Component: Booking },
+        { path: "contact", Component: Contact },
+        { path: "*", Component: EmptyPage },
       ],
     },
   ],

@@ -61,3 +61,11 @@ section.master-section {
   min-height: 100dvh;
   max-width: 100dvw;
 }
+
+.labelStyle {
+  @apply grid gap-2;
+}
+
+.inputStyle {
+  @apply w-60 rounded-sm border px-2 py-1;
+}
