@@ -1,6 +1,6 @@
 {
   "name": "warsztat_pieknych_wlosow",
-  "private": true,
+  "private": false,
   "homepage": "https://karaniewskiruslan.github.io/warsztat_pieknych_wlosow/",
   "version": "1.0.0",
   "type": "module",
