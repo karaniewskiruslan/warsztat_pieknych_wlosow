@@ -8,6 +8,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   base: "/warsztat_pieknych_wlosow/",
   plugins: [react(), tailwindcss()],
+  build: { outDir: "build" },
   test: {
     globals: true,
     environment: "jsdom",
