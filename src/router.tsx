@@ -32,6 +32,6 @@ export const router = createHashRouter(
     },
   ],
   {
-    basename: "/warsztat_pieknych_wlosow/",
+    // basename: "/warsztat_pieknych_wlosow/",
   },
 );
