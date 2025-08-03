@@ -41,3 +41,11 @@ function App() {
 }
 
 export default App;
+
+// const xxx: ServicesAPI = {
+//   name: "Test name",
+//   image: "/testImage.webp",
+//   category: "Podstawowe usługi fryzjera",
+//   options: [],
+//   cost: 120,
+// };

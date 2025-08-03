@@ -9,6 +9,7 @@ import Booking from "./components/Booking/Booking";
 import Services from "./components/Services/Services";
 import App from "./App";
 import AdminPanel from "./components/Admin/AdminPanel/AdminPanel";
+import ServiceManagement from "./components/Admin/AdminPanel/ServiceManagement/ServiceManagement";
 
 export const router = createHashRouter(
   [
@@ -20,7 +21,10 @@ export const router = createHashRouter(
         {
           path: "admin",
           Component: Admin,
-          children: [{ path: "panel", Component: AdminPanel }],
+          children: [
+            { path: "panel", Component: AdminPanel },
+            { path: "servicesManagement", Component: ServiceManagement },
+          ],
         },
         { path: "masters", Component: Masters },
         { path: "masters/:name", Component: Master },

@@ -39,7 +39,7 @@ const Master = ({ masterInfo }: Props) => {
         description={info.description}
       />
       <MasterWorks name={info.name} masterWorks={info.masterWorksPhotos} />
-      <PageButton text="Wstecz <" onClick={handleClickBack} />
+      <PageButton text="< Wstecz" onClick={handleClickBack} />
     </motion.div>
   );
 };

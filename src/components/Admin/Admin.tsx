@@ -1,4 +1,10 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import AdminLogin from "./AdminLogin";
 import { Outlet, useNavigate } from "react-router";
 import { logIn } from "../../api/admin.api";
@@ -15,10 +21,10 @@ const Admin = () => {
   });
   const [logged, setLogged] = useState(false);
 
-  const logInAdmin = () => {
+  const logInAdmin = useCallback(() => {
     setLogged(true);
     nav("panel");
-  };
+  }, [nav]);
 
   useEffect(() => {
     if (token) {
@@ -26,7 +32,7 @@ const Admin = () => {
     }
 
     setLogged(false);
-  }, [token]);
+  }, [logInAdmin, token]);
 
   const handleChangeData = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,7 +69,7 @@ const Admin = () => {
 
   return (
     <section data-testid="admin">
-      <h1>Admin page</h1>
+      <h1>Strona administratora</h1>
       {!logged && (
         <AdminLogin
           onSubmitLogin={handleSubmitLogin}
