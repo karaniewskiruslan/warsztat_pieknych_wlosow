@@ -4,6 +4,7 @@ import { mastersInfo } from "../Masters.data";
 import { masterType } from "../../../types/masterType";
 import MasterInfo from "./MasterInfo";
 import MasterWorks from "./MasterWorks";
+import PageButton from "../../../UI/PageButton";
 
 type Props = {
   masterInfo?: masterType;
@@ -13,6 +14,10 @@ const Master = ({ masterInfo }: Props) => {
   const { name } = useParams();
   const navigate = useNavigate();
   const info = masterInfo ?? mastersInfo.find((master) => master.name === name);
+
+  const handleClickBack = () => {
+    navigate(-1);
+  };
 
   if (!info) return <div data-testid="master-not-found">Master not found</div>;
 
@@ -24,12 +29,6 @@ const Master = ({ masterInfo }: Props) => {
       className="relative space-y-4"
       data-testid="master"
     >
-      <button
-        onClick={() => navigate(-1)}
-        className="absolute -top-10 left-0 z-10 flex h-10 cursor-pointer items-center justify-center rounded-full border px-4 py-2 font-bold duration-300 hover:bg-black hover:text-white 2xl:top-0 2xl:-left-36"
-      >
-        {"< Wstecz"}
-      </button>
       <h1>Master {info.name}</h1>
       <h2>
         {info.profession} | {info.experience}
@@ -40,6 +39,7 @@ const Master = ({ masterInfo }: Props) => {
         description={info.description}
       />
       <MasterWorks name={info.name} masterWorks={info.masterWorksPhotos} />
+      <PageButton text="Wstecz <" onClick={handleClickBack} />
     </motion.div>
   );
 };
