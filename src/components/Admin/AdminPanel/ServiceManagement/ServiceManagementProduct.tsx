@@ -2,6 +2,10 @@ import { useState } from "react";
 import { ServicesAPI } from "../../../../types/services";
 import Expand from "/Expand.svg";
 import classNames from "classnames";
+import ServiceManagementProductInfo from "./ServiceManagementProductInfo";
+
+import Confirm from "/Confirm.svg";
+import Cancel from "/Cancel.svg";
 
 type Props = {
   categories: string[];
@@ -9,10 +13,38 @@ type Props = {
 };
 
 const ServiceManagementProduct = ({ categories, product }: Props) => {
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const [{ isOpen, isEditing }, setOptionState] = useState({
+    isOpen: false,
+    isEditing: false,
+  });
+  const [optionForm, setOptionForm] = useState<ServicesAPI>({
+    name: product.name,
+    category: product.category,
+    cost: product.cost,
+    image: product.image,
+    options: product.options,
+  });
+  const [optionStorage, setOptionStorage] = useState<ServicesAPI | null>(null);
 
   const handleClickOpen = () => {
-    setOpen((prev) => !prev);
+    setOptionState((prev) => ({ ...prev, isOpen: !prev.isOpen }));
+  };
+
+  const handleClickEditing = () => {
+    setOptionState((prev) => ({ ...prev, isEditing: true }));
+    setOptionStorage(optionForm);
+  };
+
+  const handleCLickCancel = () => {
+    setOptionForm(optionStorage as ServicesAPI);
+    setOptionStorage(null);
+    setOptionState((prev) => ({ ...prev, isEditing: false }));
+  };
+
+  const handleClickConfirm = () => {
+    setOptionForm(optionStorage as ServicesAPI);
+    setOptionStorage(null);
+    setOptionState((prev) => ({ ...prev, isEditing: false }));
   };
 
   return (
@@ -20,8 +52,17 @@ const ServiceManagementProduct = ({ categories, product }: Props) => {
       <div className="flex justify-between">
         <p className="font-bold">{product.name}</p>
         <section>
-          <button className="serviceManagementButton" onClick={handleClickOpen}>
-            <img src={Expand} alt="expand" />
+          <button
+            className={classNames("serviceManagementButton", {
+              "pointer-events-none opacity-50": isEditing,
+            })}
+            onClick={handleClickOpen}
+          >
+            <img
+              className={classNames("duration-75", { "rotate-180": isOpen })}
+              src={Expand}
+              alt="expand"
+            />
           </button>
         </section>
       </div>
@@ -31,28 +72,32 @@ const ServiceManagementProduct = ({ categories, product }: Props) => {
           "grid-rows-[1fr]": isOpen,
         })}
       >
-        <div className="overflow-hidden">
-          <hgroup className="flex justify-between">
-            <h4>
-              <b>Kategoria:</b> {product.category}
-            </h4>
-            <p>
-              <b>Item ID:</b> {product.id}
-            </p>
-          </hgroup>
-          <section>
-            {Array.isArray(product.cost) ? (
-              product.cost.map((el, i) => (
-                <div>
-                  <b>{product.options[i]}:</b> {el}zł
-                </div>
-              ))
-            ) : (
-              <div>
-                <b>Cena:</b> {product.cost}zł
-              </div>
-            )}
-          </section>
+        <div className="mt-2 overflow-hidden">
+          {isEditing ? (
+            <>
+              <form>
+                <section className="flex justify-end gap-2">
+                  <button
+                    className="serviceManagementButton"
+                    onClick={handleCLickCancel}
+                  >
+                    <img src={Cancel} alt="Cancel" />
+                  </button>
+                  <button
+                    className="serviceManagementButton"
+                    onClick={handleClickConfirm}
+                  >
+                    <img src={Confirm} alt="Confirm" />
+                  </button>
+                </section>
+              </form>
+            </>
+          ) : (
+            <ServiceManagementProductInfo
+              product={product}
+              onCLickOpen={handleClickEditing}
+            />
+          )}
         </div>
       </section>
     </section>

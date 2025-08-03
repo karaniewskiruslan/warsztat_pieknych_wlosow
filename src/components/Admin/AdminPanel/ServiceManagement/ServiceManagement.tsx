@@ -6,6 +6,7 @@ import { ServicesAPI } from "../../../../types/services";
 import { useEffect, useMemo, useState } from "react";
 import ServiceManagementCategory from "./ServiceManagementCategory";
 import loadingImage from "/loading.svg";
+import classNames from "classnames";
 
 export type ServicesAPIPlus = ServicesAPI & { id: number };
 
@@ -76,7 +77,12 @@ const ServiceManagement = () => {
         )}
       </section>
 
-      <button className="mx-auto cursor-pointer rounded-full border px-4 py-2 font-bold">
+      <button
+        className={classNames(
+          "mx-auto cursor-pointer rounded-full border px-4 py-2 font-bold",
+          { "pointer-events-none opacity-50": isPending },
+        )}
+      >
         Dodaj nową usługę
       </button>
 
