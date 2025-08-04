@@ -42,7 +42,7 @@ const AdminLogin = ({
         </label>
         <button
           type="submit"
-          className="grid w-60 h-8 cursor-pointer place-items-center rounded-sm border px-2 py-1 duration-150 hover:bg-black hover:text-white"
+          className="grid h-8 w-60 place-items-center rounded-sm border px-2 py-1 duration-150 hover:bg-black hover:text-white"
         >
           {loading ? (
             <>

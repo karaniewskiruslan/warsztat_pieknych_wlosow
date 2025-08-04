@@ -1,8 +1,8 @@
-import { ServicesAPI } from "../../../../types/services";
+import { Services } from "../../../../types/services";
 import Edit from "/Edit.svg";
 
 type Props = {
-  product: ServicesAPI;
+  product: Services;
   onCLickOpen: () => void;
 };
 
@@ -21,13 +21,13 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
         <article>
           {Array.isArray(product.cost) ? (
             product.cost.map((el, i) => (
-              <div>
+              <div key={i}>
                 <b>{product.options[i]}:</b> {el}zł
               </div>
             ))
           ) : (
             <div>
-              <b>Cena:</b> {product.cost}zł
+              <b>Zł:</b> {product.cost}zł
             </div>
           )}
         </article>

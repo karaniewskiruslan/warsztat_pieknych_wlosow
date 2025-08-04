@@ -32,6 +32,18 @@
   --breakpoint-tablet: 1240px;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"] {
+  -webkit-appearance: none;
+  margin: 0;
+  -moz-appearance: textfield !important;
+}
+
+button {
+  cursor: pointer;
+}
+
 html {
   position: relative;
 }
@@ -73,4 +85,49 @@ section.master-section {
 
 .serviceManagementButton {
   @apply flex aspect-square w-7 cursor-pointer items-center justify-center rounded-full border;
+}
+
+label {
+  @apply relative has-[input[type="checkbox"]]:cursor-cell has-[input[type="checkbox"]]:pl-8;
+}
+
+.serviceManagementInput {
+  @apply w-full rounded-xl border px-2 py-1 text-lg;
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  inset: 0 auto auto 0;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+label:hover input[type="checkbox"] ~ .checkmark {
+  background: #f3f4f6;
+}
+
+.checkmark::after {
+  aspect-ratio: 1;
+  content: "";
+  width: 1rem;
+  background: black;
+  transform: translate(20%, 20%);
+  display: block;
+  opacity: 0;
+
+  transition: 0.15s opacity ease-in;
+}
+
+label input[type="checkbox"]:checked ~ .checkmark::after {
+  opacity: 1;
 }

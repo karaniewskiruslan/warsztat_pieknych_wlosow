@@ -21,7 +21,7 @@ const BurgerMenu = ({ onClickCloseMenu }: Props) => {
     >
       <button
         onClick={() => onClickCloseMenu(false)}
-        className="absolute top-4 right-8 size-10 cursor-pointer"
+        className="absolute top-4 right-8 size-10"
       >
         <img src={burgerMenuClose} alt="Close menu" />
       </button>

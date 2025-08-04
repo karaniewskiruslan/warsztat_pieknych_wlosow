@@ -32,10 +32,7 @@ const Header = () => {
       <img src={logo} alt="Logo" className="h-10" />
       <nav className="flex items-center gap-8 text-xl">
         {screenWidth ? (
-          <button
-            onClick={() => toggleMenu(true)}
-            className="size-10 cursor-pointer"
-          >
+          <button onClick={() => toggleMenu(true)} className="size-10">
             <img src={burgerMenuIcon} alt="Burger menu" />
           </button>
         ) : (

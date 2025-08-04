@@ -2,21 +2,28 @@ import { useNavigate } from "react-router";
 import PageButton from "../../../../UI/PageButton";
 import { useQuery } from "@tanstack/react-query";
 import { getServices } from "../../../../api/services.api";
-import { ServicesAPI } from "../../../../types/services";
 import { useEffect, useMemo, useState } from "react";
 import ServiceManagementCategory from "./ServiceManagementCategory";
 import loadingImage from "/loading.svg";
 import classNames from "classnames";
-
-export type ServicesAPIPlus = ServicesAPI & { id: number };
+import { Services, ServicesAPI } from "../../../../types/services";
+import NewServiceAdding from "./NewServiceAdding/NewServiceAdding";
+import useScrollLock from "../../../../hooks/useScrollLock.hook";
 
 const ServiceManagement = () => {
   const nav = useNavigate();
-  const [services, setServices] = useState<ServicesAPIPlus[]>([]);
+  const [services, setServices] = useState<Services[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [newServiceAdding, setNewServiceAdding] = useState(false);
+
+  useScrollLock(newServiceAdding);
 
   const handleClickBack = () => {
     nav(-1);
+  };
+
+  const handleClickAddNewService = () => {
+    setNewServiceAdding((prev) => !prev);
   };
 
   const { data, isPending, error } = useQuery({
@@ -28,12 +35,31 @@ const ServiceManagement = () => {
     if (data) setServices(data);
   }, [data]);
 
+  const handleChangeServiceUpdate = (id: number, newData: ServicesAPI) => {
+    const { name, category, image, options, cost } = newData;
+
+    setServices((prev) =>
+      prev.map((service) => {
+        if (service.id === id) {
+          return { ...service, name, category, image, options, cost };
+        }
+
+        return service;
+      }),
+    );
+  };
+
+  const handleChangeServiceAdd = (newData: Services) => {
+    setServices((prev) => [...prev, newData]);
+  };
+
+  const handleChangeServiceAfterDelete = (newList: Services[]) => {
+    setServices(newList);
+  };
+
   const spitedServices = useMemo(() => {
     return services.reduce(
-      (
-        acc: Record<ServicesAPIPlus["category"], ServicesAPIPlus[]>,
-        cur: ServicesAPIPlus,
-      ) => {
+      (acc: Record<Services["category"], Services[]>, cur: Services) => {
         const key = cur.category;
 
         acc[key] = acc[key] ? [...acc[key], cur] : [cur];
@@ -72,6 +98,8 @@ const ServiceManagement = () => {
               categories={categories}
               categoryName={category}
               categoryServices={items}
+              onChangeServiceUpdate={handleChangeServiceUpdate}
+              onChangeServiceAfterDelete={handleChangeServiceAfterDelete}
             />
           ))
         )}
@@ -79,14 +107,22 @@ const ServiceManagement = () => {
 
       <button
         className={classNames(
-          "mx-auto cursor-pointer rounded-full border px-4 py-2 font-bold",
+          "mx-auto rounded-full border px-4 py-2 font-bold",
           { "pointer-events-none opacity-50": isPending },
         )}
+        onClick={handleClickAddNewService}
       >
         Dodaj nową usługę
       </button>
 
       <PageButton text="< Wstecz" onClick={handleClickBack} />
+
+      {newServiceAdding ? (
+        <NewServiceAdding
+          onClickAddNewService={handleClickAddNewService}
+          onChangeServiceAdd={handleChangeServiceAdd}
+        />
+      ) : null}
     </section>
   );
 };

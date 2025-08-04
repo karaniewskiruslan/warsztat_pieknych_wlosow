@@ -35,7 +35,7 @@ const AdminPanelOption = ({
       initial="initial"
       whileHover="hover"
       transition={{ duration: 0.3 }}
-      className={classNames("cursor-pointer rounded-3xl bg-gray-100 p-8", {
+      className={classNames("rounded-3xl bg-gray-100 p-8", {
         "pointer-events-none": willBeSoon,
       })}
     >

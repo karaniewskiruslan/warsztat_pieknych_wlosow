@@ -1,6 +1,6 @@
 import { ServicesAPI } from "../types/services";
 
-const baseUrl = "http://localhost:5000/api/services";
+const baseUrl = "https://warsztat-pieknych-wlosow-backend.onrender.com/api/services";
 
 export const getServices = async () => {
   const res = await fetch(baseUrl, {
@@ -32,6 +32,8 @@ export const postService = async (newService: ServicesAPI) => {
   });
 
   const data = await res.json();
+
+  console.log(data);
 
   return data;
 };

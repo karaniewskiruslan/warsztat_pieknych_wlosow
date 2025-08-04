@@ -4,6 +4,14 @@
 	 viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
 </style>
-<polyline class="st0" points="13.9,35 28.2,49.3 50.1,14.7 "/>
+<g>
+	<line class="st0" x1="12" y1="14.1" x2="52" y2="14.1"/>
+	<line class="st0" x1="32" y1="9.4" x2="32" y2="14.1"/>
+	<polygon points="44,54.6 20,54.6 12,20.4 52,20.4 	"/>
+	<line class="st1" x1="23.6" y1="46.5" x2="20.5" y2="28.1"/>
+	<line class="st1" x1="43.6" y1="28.1" x2="40.5" y2="46.5"/>
+	<line class="st1" x1="32" y1="46.5" x2="32" y2="28.1"/>
+</g>
 </svg>

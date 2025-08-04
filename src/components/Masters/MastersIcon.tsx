@@ -21,7 +21,7 @@ const MastersIcon = ({ master }: Props) => {
       initial="initial"
       whileHover="hover"
       transition={{ duration: 0.3 }}
-      className="relative flex aspect-square cursor-pointer items-end overflow-hidden rounded-3xl border-transparent bg-gray-100 duration-300 hover:scale-105 hover:border-2 hover:border-gray-200"
+      className="relative flex aspect-square items-end overflow-hidden rounded-3xl border-transparent bg-gray-100 duration-300 hover:scale-105 hover:border-2 hover:border-gray-200"
     >
       <img
         src="time"
