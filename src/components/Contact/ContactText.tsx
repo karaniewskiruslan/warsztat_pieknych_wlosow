@@ -8,7 +8,12 @@ const ContactText = ({ contactOpt }: Props) => {
   return contactOpt.isLink ? (
     <>
       <article className="w-fit">
-        <a href={contactOpt.link} target="_blank">
+        <a href={contactOpt.link} target="_blank" className="flex gap-2">
+          <img
+            src={contactOpt.image}
+            alt={contactOpt.title}
+            className="size-9"
+          />
           <h2 className="underline">{contactOpt.title}</h2>
         </a>
       </article>
