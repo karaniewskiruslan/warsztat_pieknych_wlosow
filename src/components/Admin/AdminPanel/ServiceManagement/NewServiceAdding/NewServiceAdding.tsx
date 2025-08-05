@@ -4,8 +4,10 @@ import { postService } from "../../../../../api/services.api";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import { produce } from "immer";
+import DropdownHelper from "../../../../../UI/DropdownHelper";
 
 type Props = {
+  categories: string[];
   onChangeServiceAdd: (newData: Services) => void;
   onClickAddNewService: () => void;
 };
@@ -28,12 +30,14 @@ const nameSwitcher = (name: "name" | "category" | "image") => {
 };
 
 const NewServiceAdding = ({
+  categories,
   onChangeServiceAdd,
   onClickAddNewService,
 }: Props) => {
-  const [{ isChecked, errorText }, setNewServiceOptions] = useState({
+  const [{ isChecked, errorText, autoFill }, setNewServiceOptions] = useState({
     isChecked: false,
     errorText: "",
+    autoFill: false,
   });
 
   const [newForm, setNewForm] = useState<ServicesAPI>({
@@ -176,6 +180,19 @@ const NewServiceAdding = ({
     handleClickConfirm();
   };
 
+  const handleChangeFocus = (newState: boolean) => {
+    setTimeout(() => {
+      setNewServiceOptions((prev) => ({ ...prev, autoFill: newState }));
+    }, 10);
+  };
+
+  const handleChangeAutofill = (text: string) => {
+    console.log(text);
+
+    setNewForm((prev) => ({ ...prev, category: text }));
+    handleChangeFocus(false);
+  };
+
   return (
     <section className="fixed top-0 left-0 grid h-dvh w-dvw place-items-center bg-[#0000006e]">
       <div className="mobile:w-[max(400px,60dvw)] m-6 w-full space-y-3 rounded-2xl bg-white p-6">
@@ -184,7 +201,15 @@ const NewServiceAdding = ({
           <section className="midpoint:grid-cols-2 mx-1 grid gap-4">
             <div className="space-y-2">
               {INPUT_TEXT.map((inp) => (
-                <label key={inp} className="space-y-1">
+                <label
+                  key={inp}
+                  onFocus={() => {
+                    if (inp === "category") handleChangeFocus(true);
+                  }}
+                  onBlur={() => {
+                    if (inp === "category") handleChangeFocus(false);
+                  }}
+                >
                   <p className="font-bold">{nameSwitcher(inp)}</p>
                   <input
                     className="serviceManagementInput"
@@ -194,6 +219,13 @@ const NewServiceAdding = ({
                     type="text"
                     required
                   />
+                  {inp === "category" && autoFill ? (
+                    <DropdownHelper
+                      options={categories}
+                      query={category}
+                      onChange={handleChangeAutofill}
+                    />
+                  ) : null}
                 </label>
               ))}
             </div>

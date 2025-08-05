@@ -119,6 +119,7 @@ const ServiceManagement = () => {
 
       {newServiceAdding ? (
         <NewServiceAdding
+          categories={categories}
           onClickAddNewService={handleClickAddNewService}
           onChangeServiceAdd={handleChangeServiceAdd}
         />

@@ -34,13 +34,16 @@ const ServiceManagementProduct = ({
   onChangeServiceUpdate,
   onChangeServiceAfterDelete,
 }: Props) => {
-  const [{ isOpen, isEditing, isChecked, errorText }, setOptionState] =
-    useState({
-      isOpen: false,
-      isEditing: false,
-      isChecked: product.options.length !== 0,
-      errorText: "",
-    });
+  const [
+    { isOpen, isEditing, isChecked, errorText, autoFill },
+    setOptionState,
+  ] = useState({
+    isOpen: false,
+    isEditing: false,
+    isChecked: product.options.length !== 0,
+    errorText: "",
+    autoFill: false,
+  });
   const [optionForm, setOptionForm] = useState<ServicesAPI>({
     name: product.name,
     category: product.category,
@@ -224,6 +227,16 @@ const ServiceManagementProduct = ({
     handleClickConfirm();
   };
 
+  const handleChangeAutofill = (text: string) => {
+    setOptionForm((prev) => ({ ...prev, category: text }));
+  };
+
+  const handleChangeFocus = (newState: boolean) => {
+    setTimeout(() => {
+      setOptionState((prev) => ({ ...prev, autoFill: newState }));
+    }, 1);
+  };
+
   return (
     <motion.section
       key={product.id}
@@ -271,6 +284,9 @@ const ServiceManagementProduct = ({
                 isChecked={isChecked}
                 categories={categories}
                 errorText={errorText}
+                autoFill={autoFill}
+                onChangeAutofill={handleChangeAutofill}
+                onChangeFocus={handleChangeFocus}
                 onCLickCancel={handleClickCancel}
                 onChangeCheck={handleChangeCheck}
                 onChangeForm={handleChangeForm}

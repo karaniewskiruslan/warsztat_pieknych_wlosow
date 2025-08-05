@@ -3,12 +3,16 @@ import { ServicesAPI } from "../../../../types/services";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import Delete from "/Delete.svg";
+import DropdownHelper from "../../../../UI/DropdownHelper";
 
 type Props = {
   isChecked: boolean;
   form: ServicesAPI;
   categories: string[];
   errorText: string;
+  autoFill: boolean;
+  onChangeFocus: (newState: boolean) => void;
+  onChangeAutofill: (text: string) => void;
   onSubmitForm: (e: FormEvent) => void;
   onChangeForm: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeOptionCost: (
@@ -51,6 +55,9 @@ const ServiceManagementProductEdit = ({
   form,
   categories,
   errorText,
+  autoFill,
+  onChangeFocus,
+  onChangeAutofill,
   onSubmitForm,
   onChangeForm,
   onChangeOptionCost,
@@ -61,24 +68,31 @@ const ServiceManagementProductEdit = ({
   onClickConfirm,
   onClickDelete,
 }: Props) => {
-  console.log(categories);
-
   return (
     <>
       <form onSubmit={onSubmitForm}>
         <section className="midpoint:grid-cols-2 mx-1 grid gap-4">
           <div className="space-y-2">
             {INPUT_TEXT.map((inp) => (
-              <label key={inp} className="space-y-1">
+              <label key={inp}>
                 <p className="font-bold">{nameSwitcher(inp)}</p>
                 <input
                   className="serviceManagementInput"
                   onChange={onChangeForm}
+                  onFocus={() => onChangeFocus(true)}
+                  onBlur={() => onChangeFocus(false)}
                   value={form[inp]}
                   name={inp}
                   type="text"
                   required
                 />
+                {inp === "category" && autoFill ? (
+                  <DropdownHelper
+                    options={categories}
+                    query={form[inp]}
+                    onChange={onChangeAutofill}
+                  />
+                ) : null}
               </label>
             ))}
           </div>
