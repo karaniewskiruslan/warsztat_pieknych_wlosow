@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { Services, ServicesAPI } from "../../../../types/services";
 import ServiceManagementProduct from "./ServiceManagementProduct";
 
@@ -20,15 +21,17 @@ const ServiceManagementCategory = ({
     <section className="space-y-2">
       <h3>{categoryName}</h3>
       <section className="grid gap-2">
-        {categoryServices.map((service) => (
-          <ServiceManagementProduct
-            key={service.id}
-            categories={categories}
-            product={service}
-            onChangeServiceUpdate={onChangeServiceUpdate}
-            onChangeServiceAfterDelete={onChangeServiceAfterDelete}
-          />
-        ))}
+        <AnimatePresence initial={false}>
+          {categoryServices.map((service) => (
+            <ServiceManagementProduct
+              key={service.id}
+              categories={categories}
+              product={service}
+              onChangeServiceUpdate={onChangeServiceUpdate}
+              onChangeServiceAfterDelete={onChangeServiceAfterDelete}
+            />
+          ))}
+        </AnimatePresence>
       </section>
     </section>
   );

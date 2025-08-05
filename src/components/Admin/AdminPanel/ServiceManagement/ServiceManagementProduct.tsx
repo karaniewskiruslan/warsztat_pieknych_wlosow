@@ -1,8 +1,9 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Services, ServicesAPI } from "../../../../types/services";
 import Expand from "/Expand.svg";
 import classNames from "classnames";
 import ServiceManagementProductInfo from "./ServiceManagementProductInfo";
+import { motion, Variants } from "framer-motion";
 import { produce } from "immer";
 
 import { deleteService, updateService } from "../../../../api/services.api";
@@ -15,17 +16,31 @@ type Props = {
   onChangeServiceAfterDelete: (newList: Services[]) => void;
 };
 
+const mainSectionVariants: Variants = {
+  initial: { height: 0, opacity: 0 },
+  exit: { height: 0, opacity: 0 },
+  animate: { height: "auto", opacity: 1 },
+};
+
+const containerSectionVariants: Variants = {
+  initial: { scale: 0.9, x: -60, opacity: 0.3 },
+  exit: { scale: 0.9, x: 30, opacity: 0.3 },
+  animate: { scale: 1, x: 0, opacity: 1 },
+};
+
 const ServiceManagementProduct = ({
   categories,
   product,
   onChangeServiceUpdate,
   onChangeServiceAfterDelete,
 }: Props) => {
-  const [{ isOpen, isEditing, isChecked }, setOptionState] = useState({
-    isOpen: false,
-    isEditing: false,
-    isChecked: product.options.length !== 0,
-  });
+  const [{ isOpen, isEditing, isChecked, errorText }, setOptionState] =
+    useState({
+      isOpen: false,
+      isEditing: false,
+      isChecked: product.options.length !== 0,
+      errorText: "",
+    });
   const [optionForm, setOptionForm] = useState<ServicesAPI>({
     name: product.name,
     category: product.category,
@@ -34,6 +49,47 @@ const ServiceManagementProduct = ({
     options: product.options,
   });
   const [optionStorage, setOptionStorage] = useState<ServicesAPI | null>(null);
+
+  useEffect(() => {
+    if (optionForm.options.some((el) => el.length === 0)) {
+      return setOptionState((prev) => ({
+        ...prev,
+        errorText: "Nie można dodać pustej opcji",
+      }));
+    }
+
+    if (
+      optionForm.name.trim() === "" ||
+      optionForm.category.trim() === "" ||
+      optionForm.image.trim() === ""
+    ) {
+      return setOptionState((prev) => ({
+        ...prev,
+        errorText: "Nie można pozostawiać pustych pól",
+      }));
+    }
+
+    if (
+      (optionForm.cost as number) < 0 ||
+      (Array.isArray(optionForm.cost) && optionForm.cost.some((el) => el < 0))
+    ) {
+      return setOptionState((prev) => ({
+        ...prev,
+        errorText: "Nie można wpisać negatywnej ceny",
+      }));
+    }
+
+    return setOptionState((prev) => ({
+      ...prev,
+      errorText: "",
+    }));
+  }, [
+    optionForm.category,
+    optionForm.cost,
+    optionForm.image,
+    optionForm.name,
+    optionForm.options,
+  ]);
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -55,16 +111,16 @@ const ServiceManagementProduct = ({
     if (options.length !== 0) {
       setOptionForm((prev) => ({
         ...prev,
-        options: newIsChecked ? [] : options,
-        cost: newIsChecked ? 0 : cost,
+        options: newIsChecked ? options : [],
+        cost: newIsChecked ? cost : 0,
       }));
     }
 
     if (options.length === 0) {
       setOptionForm((prev) => ({
         ...prev,
-        options: newIsChecked ? [] : ["Nowa opcja 1", "Nowa opcja 2"],
-        cost: newIsChecked ? cost : [0, 0],
+        options: newIsChecked ? ["Nowa opcja 1", "Nowa opcja 2"] : [],
+        cost: newIsChecked ? [0, 0] : cost,
       }));
     }
   };
@@ -136,18 +192,6 @@ const ServiceManagementProduct = ({
   };
 
   const handleClickConfirm = async () => {
-    if (optionForm.options.some((el) => el.length === 0)) {
-      return alert("Nie można dodać pustej opcji");
-    }
-
-    if (
-      optionForm.name.trim() === "" ||
-      optionForm.category.trim() === "" ||
-      optionForm.image.trim() === ""
-    ) {
-      return alert("Nie można pozostawiać pustych pól");
-    }
-
     try {
       const dataChanging = updateService(product.id, optionForm);
 
@@ -181,55 +225,72 @@ const ServiceManagementProduct = ({
   };
 
   return (
-    <section className="grid rounded-3xl border px-4 py-2">
-      <div className="flex justify-between">
-        <p className="font-bold">{product.name}</p>
-        <section>
-          <button
-            className={classNames("serviceManagementButton", {
-              "pointer-events-none opacity-50": isEditing,
-            })}
-            onClick={handleClickOpen}
-          >
-            <img
-              className={classNames("duration-75", { "rotate-180": isOpen })}
-              src={Expand}
-              alt="expand"
-            />
-          </button>
-        </section>
-      </div>
-      <section
-        className={classNames("grid duration-300", {
-          "grid-rows-[0fr]": !isOpen,
-          "grid-rows-[1fr]": isOpen,
-        })}
+    <motion.section
+      key={product.id}
+      variants={mainSectionVariants}
+      initial="initial"
+      exit="exit"
+      animate="animate"
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+      className="grid rounded-3xl border px-4 py-2"
+    >
+      <motion.section
+        transition={{ duration: 0.15, ease: "easeInOut" }}
+        initial="initial"
+        exit="exit"
+        animate="animate"
+        variants={containerSectionVariants}
       >
-        <div className="mt-2 overflow-hidden">
-          {isEditing ? (
-            <ServiceManagementProductEdit
-              form={optionForm}
-              isChecked={isChecked}
-              categories={categories}
-              onCLickCancel={handleClickCancel}
-              onChangeCheck={handleChangeCheck}
-              onChangeForm={handleChangeForm}
-              onChangeOptionCost={handleChangeOptionCost}
-              onClickAddOption={handleClickAddOption}
-              onClickConfirm={handleClickConfirm}
-              onClickDeleteOption={handleClickDeleteOption}
-              onSubmitForm={handleSubmitForm}
-              onClickDelete={handleClickDelete}
-            />
-          ) : (
-            <ServiceManagementProductInfo
-              product={product}
-              onCLickOpen={handleClickEditing}
-            />
-          )}
+        <div className="flex justify-between">
+          <p className="font-bold">{product.name}</p>
+          <section>
+            <button
+              className={classNames("serviceManagementButton", {
+                "pointer-events-none opacity-50": isEditing,
+              })}
+              onClick={handleClickOpen}
+            >
+              <img
+                className={classNames("duration-75", { "rotate-180": isOpen })}
+                src={Expand}
+                alt="expand"
+              />
+            </button>
+          </section>
         </div>
-      </section>
-    </section>
+        <section
+          className={classNames("grid duration-300", {
+            "grid-rows-[0fr]": !isOpen,
+            "grid-rows-[1fr]": isOpen,
+          })}
+        >
+          <div className="mt-2 overflow-hidden">
+            {isEditing ? (
+              <ServiceManagementProductEdit
+                form={optionForm}
+                isChecked={isChecked}
+                categories={categories}
+                errorText={errorText}
+                onCLickCancel={handleClickCancel}
+                onChangeCheck={handleChangeCheck}
+                onChangeForm={handleChangeForm}
+                onChangeOptionCost={handleChangeOptionCost}
+                onClickAddOption={handleClickAddOption}
+                onClickConfirm={handleClickConfirm}
+                onClickDeleteOption={handleClickDeleteOption}
+                onSubmitForm={handleSubmitForm}
+                onClickDelete={handleClickDelete}
+              />
+            ) : (
+              <ServiceManagementProductInfo
+                product={product}
+                onCLickOpen={handleClickEditing}
+              />
+            )}
+          </div>
+        </section>
+      </motion.section>
+    </motion.section>
   );
 };
 

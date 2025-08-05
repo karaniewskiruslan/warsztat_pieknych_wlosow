@@ -8,6 +8,7 @@ type Props = {
   isChecked: boolean;
   form: ServicesAPI;
   categories: string[];
+  errorText: string;
   onSubmitForm: (e: FormEvent) => void;
   onChangeForm: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeOptionCost: (
@@ -49,6 +50,7 @@ const ServiceManagementProductEdit = ({
   isChecked,
   form,
   categories,
+  errorText,
   onSubmitForm,
   onChangeForm,
   onChangeOptionCost,
@@ -145,7 +147,7 @@ const ServiceManagementProductEdit = ({
                       onChange={onChangeCheck}
                     />
                     <span className="checkmark peer-checked::after:size-3"></span>
-                    Wieloopcjyna usługa
+                    Wieloopcyjna usługa
                   </label>
                 </div>
               </>
@@ -161,7 +163,7 @@ const ServiceManagementProductEdit = ({
                       onChange={onChangeCheck}
                     />
                     <span className="checkmark peer-checked::after:size-3"></span>
-                    Wieloopcjyna usługa
+                    Wieloopcyjna usługa
                   </label>
                 </section>
                 <section>
@@ -178,6 +180,9 @@ const ServiceManagementProductEdit = ({
                   </label>
                 </section>
               </div>
+            )}
+            {!!errorText.length && (
+              <p className="font-bold text-red-400">{errorText}</p>
             )}
           </div>
         </section>

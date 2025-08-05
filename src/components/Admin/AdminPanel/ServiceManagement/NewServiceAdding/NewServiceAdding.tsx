@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Services, ServicesAPI } from "../../../../../types/services";
 import { postService } from "../../../../../api/services.api";
 import Confirm from "/Confirm.svg";
@@ -31,7 +31,10 @@ const NewServiceAdding = ({
   onChangeServiceAdd,
   onClickAddNewService,
 }: Props) => {
-  const [isChecked, setChecked] = useState(false);
+  const [{ isChecked, errorText }, setNewServiceOptions] = useState({
+    isChecked: false,
+    errorText: "",
+  });
 
   const [newForm, setNewForm] = useState<ServicesAPI>({
     name: "",
@@ -41,7 +44,38 @@ const NewServiceAdding = ({
     options: [],
   });
 
-  const { cost, options } = newForm;
+  const { name, category, image, cost, options } = newForm;
+
+  useEffect(() => {
+    if (options.some((el) => el.length === 0)) {
+      return setNewServiceOptions((prev) => ({
+        ...prev,
+        errorText: "Nie można dodać pustej opcji",
+      }));
+    }
+
+    if (name.trim() === "" || category.trim() === "" || image.trim() === "") {
+      return setNewServiceOptions((prev) => ({
+        ...prev,
+        errorText: "Nie można pozostawiać pustych pól",
+      }));
+    }
+
+    if (
+      (cost as number) < 0 ||
+      (Array.isArray(cost) && cost.some((el) => el < 0))
+    ) {
+      return setNewServiceOptions((prev) => ({
+        ...prev,
+        errorText: "Nie można wpisać negatywnej ceny",
+      }));
+    }
+
+    return setNewServiceOptions((prev) => ({
+      ...prev,
+      errorText: "",
+    }));
+  }, [category, image, name, cost, options]);
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,8 +87,8 @@ const NewServiceAdding = ({
   };
 
   const handleChangeChecked = () => {
-    setChecked((prevChecked) => {
-      const nextChecked = !prevChecked;
+    setNewServiceOptions((prev) => {
+      const nextChecked = !prev.isChecked;
 
       setNewForm((prev) => ({
         ...prev,
@@ -62,7 +96,7 @@ const NewServiceAdding = ({
         cost: nextChecked ? [0, 0] : 0,
       }));
 
-      return nextChecked;
+      return { ...prev, isChecked: nextChecked };
     });
   };
 
@@ -232,7 +266,7 @@ const NewServiceAdding = ({
                         onChange={handleChangeChecked}
                       />
                       <span className="checkmark peer-checked::after:size-3"></span>
-                      Wieloopcjyna usługa
+                      Wieloopcyjna usługa
                     </label>
                   </div>
                 </>
@@ -248,7 +282,7 @@ const NewServiceAdding = ({
                         onChange={handleChangeChecked}
                       />
                       <span className="checkmark peer-checked::after:size-3"></span>
-                      Wieloopcjyna usługa
+                      Wieloopcyjna usługa
                     </label>
                   </section>
                   <section>
@@ -265,6 +299,9 @@ const NewServiceAdding = ({
                     </label>
                   </section>
                 </div>
+              )}
+              {!!errorText.length && (
+                <p className="font-bold text-red-400">{errorText}</p>
               )}
             </div>
           </section>
