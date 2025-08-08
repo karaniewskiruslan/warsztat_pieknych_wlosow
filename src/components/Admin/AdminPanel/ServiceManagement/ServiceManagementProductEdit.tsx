@@ -31,22 +31,17 @@ type Props = {
   onCLickCancel: () => void;
   onClickConfirm: () => Promise<void>;
   onClickDelete: () => void;
+  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const INPUT_TEXT: ("name" | "category" | "image")[] = [
-  "name",
-  "category",
-  "image",
-];
+const INPUT_TEXT: ("name" | "category")[] = ["name", "category"];
 
-const nameSwitcher = (name: "name" | "category" | "image") => {
+const nameSwitcher = (name: "name" | "category") => {
   switch (name) {
     case "name":
       return "Nazwa:";
-    case "category":
-      return "Kategoria:";
     default:
-      return "Obrazek:";
+      return "Kategoria:";
   }
 };
 
@@ -67,6 +62,7 @@ const ServiceManagementProductEdit = ({
   onCLickCancel,
   onClickConfirm,
   onClickDelete,
+  onFileChange,
 }: Props) => {
   return (
     <>
@@ -95,6 +91,18 @@ const ServiceManagementProductEdit = ({
                 ) : null}
               </label>
             ))}
+
+            <label>
+              <p className="font-bold">Obrazek</p>
+              <input
+                className="serviceManagementInput"
+                onChange={onFileChange}
+                accept="image/*"
+                name="image"
+                type="file"
+                required
+              />
+            </label>
           </div>
           <div className="space-y-1">
             {isChecked ? (
@@ -206,21 +214,21 @@ const ServiceManagementProductEdit = ({
             className="serviceManagementButton bg-amber-200"
             onClick={onClickDelete}
           >
-            <img src={Delete} alt="Delete" />
+            <img src={Delete} alt="Delete" loading="lazy" />
           </button>
           <button
             type="button"
             className="serviceManagementButton bg-red-200"
             onClick={onCLickCancel}
           >
-            <img src={Cancel} alt="Cancel" />
+            <img src={Cancel} alt="Cancel" loading="lazy" />
           </button>
           <button
             className="serviceManagementButton bg-emerald-200"
             onClick={onClickConfirm}
             type="submit"
           >
-            <img src={Confirm} alt="Confirm" />
+            <img src={Confirm} alt="Confirm" loading="lazy" />
           </button>
         </section>
       </form>

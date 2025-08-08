@@ -31,11 +31,11 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
             </div>
           )}
         </article>
-        <img src={product.image} alt={product.name} />
+        <img src={product.image} alt={product.name} loading="lazy" />
       </section>
       <section className="flex justify-end gap-2">
         <button className="serviceManagementButton" onClick={onCLickOpen}>
-          <img src={Edit} alt="Edit" />
+          <img src={Edit} alt="Edit" loading="lazy" />
         </button>
       </section>
     </>

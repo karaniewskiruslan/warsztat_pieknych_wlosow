@@ -18,7 +18,7 @@ const Booking = () => {
           className="flex w-fit items-center gap-1 border-b text-xl font-bold"
         >
           <span>Umów się już teraz</span>
-          <img src={booksy} alt="booksy" className="size-5" />
+          <img src={booksy} alt="booksy" loading="lazy" className="size-5" />
         </a>
       </section>
 

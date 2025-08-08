@@ -12,20 +12,14 @@ type Props = {
   onClickAddNewService: () => void;
 };
 
-const INPUT_TEXT: ("name" | "category" | "image")[] = [
-  "name",
-  "category",
-  "image",
-];
+const INPUT_TEXT: ("name" | "category")[] = ["name", "category"];
 
-const nameSwitcher = (name: "name" | "category" | "image") => {
+const nameSwitcher = (name: "name" | "category") => {
   switch (name) {
     case "name":
       return "Nazwa:";
-    case "category":
-      return "Kategoria:";
     default:
-      return "Obrazek:";
+      return "Kategoria:";
   }
 };
 
@@ -44,8 +38,8 @@ const NewServiceAdding = ({
     name: "",
     category: "",
     cost: 0,
-    image: "",
     options: [],
+    image: null,
   });
 
   const { name, category, image, cost, options } = newForm;
@@ -58,7 +52,7 @@ const NewServiceAdding = ({
       }));
     }
 
-    if (name.trim() === "" || category.trim() === "" || image.trim() === "") {
+    if (name.trim() === "" || category.trim() === "") {
       return setNewServiceOptions((prev) => ({
         ...prev,
         errorText: "Nie można pozostawiać pustych pól",
@@ -165,12 +159,12 @@ const NewServiceAdding = ({
     }
 
     try {
-      const dataAdding = postService(newForm);
+      const dataAdding = await postService(newForm);
 
-      onChangeServiceAdd(await dataAdding);
+      onChangeServiceAdd(dataAdding);
       onClickAddNewService();
-    } catch {
-      throw new Error("Test error");
+    } catch (e) {
+      throw new Error(`Error while reading a value: ${e}`);
     }
   };
 
@@ -187,10 +181,19 @@ const NewServiceAdding = ({
   };
 
   const handleChangeAutofill = (text: string) => {
-    console.log(text);
-
     setNewForm((prev) => ({ ...prev, category: text }));
     handleChangeFocus(false);
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+
+    if (!files) return;
+
+    setNewForm((prev) => ({
+      ...prev,
+      image: files[0],
+    }));
   };
 
   return (
@@ -228,6 +231,18 @@ const NewServiceAdding = ({
                   ) : null}
                 </label>
               ))}
+
+              <label>
+                <p className="font-bold">Obrazek</p>
+                <input
+                  className="serviceManagementInput"
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  name="image"
+                  type="file"
+                  required
+                />
+              </label>
             </div>
             <div className="space-y-1">
               {isChecked ? (
@@ -275,7 +290,7 @@ const NewServiceAdding = ({
                               className="aspect-square size-8 rounded-xl border"
                               type="button"
                             >
-                              <img src={Cancel} alt="Cancel" />
+                              <img src={Cancel} alt="Cancel" loading="lazy" />
                             </button>
                           </section>
                         ))}
@@ -343,14 +358,14 @@ const NewServiceAdding = ({
               className="serviceManagementButton bg-red-200"
               onClick={(e) => handleCLickCancel(e)}
             >
-              <img src={Cancel} alt="Cancel" />
+              <img src={Cancel} alt="Cancel" loading="lazy" />
             </button>
             <button
               className="serviceManagementButton bg-emerald-200"
               onClick={handleClickConfirm}
               type="button"
             >
-              <img src={Confirm} alt="Confirm" />
+              <img src={Confirm} alt="Confirm" loading="lazy" />
             </button>
           </section>
         </form>

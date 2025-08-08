@@ -35,13 +35,20 @@ const ServiceManagement = () => {
     if (data) setServices(data);
   }, [data]);
 
-  const handleChangeServiceUpdate = (id: number, newData: ServicesAPI) => {
-    const { name, category, image, options, cost } = newData;
+  const handleChangeServiceUpdate = (id: number, updData: ServicesAPI) => {
+    const { name, category, image, options, cost } = updData;
 
     setServices((prev) =>
       prev.map((service) => {
         if (service.id === id) {
-          return { ...service, name, category, image, options, cost };
+          return {
+            ...service,
+            name,
+            category,
+            image: String(image),
+            options,
+            cost,
+          };
         }
 
         return service;
@@ -86,9 +93,10 @@ const ServiceManagement = () => {
         {isPending ? (
           <div className="flex size-5">
             <img
-              className="size-4 animate-spin"
               src={loadingImage}
               alt="Loading"
+              loading="lazy"
+              className="size-4 animate-spin"
             />
           </div>
         ) : (

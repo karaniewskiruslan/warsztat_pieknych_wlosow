@@ -49,6 +49,7 @@ const AdminLogin = ({
               <img
                 src={loadingImage}
                 alt="Loading. Please, wait"
+                loading="lazy"
                 className="size-4 animate-spin"
               />
             </>

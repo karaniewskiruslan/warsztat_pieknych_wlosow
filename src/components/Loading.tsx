@@ -7,6 +7,7 @@ const Loading = () => {
       <img
         src={loadingImage}
         alt="Loading. Please, wait"
+        loading="lazy"
         className="size-16 animate-spin"
       />
     </section>

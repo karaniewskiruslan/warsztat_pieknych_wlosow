@@ -1,16 +1,16 @@
 export type Services = {
-  id: number; 
+  id: number;
   image: string;
   name: string;
   options: string[];
   category: string;
   cost: number | number[];
-}
+};
 
 export type ServicesAPI = {
-  image: string;
+  image: File | null;
   name: string;
   options: string[];
   category: string;
   cost: number | number[];
-}
+};

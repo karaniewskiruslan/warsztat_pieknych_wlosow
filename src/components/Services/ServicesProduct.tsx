@@ -12,12 +12,13 @@ const ServicesProduct = ({ product }: Props) => {
   return (
     <article
       data-testid="servicesProd"
-      className="relative flex aspect-[4/5] flex-col items-center justify-between gap-4 rounded-2xl bg-gray-100 p-3"
+      className="relative grid aspect-[4/5] flex-col place-items-center gap-4 rounded-2xl bg-gray-100 p-3"
     >
-      <div className="grid w-full place-items-center">
+      <div className="flex w-full justify-center">
         <img
           src={product.image}
           alt={product.name}
+          loading="lazy"
           className="mobile:size-24 size-16"
         />
       </div>
@@ -28,7 +29,7 @@ const ServicesProduct = ({ product }: Props) => {
           <article
             data-testid="servicesProd-options"
             className={classNames(
-              "absolute bottom-0 z-10 flex w-full translate-y-11/12 flex-col gap-1 rounded-b-sm bg-gray-100 p-1 duration-150",
+              "absolute bottom-0 z-10 flex w-full translate-y-5/6 flex-col gap-1 rounded-b-sm bg-gray-100 p-1 duration-150",
               { "pointer-events-none opacity-0": !isOpen },
             )}
           >

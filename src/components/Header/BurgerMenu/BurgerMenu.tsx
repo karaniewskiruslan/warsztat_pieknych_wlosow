@@ -23,9 +23,9 @@ const BurgerMenu = ({ onClickCloseMenu }: Props) => {
         onClick={() => onClickCloseMenu(false)}
         className="absolute top-4 right-8 size-10"
       >
-        <img src={burgerMenuClose} alt="Close menu" />
+        <img src={burgerMenuClose} alt="Close menu" loading="lazy" />
       </button>
-      <img src={logo} alt="Logo" className="h-10" />
+      <img src={logo} alt="Logo" loading="lazy" className="h-10" />
       <nav className="flex flex-col items-center gap-8 text-xl">
         {menuOptions.map((option) => (
           <NavLink

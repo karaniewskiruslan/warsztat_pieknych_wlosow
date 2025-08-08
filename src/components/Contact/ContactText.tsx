@@ -12,6 +12,7 @@ const ContactText = ({ contactOpt }: Props) => {
           <img
             src={contactOpt.image}
             alt={contactOpt.title}
+            loading="lazy"
             className="size-9"
           />
           <h2 className="underline">{contactOpt.title}</h2>

@@ -17,6 +17,7 @@ const MasterWorks = ({ name, masterWorks }: Props) => {
               data-testid="master-work-photo"
               src={image}
               alt={`Master ${name} photo ${i}`}
+              loading="lazy"
             />
           </div>
         ))}

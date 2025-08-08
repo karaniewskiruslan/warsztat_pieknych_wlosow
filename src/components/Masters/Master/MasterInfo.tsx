@@ -10,7 +10,7 @@ const MasterInfo = ({ name, photo, description }: Props) => {
       <h3>O mistrzu</h3>
       <section className="tablet:grid-cols-[400px_1fr] mobile:grid-cols-[2fr_3fr] grid grid-cols-1 gap-4">
         <div className="aspect-square overflow-hidden rounded-2xl bg-amber-100">
-          <img src={photo} alt={`Master ${name} photo`} />
+          <img src={photo} alt={`Master ${name} photo`} loading="lazy" />
         </div>
         <article className="space-y-1">
           {description.map((pr, i) => (

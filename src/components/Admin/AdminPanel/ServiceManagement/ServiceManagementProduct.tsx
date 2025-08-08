@@ -48,9 +48,11 @@ const ServiceManagementProduct = ({
     name: product.name,
     category: product.category,
     cost: product.cost,
-    image: product.image,
+    image: null,
     options: product.options,
   });
+
+
   const [optionStorage, setOptionStorage] = useState<ServicesAPI | null>(null);
 
   useEffect(() => {
@@ -61,11 +63,7 @@ const ServiceManagementProduct = ({
       }));
     }
 
-    if (
-      optionForm.name.trim() === "" ||
-      optionForm.category.trim() === "" ||
-      optionForm.image.trim() === ""
-    ) {
+    if (optionForm.name.trim() === "" || optionForm.category.trim() === "") {
       return setOptionState((prev) => ({
         ...prev,
         errorText: "Nie można pozostawiać pustych pól",
@@ -196,9 +194,10 @@ const ServiceManagementProduct = ({
 
   const handleClickConfirm = async () => {
     try {
-      const dataChanging = updateService(product.id, optionForm);
+      const dataChanging = await updateService(product.id, optionForm);
 
-      onChangeServiceUpdate(product.id, await dataChanging);
+
+      onChangeServiceUpdate(product.id, dataChanging);
     } catch (err) {
       console.error(err);
     }
@@ -213,9 +212,9 @@ const ServiceManagementProduct = ({
 
   const handleClickDelete = async () => {
     try {
-      const dataDeleting = deleteService(product.id);
+      const dataDeleting = await deleteService(product.id);
 
-      onChangeServiceAfterDelete(await dataDeleting);
+      onChangeServiceAfterDelete(dataDeleting);
     } catch (err) {
       console.error(err);
     }
@@ -235,6 +234,18 @@ const ServiceManagementProduct = ({
     setTimeout(() => {
       setOptionState((prev) => ({ ...prev, autoFill: newState }));
     }, 1);
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+
+    if (!files) return;
+
+
+    setOptionForm((prev) => ({
+      ...prev,
+      image: files[0],
+    }));
   };
 
   return (
@@ -264,9 +275,10 @@ const ServiceManagementProduct = ({
               onClick={handleClickOpen}
             >
               <img
-                className={classNames("duration-75", { "rotate-180": isOpen })}
                 src={Expand}
                 alt="expand"
+                loading="lazy"
+                className={classNames("duration-75", { "rotate-180": isOpen })}
               />
             </button>
           </section>
@@ -296,6 +308,7 @@ const ServiceManagementProduct = ({
                 onClickDeleteOption={handleClickDeleteOption}
                 onSubmitForm={handleSubmitForm}
                 onClickDelete={handleClickDelete}
+                onFileChange={handleFileChange}
               />
             ) : (
               <ServiceManagementProductInfo

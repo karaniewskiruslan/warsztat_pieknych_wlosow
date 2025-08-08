@@ -26,6 +26,7 @@ const MastersIcon = ({ master }: Props) => {
       <img
         src="time"
         alt={master.name}
+        loading="lazy"
         className="pointer-events-none absolute h-full w-full"
       />
       <motion.article className="px-4 py-2" layout>

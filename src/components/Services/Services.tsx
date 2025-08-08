@@ -46,9 +46,10 @@ const Services = () => {
         {isPending ? (
           <div className="flex size-5">
             <img
-              className="size-4 animate-spin"
               src={loadingImage}
               alt="Loading"
+              loading="lazy"
+              className="size-4 animate-spin"
             />
           </div>
         ) : (

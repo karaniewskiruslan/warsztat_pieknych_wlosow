@@ -48,6 +48,7 @@ const AdminPanelOption = ({
         />
         <img
           src={mainImage}
+          loading="lazy"
           className="pointer-events-none"
           alt="Support element"
         />
