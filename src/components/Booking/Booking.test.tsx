@@ -18,7 +18,7 @@ describe("Admin", () => {
 
     expect(screen.getByTestId("link_booksy")).toBeInTheDocument();
     expect(screen.getByTestId("link_booksy")).toHaveAttribute(
-      "src",
+      "href",
       BOOKSY_LINK,
     );
   });
