@@ -1,4 +1,4 @@
-import { ServicesAPI } from "../types/services";
+import { ServicesAPI } from "../types/services.type";
 
 const baseUrl =
   "https://warsztat-pieknych-wlosow-backend.onrender.com/api/services";

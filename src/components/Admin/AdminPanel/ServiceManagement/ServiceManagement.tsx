@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import ServiceManagementCategory from "./ServiceManagementCategory";
 import loadingImage from "/loading.svg";
 import classNames from "classnames";
-import { Services, ServicesAPI } from "../../../../types/services";
+import { Services, ServicesAPI } from "../../../../types/services.type";
 import NewServiceAdding from "./NewServiceAdding/NewServiceAdding";
 import useScrollLock from "../../../../hooks/useScrollLock.hook";
 

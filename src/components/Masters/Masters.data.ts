@@ -1,4 +1,4 @@
-import { masterType } from "../../types/masterType";
+import { masterType } from "../../types/masterType.type";
 
 export const mastersInfo: masterType[] = [
   {

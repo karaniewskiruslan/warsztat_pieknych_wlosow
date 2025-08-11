@@ -1,4 +1,4 @@
-import { MainContent } from "../../types/main";
+import { MainContent } from "../../types/main.type";
 import Gallery from "../../UI/Gallery";
 
 type Props = {

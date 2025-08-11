@@ -13,7 +13,7 @@ export const adminOptions = [
       "Dodawaj nowe, zmieniaj potrebne Ci właściwości oraz usuwaj zbędne",
   },
   {
-    pageSrc: "booking_mng",
+    pageSrc: "/admin/bookingManagement",
     mainImage: "/warsztat_pieknych_wlosow/img/admin/BookingManagement.svg",
     supImage: "/warsztat_pieknych_wlosow/img/admin/pen.svg",
     supAnimation: {
@@ -24,6 +24,5 @@ export const adminOptions = [
     optionName: "Zarządzanie wizytami",
     optionTitle:
       "Kontroluj umowione wizyty: potwierdzaj, odwołuj albo po prostu prypomnij o niej siebie",
-    willBeSoon: true,
   },
 ];

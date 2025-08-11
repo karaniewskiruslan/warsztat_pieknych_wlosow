@@ -1,3 +1,4 @@
+import BookingForm from "./BookingForm";
 import booksy from "/img/socials/booksy.svg";
 
 const Booking = () => {
@@ -13,6 +14,7 @@ const Booking = () => {
           </p>
         </hgroup>
         <a
+          data-testid="link_booksy"
           href="https://booksy.com/pl-pl/172573_warsztat-pieknych-wlosow_fryzjer_3_warszawa?do=invite&_branch_match_id=1430280485439261899&utm_medium=merchant_customer_invite&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVz48Mc03yNfGz8EuyrytKTUstKsrMS49PKsovL04tsnXLBIrlVwAAeWwQpz0AAAA%3D"
           target="blank"
           className="flex w-fit items-center gap-1 border-b text-xl font-bold"
@@ -31,6 +33,12 @@ const Booking = () => {
           </p>
         </hgroup>
         <p></p>
+      </section>
+
+      <section 
+      className="space-y-2"
+      >
+        <BookingForm />
       </section>
     </div>
   );

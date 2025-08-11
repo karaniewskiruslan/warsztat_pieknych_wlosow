@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Services, ServicesAPI } from "../../../../../types/services";
+import { Services, ServicesAPI } from "../../../../../types/services.type";
 import { postService } from "../../../../../api/services.api";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
@@ -215,7 +215,6 @@ const NewServiceAdding = ({
                 >
                   <p className="font-bold">{nameSwitcher(inp)}</p>
                   <input
-                    className="serviceManagementInput"
                     onChange={handleChangeForm}
                     value={newForm[inp]}
                     name={inp}
@@ -235,7 +234,6 @@ const NewServiceAdding = ({
               <label>
                 <p className="font-bold">Obrazek</p>
                 <input
-                  className="serviceManagementInput"
                   onChange={handleFileChange}
                   accept="image/*"
                   name="image"
@@ -256,7 +254,6 @@ const NewServiceAdding = ({
                           className="flex items-center justify-center gap-4 space-y-1"
                         >
                           <input
-                            className="serviceManagementInput"
                             onChange={(e) =>
                               handleChangeOptionCost(e, "options", i)
                             }
@@ -275,7 +272,6 @@ const NewServiceAdding = ({
                             <label className="flex items-center justify-center gap-4 space-y-1">
                               <p className="font-bold">Zł:</p>
                               <input
-                                className="serviceManagementInput"
                                 onChange={(e) =>
                                   handleChangeOptionCost(e, "cost", i)
                                 }
@@ -336,7 +332,6 @@ const NewServiceAdding = ({
                     <label className="flex items-center justify-center gap-4 space-y-1">
                       <p className="font-bold">Zł:</p>
                       <input
-                        className="serviceManagementInput"
                         onChange={handleChangeForm}
                         value={cost as number}
                         name="cost"

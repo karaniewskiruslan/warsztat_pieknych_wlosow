@@ -1,4 +1,4 @@
-import { MainContent } from "../../types/main";
+import { MainContent } from "../../types/main.type";
 
 const galleryPhotos1 = [
   "/warsztat_pieknych_wlosow/img/galleryWorks/galleryFirst/001.webp",

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getServices } from "../../api/services.api";
-import { Services as ServicesType } from "../../types/services";
+import { Services as ServicesType } from "../../types/services.type";
 import ServicesCategory from "./ServicesCategory";
 import { useEffect, useMemo, useState } from "react";
 import loadingImage from "/loading.svg";

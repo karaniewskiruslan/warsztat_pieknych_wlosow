@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useParams, useNavigate } from "react-router";
 import { mastersInfo } from "../Masters.data";
-import { masterType } from "../../../types/masterType";
+import { masterType } from "../../../types/masterType.type";
 import MasterInfo from "./MasterInfo";
 import MasterWorks from "./MasterWorks";
 import PageButton from "../../../UI/PageButton";

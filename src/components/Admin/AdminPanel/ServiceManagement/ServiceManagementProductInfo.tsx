@@ -1,4 +1,5 @@
-import { Services } from "../../../../types/services";
+import { Services } from "../../../../types/services.type";
+import CategoryText from "../../../../UI/CategoryText";
 import Edit from "/Edit.svg";
 
 type Props = {
@@ -10,25 +11,26 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
   return (
     <>
       <hgroup className="flex justify-between">
-        <h4>
-          <b>Kategoria:</b> {product.category}
-        </h4>
-        <p>
-          <b>Item ID:</b> {product.id}
-        </p>
+        <CategoryText category="Kategoria" body={product.category} />
+        <CategoryText category="ID" body={String(product.id)} />
       </hgroup>
       <section className="mobile:grid-cols-[1fr_150px] grid grid-cols-1 items-center">
         <article>
           {Array.isArray(product.cost) ? (
             product.cost.map((el, i) => (
-              <div key={i}>
-                <b>{product.options[i]}:</b> {el}zł
-              </div>
+              <CategoryText
+                key={i}
+                category={product.options[i]}
+                body={String(el)}
+                isCost={true}
+              />
             ))
           ) : (
-            <div>
-              <b>Zł:</b> {product.cost}zł
-            </div>
+            <CategoryText
+              category="Koszt"
+              body={String(product.cost)}
+              isCost={true}
+            />
           )}
         </article>
         <img src={product.image} alt={product.name} loading="lazy" />

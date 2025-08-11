@@ -1,0 +1,31 @@
+.react-calendar {
+  @apply rounded-xl border px-4 py-2;
+}
+
+.react-calendar__navigation {
+  @apply flex content-between;
+}
+
+.react-calendar__navigation__arrow {
+  @apply size-6;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  @apply grid place-items-center bg-gray-300;
+}
+
+.react-calendar__tile {
+  @apply border;
+}
+
+.react-calendar__tile--now {
+  @apply bg-stone-300;
+}
+
+.react-calendar__tile--active {
+  @apply bg-lime-200;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  @apply border-black text-gray-200;
+}

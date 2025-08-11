@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import { masterType } from "../../types/masterType";
+import { masterType } from "../../types/masterType.type";
 import { motion } from "framer-motion";
 
 type Props = {

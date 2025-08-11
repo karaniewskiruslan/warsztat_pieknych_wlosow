@@ -1,4 +1,4 @@
-import { ContactOpt } from "../../types/contact";
+import { ContactOpt } from "../../types/contact.type";
 
 type Props = {
   contactOpt: ContactOpt;

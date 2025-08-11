@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { Services, ServicesAPI } from "../../../../types/services";
+import { Services, ServicesAPI } from "../../../../types/services.type";
 import ServiceManagementProduct from "./ServiceManagementProduct";
 
 type Props = {

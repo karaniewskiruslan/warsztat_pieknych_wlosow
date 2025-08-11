@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Services } from "../../types/services";
+import { Services } from "../../types/services.type";
 import classNames from "classnames";
 
 type Props = {

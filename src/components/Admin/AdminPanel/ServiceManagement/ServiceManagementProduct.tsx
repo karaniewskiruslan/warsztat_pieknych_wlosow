@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Services, ServicesAPI } from "../../../../types/services";
-import Expand from "/Expand.svg";
-import classNames from "classnames";
-import ServiceManagementProductInfo from "./ServiceManagementProductInfo";
+import { Services, ServicesAPI } from "../../../../types/services.type";
 import { motion, Variants } from "framer-motion";
+import ServiceManagementProductInfo from "./ServiceManagementProductInfo";
 import { produce } from "immer";
+import classNames from "classnames";
+import Expand from "/Expand.svg";
 
 import { deleteService, updateService } from "../../../../api/services.api";
 import ServiceManagementProductEdit from "./ServiceManagementProductEdit";
@@ -51,7 +51,6 @@ const ServiceManagementProduct = ({
     image: null,
     options: product.options,
   });
-
 
   const [optionStorage, setOptionStorage] = useState<ServicesAPI | null>(null);
 
@@ -196,7 +195,6 @@ const ServiceManagementProduct = ({
     try {
       const dataChanging = await updateService(product.id, optionForm);
 
-
       onChangeServiceUpdate(product.id, dataChanging);
     } catch (err) {
       console.error(err);
@@ -240,7 +238,6 @@ const ServiceManagementProduct = ({
     const { files } = e.target;
 
     if (!files) return;
-
 
     setOptionForm((prev) => ({
       ...prev,

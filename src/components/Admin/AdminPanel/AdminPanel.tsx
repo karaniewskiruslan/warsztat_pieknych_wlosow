@@ -33,7 +33,6 @@ const AdminPanel = () => {
             mainImage={el.mainImage}
             supImage={el.supImage}
             supAnimation={el.supAnimation}
-            willBeSoon={el.willBeSoon}
           />
         ))}
       </section>

@@ -1,6 +1,5 @@
 import { motion, Variants } from "framer-motion";
 import { NavLink } from "react-router";
-import classNames from "classnames";
 
 type Props = {
   pageSrc: string;
@@ -9,7 +8,6 @@ type Props = {
   supAnimation: Variants;
   optionName: string;
   optionTitle: string;
-  willBeSoon?: boolean;
 };
 
 const textVariants = {
@@ -25,7 +23,6 @@ const AdminPanelOption = ({
   supAnimation,
   optionName,
   optionTitle,
-  willBeSoon,
 }: Props) => {
   const MotionNavLink = motion.create(NavLink);
 
@@ -35,9 +32,7 @@ const AdminPanelOption = ({
       initial="initial"
       whileHover="hover"
       transition={{ duration: 0.3 }}
-      className={classNames("rounded-3xl bg-gray-100 p-8", {
-        "pointer-events-none": willBeSoon,
-      })}
+      className="rounded-3xl bg-gray-100 p-8"
     >
       <motion.picture className="tablet:size-60 relative flex size-40" layout>
         <motion.img
@@ -55,7 +50,6 @@ const AdminPanelOption = ({
       </motion.picture>
       <motion.hgroup layout>
         <h3>{optionName}</h3>
-        {willBeSoon ? <p className="text-red-500">Będzie wkrótce</p> : null}
         <motion.p variants={textVariants} className="overflow-hidden">
           <span>{optionTitle}</span>
         </motion.p>

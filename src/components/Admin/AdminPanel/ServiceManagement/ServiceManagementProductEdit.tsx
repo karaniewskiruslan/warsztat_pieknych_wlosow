@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent } from "react";
-import { ServicesAPI } from "../../../../types/services";
+import { ServicesAPI } from "../../../../types/services.type";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import Delete from "/Delete.svg";
@@ -73,7 +73,6 @@ const ServiceManagementProductEdit = ({
               <label key={inp}>
                 <p className="font-bold">{nameSwitcher(inp)}</p>
                 <input
-                  className="serviceManagementInput"
                   onChange={onChangeForm}
                   onFocus={() => onChangeFocus(true)}
                   onBlur={() => onChangeFocus(false)}
@@ -95,7 +94,6 @@ const ServiceManagementProductEdit = ({
             <label>
               <p className="font-bold">Obrazek</p>
               <input
-                className="serviceManagementInput"
                 onChange={onFileChange}
                 accept="image/*"
                 name="image"
@@ -116,7 +114,6 @@ const ServiceManagementProductEdit = ({
                         className="flex items-center justify-center gap-4 space-y-1"
                       >
                         <input
-                          className="serviceManagementInput"
                           onChange={(e) => onChangeOptionCost(e, "options", i)}
                           value={option}
                           name={`option ${i}`}
@@ -133,7 +130,6 @@ const ServiceManagementProductEdit = ({
                           <label className="flex items-center justify-center gap-4 space-y-1">
                             <p className="font-bold">Zł:</p>
                             <input
-                              className="serviceManagementInput"
                               onChange={(e) => onChangeOptionCost(e, "cost", i)}
                               value={+price}
                               name={`price ${i}`}
@@ -192,7 +188,6 @@ const ServiceManagementProductEdit = ({
                   <label className="flex items-center justify-center gap-4 space-y-1">
                     <p className="font-bold">Zł:</p>
                     <input
-                      className="serviceManagementInput"
                       onChange={onChangeForm}
                       value={form.cost as number}
                       name="cost"
