@@ -18,10 +18,10 @@ const BookingForm = () => {
     email: "",
     service: "Some placeholder text 1",
     master: mastersNames[0],
-    date: new Date(),
+    date: null,
   });
 
-  const { fullName, email, service, master } = bookingForm;
+  const { fullName, email, service, master, date } = bookingForm;
 
   const onChangeFormInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,7 +33,7 @@ const BookingForm = () => {
     setBookingForm((prev) => ({ ...prev, [name]: newOption }));
   };
 
-  const handleChangeDate = (newDate: Date) => {
+  const handleChangeDate = (newDate: Date | null) => {
     setBookingForm((prev) => ({ ...prev, date: newDate }));
   };
 
@@ -43,6 +43,13 @@ const BookingForm = () => {
         "error",
         "Nieprawidłowe dane",
         "Proszę sprawdzić imię i nazwisko oraz email",
+      );
+
+    if (!date)
+      return addNewNotification(
+        "error",
+        "Nieprawidłowe dane",
+        "Nie została wybrana data wizyty",
       );
 
     try {
@@ -58,7 +65,7 @@ const BookingForm = () => {
         email: "",
         service: "Some placeholder text 1",
         master: mastersNames[0],
-        date: new Date(),
+        date: null,
       });
     } catch (e) {
       console.error(e);
@@ -103,6 +110,11 @@ const BookingForm = () => {
             "Some placeholder text 2",
             "Some placeholder text 3",
             "Some placeholder text 4",
+            "Some placeholder text 5",
+            "Some placeholder text 6",
+            "Some placeholder text 7",
+            "Some placeholder text 8",
+            "Some placeholder text 9",
           ]}
           title="Wybież usługę"
           onClickChangeCurrent={onChangeFormOption}

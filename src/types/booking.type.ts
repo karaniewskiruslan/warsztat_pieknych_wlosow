@@ -3,7 +3,7 @@ export type BookingAPI = {
   email: string;
   service: string;
   master: string;
-  date: Date;
+  date: Date | null;
 };
 
 export type Booking = {

@@ -13,16 +13,6 @@ export const getServices = async () => {
   return data;
 };
 
-export const getService = async (id: number) => {
-  const res = await fetch(baseUrl + `/${id}`, {
-    method: "GET",
-  });
-
-  const data = await res.json();
-
-  return data;
-};
-
 export const postService = async (newService: ServicesAPI) => {
   const formData = new FormData();
 

@@ -54,7 +54,7 @@ const ServicesProduct = ({ product }: Props) => {
           </article>
           <button
             onClick={() => setIsOpen((prev) => !prev)}
-            className="z-50 h-7 w-28 rounded-full bg-gray-200 px-2 uppercase"
+            className="z-40 h-7 w-28 rounded-full bg-gray-200 px-2 uppercase"
           >
             {isOpen ? "ukryj" : "opcji"}
           </button>

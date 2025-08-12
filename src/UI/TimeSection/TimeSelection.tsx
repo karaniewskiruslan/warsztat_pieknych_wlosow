@@ -4,7 +4,7 @@ import TimeSelectionCalendar from "./TimeSelectionCalendar";
 import { useEffect, useState } from "react";
 
 type Props = {
-  onChangeDate: (newDate: Date) => void;
+  onChangeDate: (newDate: Date | null) => void;
 };
 
 const newTimes = (date: Date) => {
@@ -76,7 +76,7 @@ const TimeSelection = ({ onChangeDate }: Props) => {
   const [bookTime, setBookTime] = useState<Date>(initialBookTimeTime());
 
   useEffect(() => {
-    onChangeDate(bookTime);
+    onChangeDate(null);
   }, []);
 
   const handleClickDate = (e: Value) => {

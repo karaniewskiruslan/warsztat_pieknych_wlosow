@@ -5,15 +5,9 @@ import { getBookings } from "../../../../api/booking.api";
 import { useEffect, useState } from "react";
 import { Booking } from "../../../../types/booking.type";
 import BookingManagementInfo from "./BookingManagementInfo";
-import { AnimatePresence, motion, Variants } from "motion/react";
+import { AnimatePresence } from "motion/react";
 
 import loadingImage from "/loading.svg";
-
-const mainSectionVariants: Variants = {
-  initial: { height: 0, opacity: 0 },
-  exit: { height: 0, opacity: 0 },
-  animate: { height: "auto", opacity: 1 },
-};
 
 const BookingManagement = () => {
   const nav = useNavigate();
@@ -53,19 +47,8 @@ const BookingManagement = () => {
 
       <section className="midpoint:grid-cols-[2fr_3fr] grid gap-4">
         <p>Tutaj masz wszystkie wizytę, umowione poprzez stronę WPW</p>
-        <AnimatePresence>
-          <motion.section
-            variants={mainSectionVariants}
-            initial="initial"
-            exit="exit"
-            animate="animate"
-            transition={{
-              duration: 0.3,
-              ease: "easeInOut",
-              staggerChildren: 0.15,
-            }}
-            className="grid gap-2"
-          >
+        <section className="grid gap-2">
+          <AnimatePresence>
             {isPending && (
               <div className="flex size-5">
                 <img
@@ -90,8 +73,8 @@ const BookingManagement = () => {
             {!isPending && bookingList.length === 0 && (
               <h3>Nie ma umówionych wizyt</h3>
             )}
-          </motion.section>
-        </AnimatePresence>
+          </AnimatePresence>
+        </section>
       </section>
 
       <PageButton text="< Wstecz" onClick={handleClickBack} />

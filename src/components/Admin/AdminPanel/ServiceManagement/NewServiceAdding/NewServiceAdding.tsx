@@ -5,6 +5,7 @@ import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import { produce } from "immer";
 import DropdownHelper from "../../../../../UI/DropdownHelper";
+import { useNotificationContext } from "../../../../../context/notificationContent";
 
 type Props = {
   categories: string[];
@@ -28,6 +29,7 @@ const NewServiceAdding = ({
   onChangeServiceAdd,
   onClickAddNewService,
 }: Props) => {
+  const { addNewNotification } = useNotificationContext();
   const [{ isChecked, errorText, autoFill }, setNewServiceOptions] = useState({
     isChecked: false,
     errorText: "",
@@ -153,25 +155,51 @@ const NewServiceAdding = ({
     );
   };
 
-  const handleClickConfirm = async () => {
-    if (options.some((el) => el.length === 0)) {
-      return alert("Nie można dodać pustej opcji");
-    }
+  const handleSubmitForm = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (options.some((el) => el.length === 0))
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Nie można zostawiać pustych pól w formularzu.",
+      );
+
+    if (name.trim() === "" || category.trim() === "")
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Nazwa albo kategoria nie mogą być puste.",
+      );
+
+    if (
+      (cost as number) < 0 ||
+      (Array.isArray(cost) && cost.some((el) => el < 0))
+    )
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Cena nie może być niegatywną.",
+      );
 
     try {
       const dataAdding = await postService(newForm);
 
       onChangeServiceAdd(dataAdding);
       onClickAddNewService();
+      addNewNotification(
+        "added",
+        "Dodana usługa",
+        `Usługa "${name}" dodana pomyślnie`,
+      );
     } catch (e) {
-      throw new Error(`Error while reading a value: ${e}`);
+      console.error(e);
+      addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Coś poszło nie tak, spróbuj ponownie",
+      );
     }
-  };
-
-  const handleSubmitForm = (e: FormEvent) => {
-    e.preventDefault();
-
-    handleClickConfirm();
   };
 
   const handleChangeFocus = (newState: boolean) => {
@@ -357,8 +385,7 @@ const NewServiceAdding = ({
             </button>
             <button
               className="serviceManagementButton bg-emerald-200"
-              onClick={handleClickConfirm}
-              type="button"
+              type="submit"
             >
               <img src={Confirm} alt="Confirm" loading="lazy" />
             </button>

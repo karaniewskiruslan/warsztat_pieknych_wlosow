@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Services, ServicesAPI } from "../../../../types/services.type";
 import { motion, Variants } from "framer-motion";
 import ServiceManagementProductInfo from "./ServiceManagementProductInfo";
@@ -8,6 +8,7 @@ import Expand from "/Expand.svg";
 
 import { deleteService, updateService } from "../../../../api/services.api";
 import ServiceManagementProductEdit from "./ServiceManagementProductEdit";
+import { useNotificationContext } from "../../../../context/notificationContent";
 
 type Props = {
   categories: string[];
@@ -34,16 +35,15 @@ const ServiceManagementProduct = ({
   onChangeServiceUpdate,
   onChangeServiceAfterDelete,
 }: Props) => {
-  const [
-    { isOpen, isEditing, isChecked, errorText, autoFill },
-    setOptionState,
-  ] = useState({
-    isOpen: false,
-    isEditing: false,
-    isChecked: product.options.length !== 0,
-    errorText: "",
-    autoFill: false,
-  });
+  const { addNewNotification } = useNotificationContext();
+  const [{ isOpen, isEditing, isChecked, autoFill }, setOptionState] = useState(
+    {
+      isOpen: false,
+      isEditing: false,
+      isChecked: product.options.length !== 0,
+      autoFill: false,
+    },
+  );
   const [optionForm, setOptionForm] = useState<ServicesAPI>({
     name: product.name,
     category: product.category,
@@ -53,43 +53,6 @@ const ServiceManagementProduct = ({
   });
 
   const [optionStorage, setOptionStorage] = useState<ServicesAPI | null>(null);
-
-  useEffect(() => {
-    if (optionForm.options.some((el) => el.length === 0)) {
-      return setOptionState((prev) => ({
-        ...prev,
-        errorText: "Nie można dodać pustej opcji",
-      }));
-    }
-
-    if (optionForm.name.trim() === "" || optionForm.category.trim() === "") {
-      return setOptionState((prev) => ({
-        ...prev,
-        errorText: "Nie można pozostawiać pustych pól",
-      }));
-    }
-
-    if (
-      (optionForm.cost as number) < 0 ||
-      (Array.isArray(optionForm.cost) && optionForm.cost.some((el) => el < 0))
-    ) {
-      return setOptionState((prev) => ({
-        ...prev,
-        errorText: "Nie można wpisać negatywnej ceny",
-      }));
-    }
-
-    return setOptionState((prev) => ({
-      ...prev,
-      errorText: "",
-    }));
-  }, [
-    optionForm.category,
-    optionForm.cost,
-    optionForm.image,
-    optionForm.name,
-    optionForm.options,
-  ]);
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -191,13 +154,49 @@ const ServiceManagementProduct = ({
     }));
   };
 
-  const handleClickConfirm = async () => {
+  const handleSubmitForm = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (optionForm.options.some((el) => el.length === 0))
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Nie można zostawiać pustych pól w formularzu.",
+      );
+
+    if (optionForm.name.trim() === "" || optionForm.category.trim() === "")
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Nazwa albo kategoria nie mogą być puste.",
+      );
+
+    if (
+      (optionForm.cost as number) < 0 ||
+      (Array.isArray(optionForm.cost) && optionForm.cost.some((el) => el < 0))
+    )
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Cena nie może być niegatywną.",
+      );
+
     try {
       const dataChanging = await updateService(product.id, optionForm);
 
       onChangeServiceUpdate(product.id, dataChanging);
+      addNewNotification(
+        "success",
+        "Zmieniono treść",
+        `Usługa "${optionForm.name}" zoztała poprawnie zaktualizowana.`,
+      );
     } catch (err) {
       console.error(err);
+      addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Coś poszło nie tak, spróbuj ponownie",
+      );
     }
 
     setOptionStorage(null);
@@ -213,15 +212,14 @@ const ServiceManagementProduct = ({
       const dataDeleting = await deleteService(product.id);
 
       onChangeServiceAfterDelete(dataDeleting);
+      addNewNotification(
+        "success",
+        "Usunięte poprawnie",
+        `Usługa "${product.name}" została usunięta.`,
+      );
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const handleSubmitForm = (e: FormEvent) => {
-    e.preventDefault();
-
-    handleClickConfirm();
   };
 
   const handleChangeAutofill = (text: string) => {
@@ -275,7 +273,7 @@ const ServiceManagementProduct = ({
                 src={Expand}
                 alt="expand"
                 loading="lazy"
-                className={classNames("duration-75", { "rotate-180": isOpen })}
+                className={classNames("duration-75", { "-rotate-180": isOpen })}
               />
             </button>
           </section>
@@ -292,7 +290,6 @@ const ServiceManagementProduct = ({
                 form={optionForm}
                 isChecked={isChecked}
                 categories={categories}
-                errorText={errorText}
                 autoFill={autoFill}
                 onChangeAutofill={handleChangeAutofill}
                 onChangeFocus={handleChangeFocus}
@@ -301,7 +298,6 @@ const ServiceManagementProduct = ({
                 onChangeForm={handleChangeForm}
                 onChangeOptionCost={handleChangeOptionCost}
                 onClickAddOption={handleClickAddOption}
-                onClickConfirm={handleClickConfirm}
                 onClickDeleteOption={handleClickDeleteOption}
                 onSubmitForm={handleSubmitForm}
                 onClickDelete={handleClickDelete}

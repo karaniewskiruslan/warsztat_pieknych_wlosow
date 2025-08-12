@@ -1,6 +1,7 @@
 import { BookingAPI } from "../types/booking.type";
 
-const baseUrl = "http://localhost:5000/api/booking";
+const baseUrl =
+  "https://warsztat-pieknych-wlosow-backend.onrender.com/api/booking";
 
 export const getBookings = async () => {
   const res = await fetch(baseUrl, {

@@ -9,7 +9,6 @@ type Props = {
   isChecked: boolean;
   form: ServicesAPI;
   categories: string[];
-  errorText: string;
   autoFill: boolean;
   onChangeFocus: (newState: boolean) => void;
   onChangeAutofill: (text: string) => void;
@@ -29,7 +28,6 @@ type Props = {
   ) => void;
   onChangeCheck: () => void;
   onCLickCancel: () => void;
-  onClickConfirm: () => Promise<void>;
   onClickDelete: () => void;
   onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
@@ -49,7 +47,6 @@ const ServiceManagementProductEdit = ({
   isChecked,
   form,
   categories,
-  errorText,
   autoFill,
   onChangeFocus,
   onChangeAutofill,
@@ -60,7 +57,6 @@ const ServiceManagementProductEdit = ({
   onClickAddOption,
   onChangeCheck,
   onCLickCancel,
-  onClickConfirm,
   onClickDelete,
   onFileChange,
 }: Props) => {
@@ -79,7 +75,6 @@ const ServiceManagementProductEdit = ({
                   value={form[inp]}
                   name={inp}
                   type="text"
-                  required
                 />
                 {inp === "category" && autoFill ? (
                   <DropdownHelper
@@ -98,7 +93,6 @@ const ServiceManagementProductEdit = ({
                 accept="image/*"
                 name="image"
                 type="file"
-                required
               />
             </label>
           </div>
@@ -117,8 +111,7 @@ const ServiceManagementProductEdit = ({
                           onChange={(e) => onChangeOptionCost(e, "options", i)}
                           value={option}
                           name={`option ${i}`}
-                          type="string"
-                          required
+                          type="text"
                         />
                       </label>
                     ))}
@@ -134,7 +127,6 @@ const ServiceManagementProductEdit = ({
                               value={+price}
                               name={`price ${i}`}
                               type="number"
-                              required
                             />
                           </label>
                           <button
@@ -192,14 +184,10 @@ const ServiceManagementProductEdit = ({
                       value={form.cost as number}
                       name="cost"
                       type="number"
-                      required
                     />
                   </label>
                 </section>
               </div>
-            )}
-            {!!errorText.length && (
-              <p className="font-bold text-red-400">{errorText}</p>
             )}
           </div>
         </section>
@@ -220,7 +208,6 @@ const ServiceManagementProductEdit = ({
           </button>
           <button
             className="serviceManagementButton bg-emerald-200"
-            onClick={onClickConfirm}
             type="submit"
           >
             <img src={Confirm} alt="Confirm" loading="lazy" />
