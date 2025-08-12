@@ -61,6 +61,10 @@ h3 {
   @apply mobile:text-2xl text-xl font-bold;
 }
 
+h4 {
+  @apply mobile:text-xl text-xl font-bold;
+}
+
 p:not([data-offer]) {
   @apply mobile:text-lg text-base;
 }
@@ -136,5 +140,5 @@ label input[type="checkbox"]:checked ~ .checkmark::after {
 }
 
 .bookingButton {
-  @apply rounded-xl border px-2 py-1;
+  @apply rounded-xl border px-2 py-1 duration-200 hover:bg-gray-200;
 }

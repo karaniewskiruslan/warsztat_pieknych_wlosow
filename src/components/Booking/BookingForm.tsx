@@ -6,10 +6,13 @@ import { BookingAPI } from "../../types/booking.type";
 import { addBookings } from "../../api/booking.api";
 import classNames from "classnames";
 import { proveForm } from "./Booking.data";
+import { useNotificationContext } from "../../context/notificationContent";
 
 const mastersNames = mastersInfo.map((el) => el.name);
 
 const BookingForm = () => {
+  const { addNewNotification } = useNotificationContext();
+
   const [bookingForm, setBookingForm] = useState<BookingAPI>({
     fullName: "",
     email: "",
@@ -35,11 +38,21 @@ const BookingForm = () => {
   };
 
   const handleSubmitForm = async () => {
-    if (!proveForm(bookingForm)) return;
+    if (!proveForm(bookingForm))
+      return addNewNotification(
+        "error",
+        "Nieprawidłowe dane",
+        "Proszę sprawdzić imię i nazwisko oraz email",
+      );
 
     try {
       await addBookings(bookingForm);
 
+      addNewNotification(
+        "added",
+        "Wizyta zapisana",
+        "Wizyta została wysłana do weryfikacji. Proszę poczekać na potwierdzenie od salonu.",
+      );
       setBookingForm({
         fullName: "",
         email: "",
@@ -71,7 +84,6 @@ const BookingForm = () => {
             value={fullName}
             onChange={onChangeFormInput}
             name="fullName"
-            required
           />
         </label>
         <label>
@@ -81,7 +93,6 @@ const BookingForm = () => {
             value={email}
             onChange={onChangeFormInput}
             name="email"
-            required
           />
         </label>
         <DropdownSelect

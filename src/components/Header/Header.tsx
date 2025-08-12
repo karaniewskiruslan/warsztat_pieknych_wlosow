@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <header
       data-testid="header"
-      className="font-buford flex w-full justify-between bg-black px-8 py-4 text-3xl text-white"
+      className="z-50 font-buford flex w-full justify-between bg-black px-8 py-4 text-3xl text-white"
     >
       <img src={logo} alt="Logo" loading="lazy" className="h-10" />
       <nav className="flex items-center gap-8 text-xl">

@@ -24,11 +24,23 @@ export const addBookings = async (newBooking: BookingAPI) => {
   return data;
 };
 
-export const updateBookings = async (id: string, accepted: boolean) => {
+export const updateBookings = async (id: string, isConfirmed: boolean) => {
   const res = await fetch(baseUrl + `/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(accepted),
+    body: JSON.stringify({ isConfirmed }),
+  });
+
+  const data = await res.json();
+
+  console.log(data);
+
+  return data;
+};
+
+export const deleteBookings = async (id: string) => {
+  const res = await fetch(baseUrl + `/${id}`, {
+    method: "DELETE",
   });
 
   const data = await res.json();

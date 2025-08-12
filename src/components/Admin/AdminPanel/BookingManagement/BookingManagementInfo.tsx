@@ -4,14 +4,26 @@ import { dataText } from "./BookingManagement.data";
 import Expand from "/Expand.svg";
 import { useState } from "react";
 import CategoryText from "../../../../UI/CategoryText";
+import { motion, Variants } from "framer-motion";
+import { updateBookings } from "../../../../api/booking.api";
+import { useNotificationContext } from "../../../../context/notificationContent";
 
 type Props = {
   booking: Booking;
+  handleChangeState: (updatedItem: Booking) => void;
 };
 
-const BookingManagementInfo = ({ booking }: Props) => {
+const containerSectionVariants: Variants = {
+  initial: { x: 50, opacity: 0 },
+  exit: { x: 50, opacity: 0 },
+  animate: { x: 0, opacity: 1 },
+};
+
+const BookingManagementInfo = ({ booking, handleChangeState }: Props) => {
+  const { addNewNotification } = useNotificationContext();
   const [isOpen, setOpen] = useState(false);
   const { id, fullName, isConfirmed, date, service, master, email } = booking;
+  const idText = id.slice(0, 8);
 
   const infoArray = [
     ["Usługa", service],
@@ -19,79 +31,110 @@ const BookingManagementInfo = ({ booking }: Props) => {
     ["Email", email],
   ];
 
+  const handleAcceptVisit = async () => {
+    try {
+      const data = await updateBookings(id, true);
+
+      handleChangeState(data);
+      addNewNotification(
+        "success",
+        "Wizyta potwierdzona",
+        `Wizyta ${idText} została pomyślnie potwierdzona. Czekaj na nowego wspaniałego klienta`,
+      );
+    } catch (e) {
+      console.error(e);
+      addNewNotification(
+        "error",
+        "Nieudana próba potwierdzenia",
+        `Nie udało się potwierdzić wizytę ${idText}. Spróbuj ponownie.`,
+      );
+    }
+  };
+
   return (
-    <>
-      <section className="rounded-3xl border-2 px-4 py-2">
-        <div className="flex justify-between">
-          <section className="flex items-center gap-2">
-            <div
-              className={classNames(
-                "size-4 rounded-full",
-                { "bg-yellow-400": !isConfirmed },
-                { "bg-lime-400": isConfirmed },
-              )}
-            ></div>
-            <p className={classNames("duration-150", { "opacity-0": isOpen })}>
-              {fullName}
-            </p>
-          </section>
-          <section className="flex items-center gap-2">
-            <p>{dataText(new Date(date))}</p>
+    <motion.section
+      variants={containerSectionVariants}
+      initial="initial"
+      exit="exit"
+      animate="animate"
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="rounded-3xl border-2 px-4 py-2"
+    >
+      <div className="flex justify-between">
+        <section className="flex items-center gap-2">
+          <div
+            className={classNames(
+              "size-4 rounded-full duration-150",
+              { "bg-yellow-400": !isConfirmed },
+              { "bg-lime-400": isConfirmed },
+            )}
+          ></div>
+          <p className={classNames("duration-150", { "opacity-0": isOpen })}>
+            {fullName}
+          </p>
+        </section>
+        <section className="flex items-center gap-2">
+          <p>{dataText(new Date(date))}</p>
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            className="size-7 cursor-pointer rounded-full border"
+          >
+            <img
+              src={Expand}
+              alt="expand"
+              className={classNames("duration-150", {
+                "-rotate-180": isOpen,
+              })}
+            />
+          </button>
+        </section>
+      </div>
+      <div
+        className={classNames(
+          "grid duration-150",
+          { "grid-rows-[0fr]": !isOpen },
+          { "grid-rows-[1fr]": isOpen },
+        )}
+      >
+        <section className="space-y-4 overflow-hidden">
+          <hgroup>
+            <h3>
+              Wizyta <span className="uppercase">{fullName}</span>
+            </h3>
+            <article className="flex justify-between">
+              <CategoryText category="ID wizyty" body={idText} />
+              <CategoryText
+                category="Status"
+                body={isConfirmed ? "Potwierdzona" : "Oczekuje"}
+              />
+            </article>
+          </hgroup>
+          <article>
+            {infoArray.map(([category, body], i) => (
+              <CategoryText key={i} category={category} body={body} />
+            ))}
+          </article>
+          <section className="grid grid-cols-3 gap-2">
             <button
               type="button"
-              onClick={() => setOpen((prev) => !prev)}
-              className="size-7 rounded-full border"
+              onClick={handleAcceptVisit}
+              className={classNames("bookingButton", {
+                "pointer-events-none bg-gray-300 opacity-50": isConfirmed,
+              })}
             >
-              <img
-                src={Expand}
-                alt="expand"
-                className={classNames("duration-150", {
-                  "-rotate-180": isOpen,
-                })}
-              />
+              Potwierdź
+            </button>
+            <button type="button" className="bookingButton">
+              Zmień
+            </button>
+            <button type="button" className="bookingButton">
+              Usuń
             </button>
           </section>
-        </div>
-        <div
-          className={classNames(
-            "grid duration-150",
-            { "grid-rows-[0fr]": !isOpen },
-            { "grid-rows-[1fr]": isOpen },
-          )}
-        >
-          <section className="space-y-4 overflow-hidden">
-            <hgroup>
-              <h3>
-                Wizyta <span className="uppercase">{fullName}</span>
-              </h3>
-              <article className="flex justify-between">
-                <CategoryText category="ID wizyty" body={id.slice(0, 8)} />
-                <CategoryText
-                  category="Status"
-                  body={isConfirmed ? "Potwierdzona" : "Oczekuje"}
-                />
-              </article>
-            </hgroup>
-            <article>
-              {infoArray.map(([category, body], i) => (
-                <CategoryText key={i} category={category} body={body} />
-              ))}
-            </article>
-            <section className="grid grid-cols-3 gap-2">
-              <button type="button" className="bookingButton">
-                Potwierdź
-              </button>
-              <button type="button" className="bookingButton">
-                Zmień
-              </button>
-              <button type="button" className="bookingButton">
-                Usuń
-              </button>
-            </section>
-          </section>
-        </div>
-      </section>
-    </>
+        </section>
+      </div>
+    </motion.section>
   );
 };
 

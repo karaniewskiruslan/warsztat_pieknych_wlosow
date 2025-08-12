@@ -42,7 +42,7 @@ const DropdownSelect = ({
       </button>
       <section
         className={classNames(
-          "absolute border-2 bg-white text-lg duration-150",
+          "absolute border-2 bg-white text-lg duration-150 z-10",
           "grid w-full translate-y-2 rounded-xl",
           {
             "pointer-events-none grid-rows-[0fr] opacity-0": !open,

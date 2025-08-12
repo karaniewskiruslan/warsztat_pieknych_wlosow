@@ -5,13 +5,29 @@ import { getBookings } from "../../../../api/booking.api";
 import { useEffect, useState } from "react";
 import { Booking } from "../../../../types/booking.type";
 import BookingManagementInfo from "./BookingManagementInfo";
+import { AnimatePresence, motion, Variants } from "motion/react";
+
 import loadingImage from "/loading.svg";
 
-// type Props = {};
+const mainSectionVariants: Variants = {
+  initial: { height: 0, opacity: 0 },
+  exit: { height: 0, opacity: 0 },
+  animate: { height: "auto", opacity: 1 },
+};
 
 const BookingManagement = () => {
   const nav = useNavigate();
   const [bookingList, setBookingList] = useState<Booking[]>([]);
+
+  const handleChangeState = (updatedItem: Booking) => {
+    setBookingList((prev) =>
+      prev.map((el) => {
+        if (el.id === updatedItem.id) return updatedItem;
+
+        return el;
+      }),
+    );
+  };
 
   const handleClickBack = () => {
     nav(-1);
@@ -37,28 +53,45 @@ const BookingManagement = () => {
 
       <section className="midpoint:grid-cols-[2fr_3fr] grid gap-4">
         <p>Tutaj masz wszystkie wizytę, umowione poprzez stronę WPW</p>
-        <section className="grid gap-2">
-          {isPending && (
-            <div className="flex size-5">
-              <img
-                src={loadingImage}
-                alt="Ładowanie…"
-                loading="lazy"
-                className="size-4 animate-spin"
-              />
-            </div>
-          )}
+        <AnimatePresence>
+          <motion.section
+            variants={mainSectionVariants}
+            initial="initial"
+            exit="exit"
+            animate="animate"
+            transition={{
+              duration: 0.3,
+              ease: "easeInOut",
+              staggerChildren: 0.15,
+            }}
+            className="grid gap-2"
+          >
+            {isPending && (
+              <div className="flex size-5">
+                <img
+                  src={loadingImage}
+                  alt="Ładowanie…"
+                  loading="lazy"
+                  className="size-4 animate-spin"
+                />
+              </div>
+            )}
 
-          {!isPending &&
-            bookingList.length > 0 &&
-            bookingList.map((booking) => (
-              <BookingManagementInfo key={booking.id} booking={booking} />
-            ))}
+            {!isPending &&
+              bookingList.length > 0 &&
+              bookingList.map((booking) => (
+                <BookingManagementInfo
+                  key={booking.id}
+                  booking={booking}
+                  handleChangeState={handleChangeState}
+                />
+              ))}
 
-          {!isPending && bookingList.length === 0 && (
-            <h3>Nie ma umówionych wizyt</h3>
-          )}
-        </section>
+            {!isPending && bookingList.length === 0 && (
+              <h3>Nie ma umówionych wizyt</h3>
+            )}
+          </motion.section>
+        </AnimatePresence>
       </section>
 
       <PageButton text="< Wstecz" onClick={handleClickBack} />

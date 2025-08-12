@@ -5,6 +5,7 @@ import Loading from "./components/Loading.tsx";
 import { motion, useScroll } from "motion/react";
 import usePageHeight from "./hooks/usePageHeight.hook.ts";
 import { useLocation } from "react-router";
+import Notifications from "./UI/Notifications/Notifications.tsx";
 
 const Layout = lazy(() => import("./components/Layout.tsx"));
 
@@ -35,6 +36,7 @@ function App() {
       <Suspense fallback={<Loading />}>
         <Layout />
       </Suspense>
+      <Notifications />
       <Footer />
     </>
   );
