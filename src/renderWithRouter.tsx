@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import ContextsContainer from "./context/contextsContainer/contextsContainer";
+import ContextsContainer from "./context/contextsContainer/ContextsContainer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
