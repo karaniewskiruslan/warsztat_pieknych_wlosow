@@ -8,9 +8,9 @@ const position = [0, 0.5, 1];
 const useScroll = vi.fn((value: number) => ({
   scrollYProgress: {
     get: () => value,
-    onChange: vi.fn()
-  }
-}))
+    onChange: vi.fn(),
+  },
+}));
 
 describe("Scroll component", () => {
   afterEach(() => {

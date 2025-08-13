@@ -16,6 +16,8 @@ export const getServices = async () => {
 export const postService = async (newService: ServicesAPI) => {
   const formData = new FormData();
 
+  console.log(newService);
+
   formData.append("name", newService.name);
   formData.append("category", newService.category);
   formData.append("options", JSON.stringify(newService.options));

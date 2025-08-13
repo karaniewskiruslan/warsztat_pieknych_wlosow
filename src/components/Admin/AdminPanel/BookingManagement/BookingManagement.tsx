@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import PageButton from "../../../../UI/PageButton";
 import { useQuery } from "@tanstack/react-query";
 import { getBookings } from "../../../../api/booking.api";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Booking } from "../../../../types/booking.type";
 import BookingManagementInfo from "./BookingManagementInfo";
 import { AnimatePresence } from "motion/react";
@@ -30,11 +30,20 @@ const BookingManagement = () => {
   const { data, error, isPending } = useQuery({
     queryKey: ["booking"],
     queryFn: getBookings,
+    refetchInterval: 10000,
   });
 
   useEffect(() => {
     if (data) setBookingList(data);
   }, [data]);
+
+  const filteredList = useMemo(
+    () =>
+      [...bookingList].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      ),
+    [bookingList],
+  );
 
   if (error)
     return (
@@ -62,7 +71,7 @@ const BookingManagement = () => {
 
             {!isPending &&
               bookingList.length > 0 &&
-              bookingList.map((booking) => (
+              filteredList.map((booking) => (
                 <BookingManagementInfo
                   key={booking.id}
                   booking={booking}

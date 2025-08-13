@@ -3,14 +3,14 @@ import "./index.css";
 import { RouterProvider } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { router } from "./router.tsx";
-import { NotificationContextContainer } from "./context/notificationContent.tsx";
+import ContextsContainer from "./context/contextsContainer/contextsContainer.tsx";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
-    <NotificationContextContainer>
+    <ContextsContainer>
       <RouterProvider router={router} />
-    </NotificationContextContainer>
+    </ContextsContainer>
   </QueryClientProvider>,
 );

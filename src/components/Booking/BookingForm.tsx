@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import DropdownSelect from "../../UI/DropdownSelect";
 import { mastersInfo } from "../Masters/Masters.data";
 import TimeSelection from "../../UI/TimeSection/TimeSelection";
@@ -7,21 +8,29 @@ import { addBookings } from "../../api/booking.api";
 import classNames from "classnames";
 import { proveForm } from "./Booking.data";
 import { useNotificationContext } from "../../context/notificationContent";
+import { useServicesContext } from "../../context/servicesContext";
+import loadingImage from "/loading.svg";
+import { useMutation } from "@tanstack/react-query";
 
 const mastersNames = mastersInfo.map((el) => el.name);
 
 const BookingForm = () => {
+  const { categories, servicesOnCategory, isPending } = useServicesContext();
   const { addNewNotification } = useNotificationContext();
+  const initialServices = servicesOnCategory(categories[0]);
 
-  const [bookingForm, setBookingForm] = useState<BookingAPI>({
+  const [bookingForm, setBookingForm] = useState<
+    BookingAPI & { category: string }
+  >({
     fullName: "",
     email: "",
-    service: "Some placeholder text 1",
+    category: "",
+    service: initialServices[0],
     master: mastersNames[0],
     date: null,
   });
 
-  const { fullName, email, service, master, date } = bookingForm;
+  const { fullName, email, category, service, master, date } = bookingForm;
 
   const onChangeFormInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,7 +46,52 @@ const BookingForm = () => {
     setBookingForm((prev) => ({ ...prev, date: newDate }));
   };
 
-  const handleSubmitForm = async () => {
+  useEffect(() => {
+    console.log(categories);
+    setBookingForm((prev) => ({
+      ...prev,
+      category: categories[0],
+    }));
+  }, [categories]);
+
+  useEffect(() => {
+    setBookingForm((prev) => ({
+      ...prev,
+      service: servicesOnCategory(category)[0],
+    }));
+  }, [category]);
+
+  const { mutate, isPending: loading } = useMutation({
+    mutationFn: (newBooking: BookingAPI) => addBookings(newBooking),
+    onSuccess: () => {
+      addNewNotification(
+        "added",
+        "Wizyta zapisana",
+        "Wizyta została wysłana do weryfikacji. Proszę poczekać na potwierdzenie od salonu.",
+      );
+
+      setBookingForm({
+        fullName: "",
+        email: "",
+        category: categories[0],
+        service: servicesOnCategory(categories[0])[0],
+        master: mastersNames[0],
+        date: null,
+      });
+    },
+    onError: (e) => {
+      console.error(e);
+      addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Coś poszło nie tak. Spróbuj jeszcze raz",
+      );
+    },
+  });
+
+  const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (!proveForm(bookingForm))
       return addNewNotification(
         "error",
@@ -52,37 +106,16 @@ const BookingForm = () => {
         "Nie została wybrana data wizyty",
       );
 
-    try {
-      await addBookings(bookingForm);
-
-      addNewNotification(
-        "added",
-        "Wizyta zapisana",
-        "Wizyta została wysłana do weryfikacji. Proszę poczekać na potwierdzenie od salonu.",
-      );
-      setBookingForm({
-        fullName: "",
-        email: "",
-        service: "Some placeholder text 1",
-        master: mastersNames[0],
-        date: null,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    handleSubmitForm();
+    mutate({ fullName, email, service, master, date });
   };
 
   return (
     <>
       <form
-        onSubmit={handleFormSubmit}
-        className="mobile:grid-cols-2 grid gap-4"
+        onSubmit={handleSubmitForm}
+        className={classNames("mobile:grid-cols-2 grid gap-4", {
+          "pointer-events-none opacity-50": isPending,
+        })}
       >
         <label>
           <p className="font-bold">Imię i nazwisko</p>
@@ -103,19 +136,16 @@ const BookingForm = () => {
           />
         </label>
         <DropdownSelect
+          name="category"
+          current={category}
+          options={categories}
+          title="Wybież kategoriję"
+          onClickChangeCurrent={onChangeFormOption}
+        />
+        <DropdownSelect
           name="service"
           current={service}
-          options={[
-            "Some placeholder text 1",
-            "Some placeholder text 2",
-            "Some placeholder text 3",
-            "Some placeholder text 4",
-            "Some placeholder text 5",
-            "Some placeholder text 6",
-            "Some placeholder text 7",
-            "Some placeholder text 8",
-            "Some placeholder text 9",
-          ]}
+          options={servicesOnCategory(category)}
           title="Wybież usługę"
           onClickChangeCurrent={onChangeFormOption}
         />
@@ -131,12 +161,23 @@ const BookingForm = () => {
           <button
             type="submit"
             className={classNames(
-              "px-4 py-2",
-              "rounded-xl border",
+              "grid place-items-center px-4 py-2",
+              "aspect-[4/1] w-44 rounded-xl border",
               "duration-150 hover:bg-black hover:text-white",
+              { "cursor-not-allowed": loading },
             )}
           >
-            Zarezerwuj wizytę
+            {loading ? (
+              <>
+                <img
+                  src={loadingImage}
+                  alt="Loading"
+                  className="size-4 animate-spin"
+                />
+              </>
+            ) : (
+              "Zarezerwuj wizytę"
+            )}
           </button>
         </div>
       </form>

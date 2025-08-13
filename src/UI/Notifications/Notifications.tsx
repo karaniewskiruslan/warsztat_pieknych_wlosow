@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { useNotificationContext } from "../../context/notificationContent";
 
 const Notifications = () => {
-  const { notifications } = useNotificationContext();
+  const { notifications = [] } = useNotificationContext();
 
   return (
     <section
