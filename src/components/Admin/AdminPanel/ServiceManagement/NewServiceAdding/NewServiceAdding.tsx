@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Services, ServicesAPI } from "../../../../../types/services.type";
 import { postService } from "../../../../../api/services.api";
 import Confirm from "/Confirm.svg";
@@ -6,10 +6,10 @@ import Cancel from "/Cancel.svg";
 import { produce } from "immer";
 import DropdownHelper from "../../../../../UI/DropdownHelper";
 import { useNotificationContext } from "../../../../../context/notificationContent";
+import { useServicesContext } from "../../../../../context/servicesContext";
+import { useMutation } from "@tanstack/react-query";
 
 type Props = {
-  categories: string[];
-  onChangeServiceAdd: (newData: Services) => void;
   onClickAddNewService: () => void;
 };
 
@@ -24,15 +24,11 @@ const nameSwitcher = (name: "name" | "category") => {
   }
 };
 
-const NewServiceAdding = ({
-  categories,
-  onChangeServiceAdd,
-  onClickAddNewService,
-}: Props) => {
+const NewServiceAdding = ({ onClickAddNewService }: Props) => {
+  const { categories, addServiceToCache } = useServicesContext();
   const { addNewNotification } = useNotificationContext();
-  const [{ isChecked, errorText, autoFill }, setNewServiceOptions] = useState({
+  const [{ isChecked, autoFill }, setNewServiceOptions] = useState({
     isChecked: false,
-    errorText: "",
     autoFill: false,
   });
 
@@ -44,38 +40,7 @@ const NewServiceAdding = ({
     image: null,
   });
 
-  const { name, category, image, cost, options } = newForm;
-
-  useEffect(() => {
-    if (options.some((el) => el.length === 0)) {
-      return setNewServiceOptions((prev) => ({
-        ...prev,
-        errorText: "Nie można dodać pustej opcji",
-      }));
-    }
-
-    if (name.trim() === "" || category.trim() === "") {
-      return setNewServiceOptions((prev) => ({
-        ...prev,
-        errorText: "Nie można pozostawiać pustych pól",
-      }));
-    }
-
-    if (
-      (cost as number) < 0 ||
-      (Array.isArray(cost) && cost.some((el) => el < 0))
-    ) {
-      return setNewServiceOptions((prev) => ({
-        ...prev,
-        errorText: "Nie można wpisać negatywnej ceny",
-      }));
-    }
-
-    return setNewServiceOptions((prev) => ({
-      ...prev,
-      errorText: "",
-    }));
-  }, [category, image, name, cost, options]);
+  const { name, category, cost, options } = newForm;
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -85,6 +50,30 @@ const NewServiceAdding = ({
       [name]: name === "cost" ? Number(value) : value,
     }));
   };
+
+  const { mutate: mutateAdd } = useMutation({
+    mutationFn: async (form: ServicesAPI) => await postService(form),
+    onSuccess: (updated: Services) => {
+      console.log(updated);
+      addServiceToCache(updated);
+
+      addNewNotification(
+        "added",
+        "Dodano usługę",
+        `Usługa "${updated.name}" zoztała poprawnie zaktualizowana.`,
+      );
+
+      onClickAddNewService();
+    },
+    onError: (err) => {
+      console.error(err);
+      addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Coś poszło nie tak, spróbuj ponownie",
+      );
+    },
+  });
 
   const handleChangeChecked = () => {
     setNewServiceOptions((prev) => {
@@ -182,24 +171,7 @@ const NewServiceAdding = ({
         "Cena nie może być niegatywną.",
       );
 
-    try {
-      const dataAdding = await postService(newForm);
-
-      onChangeServiceAdd(dataAdding);
-      onClickAddNewService();
-      addNewNotification(
-        "added",
-        "Dodana usługa",
-        `Usługa "${name}" dodana pomyślnie`,
-      );
-    } catch (e) {
-      console.error(e);
-      addNewNotification(
-        "error",
-        "Wystąpił błąd",
-        "Coś poszło nie tak, spróbuj ponownie",
-      );
-    }
+    mutateAdd(newForm);
   };
 
   const handleChangeFocus = (newState: boolean) => {
@@ -247,7 +219,6 @@ const NewServiceAdding = ({
                     value={newForm[inp]}
                     name={inp}
                     type="text"
-                    required
                   />
                   {inp === "category" && autoFill ? (
                     <DropdownHelper
@@ -266,7 +237,6 @@ const NewServiceAdding = ({
                   accept="image/*"
                   name="image"
                   type="file"
-                  required
                 />
               </label>
             </div>
@@ -287,8 +257,7 @@ const NewServiceAdding = ({
                             }
                             value={option}
                             name={`option ${i}`}
-                            type="string"
-                            required
+                            type="text"
                           />
                         </label>
                       ))}
@@ -306,7 +275,6 @@ const NewServiceAdding = ({
                                 value={+price}
                                 name={`price ${i}`}
                                 type="number"
-                                required
                               />
                             </label>
                             <button
@@ -364,14 +332,10 @@ const NewServiceAdding = ({
                         value={cost as number}
                         name="cost"
                         type="number"
-                        required
                       />
                     </label>
                   </section>
                 </div>
-              )}
-              {!!errorText.length && (
-                <p className="font-bold text-red-400">{errorText}</p>
               )}
             </div>
           </section>

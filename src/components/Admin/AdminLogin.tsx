@@ -5,7 +5,7 @@ type Props = {
   onSubmitLogin: (e: FormEvent) => void;
   onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
-  error: boolean;
+  error: Error | null;
 };
 
 const AdminLogin = ({
@@ -17,7 +17,10 @@ const AdminLogin = ({
   return (
     <section>
       <h2>Zaloguj się</h2>
-      <form onSubmit={onSubmitLogin} className="flex flex-col gap-4 pt-4">
+      <form
+        onSubmit={onSubmitLogin}
+        className="w-[min(350px, 60dvw)] flex flex-col items-center gap-4 pt-4"
+      >
         <label className="labelStyle">
           <p>Login:</p>
           <input

@@ -1,29 +1,22 @@
 /* eslint-disable react-refresh/only-export-components */
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { Services, ServicesAPI } from "../types/services.type";
+import { createContext, ReactNode, useContext, useMemo } from "react";
+import { Services } from "../types/services.type";
 import { getServices } from "../api/services.api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   children: ReactNode;
 };
 
 type ServicesContentProps = {
-  spitedServices: Record<string, Services[]>;
+  splittedServices: Record<string, Services[]>;
   categories: string[];
   servicesOnCategory: (category: string) => string[];
-  isPending: boolean;
-  error: Error | null;
-  handleChangeServiceAdd: (newData: Services) => void;
-  handleChangeServiceUpdate: (id: number, updData: ServicesAPI) => void;
-  handleChangeServiceAfterDelete: (newList: Services[]) => void;
+  loadingServices: boolean;
+  errorServices: Error | null;
+  updateServiceInCache: (service: Services) => void;
+  addServiceToCache: (service: Services) => void;
+  deleteServicesFromCache: (ids: number) => void;
 };
 
 const ServicesContext = createContext({} as ServicesContentProps);
@@ -37,20 +30,20 @@ export const useServicesContext = () => {
 };
 
 export const ServicesContextContainer = ({ children }: Props) => {
-  const [services, setServices] = useState<Services[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const queryClient = useQueryClient();
 
-  const { data, isPending, error } = useQuery({
+  const {
+    data: services = [],
+    isPending,
+    error,
+  } = useQuery({
     queryKey: ["services"],
     queryFn: getServices,
+    refetchInterval: 5000,
   });
 
-  useEffect(() => {
-    if (data) setServices(data);
-  }, [data]);
-
-  const spitedServices = useMemo(() => {
-    return services.reduce(
+  const splittedServices: Record<string, Services[]> = useMemo(() => {
+    return (services ?? []).reduce(
       (acc: Record<Services["category"], Services[]>, cur: Services) => {
         const key = cur.category;
 
@@ -62,56 +55,51 @@ export const ServicesContextContainer = ({ children }: Props) => {
     );
   }, [services]);
 
-  useEffect(() => {
-    if (spitedServices) setCategories(Object.keys(spitedServices));
-  }, [spitedServices]);
+  const categories = useMemo(
+    () => Object.keys(splittedServices),
+    [splittedServices],
+  );
 
   const servicesOnCategory = (category: string) => {
     return services
-      .filter((el) => el.category === category)
-      .map((el) => el.name);
+      .filter((el: Services) => el.category === category)
+      .map((el: Services) => el.name);
   };
 
-  const handleChangeServiceAdd = (newData: Services) => {
-    setServices((prev) => [...prev, newData]);
-  };
+  const updateServiceInCache = (updated: Services) => {
+    if (!updated) return;
 
-  const handleChangeServiceUpdate = (id: number, updData: ServicesAPI) => {
-    const { name, category, image, options, cost } = updData;
-
-    setServices((prev) =>
-      prev.map((service) => {
-        if (service.id === id) {
-          return {
-            ...service,
-            name,
-            category,
-            image: String(image),
-            options,
-            cost,
-          };
-        }
-
-        return service;
-      }),
+    queryClient.setQueryData<Services[]>(["services"], (old = []) =>
+      old.map((s) => (s.id === updated.id ? updated : s)),
     );
   };
 
-  const handleChangeServiceAfterDelete = (newList: Services[]) => {
-    setServices(newList);
+  const addServiceToCache = (newService: Services) => {
+    if (!newService) return;
+
+    queryClient.setQueryData<Services[]>(["services"], (old = []) => [
+      ...old,
+      newService,
+    ]);
+  };
+
+  const deleteServicesFromCache = (id: number) => {
+    queryClient.setQueryData<Services[]>(["services"], (old = []) =>
+      old.filter((s) => s.id !== id),
+    );
   };
 
   return (
     <ServicesContext.Provider
       value={{
-        spitedServices,
+        splittedServices,
         categories,
         servicesOnCategory,
-        isPending,
-        error,
-        handleChangeServiceAdd,
-        handleChangeServiceUpdate,
-        handleChangeServiceAfterDelete,
+        loadingServices: isPending,
+        errorServices: error,
+        updateServiceInCache,
+        addServiceToCache,
+        deleteServicesFromCache,
       }}
     >
       {children}

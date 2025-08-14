@@ -7,10 +7,11 @@ import CategoryText from "../../../../UI/CategoryText";
 import { motion, Variants } from "framer-motion";
 import { updateBookings } from "../../../../api/booking.api";
 import { useNotificationContext } from "../../../../context/notificationContent";
+import { useMutation } from "@tanstack/react-query";
+import { useBookingContext } from "../../../../context/bookingContext";
 
 type Props = {
   booking: Booking;
-  handleChangeState: (updatedItem: Booking) => void;
 };
 
 const mainSectionVariants: Variants = {
@@ -25,8 +26,9 @@ const containerSectionVariants: Variants = {
   animate: { x: 0, opacity: 1 },
 };
 
-const BookingManagementInfo = ({ booking, handleChangeState }: Props) => {
+const BookingManagementInfo = ({ booking }: Props) => {
   const { addNewNotification } = useNotificationContext();
+  const { updateBookingInCache } = useBookingContext();
   const [isOpen, setOpen] = useState(false);
   const { id, fullName, isConfirmed, date, service, master, email } = booking;
   const idText = id.slice(0, 8);
@@ -37,24 +39,30 @@ const BookingManagementInfo = ({ booking, handleChangeState }: Props) => {
     ["Email", email],
   ];
 
-  const handleAcceptVisit = async () => {
-    try {
-      const data = await updateBookings(id, true);
-
-      handleChangeState(data);
+  const { mutate } = useMutation({
+    mutationFn: ({ id, isConfirmed }: { id: string; isConfirmed: boolean }) =>
+      updateBookings(id, isConfirmed),
+    onSuccess: (update: Booking) => {
+      updateBookingInCache(update);
       addNewNotification(
         "success",
         "Wizyta potwierdzona",
         `Wizyta ${idText} została pomyślnie potwierdzona. Czekaj na nowego wspaniałego klienta`,
       );
-    } catch (e) {
-      console.error(e);
+      setOpen(false);
+    },
+    onError: (err) => {
+      console.error(err);
       addNewNotification(
         "error",
         "Nieudana próba potwierdzenia",
         `Nie udało się potwierdzić wizytę ${idText}. Spróbuj ponownie.`,
       );
-    }
+    },
+  });
+
+  const handleAcceptVisit = () => {
+    mutate({ id, isConfirmed: true });
   };
 
   return (

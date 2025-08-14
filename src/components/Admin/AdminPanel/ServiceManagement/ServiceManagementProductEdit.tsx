@@ -1,35 +1,21 @@
-import { ChangeEvent, FormEvent } from "react";
-import { ServicesAPI } from "../../../../types/services.type";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { Services, ServicesAPI } from "../../../../types/services.type";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import Delete from "/Delete.svg";
 import DropdownHelper from "../../../../UI/DropdownHelper";
+import { useServicesContext } from "../../../../context/servicesContext";
+import { useNotificationContext } from "../../../../context/notificationContent";
+import { produce } from "immer";
+import { useMutation } from "@tanstack/react-query";
+import { deleteService, updateService } from "../../../../api/services.api";
 
 type Props = {
-  isChecked: boolean;
-  form: ServicesAPI;
-  categories: string[];
-  autoFill: boolean;
-  onChangeFocus: (newState: boolean) => void;
-  onChangeAutofill: (text: string) => void;
-  onSubmitForm: (e: FormEvent) => void;
-  onChangeForm: (e: ChangeEvent<HTMLInputElement>) => void;
-  onChangeOptionCost: (
-    e: ChangeEvent<HTMLInputElement>,
-    name: "options" | "cost",
-    i: number,
-  ) => void;
-  onClickDeleteOption: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    i: number,
-  ) => void;
-  onClickAddOption: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => void;
-  onChangeCheck: () => void;
-  onCLickCancel: () => void;
-  onClickDelete: () => void;
-  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  product: Services;
+  storage: ServicesAPI | null;
+  onClickEdit: () => void;
+  onChangeStorage: (newItem: ServicesAPI | null) => void;
 };
 
 const INPUT_TEXT: ("name" | "category")[] = ["name", "category"];
@@ -44,34 +30,241 @@ const nameSwitcher = (name: "name" | "category") => {
 };
 
 const ServiceManagementProductEdit = ({
-  isChecked,
-  form,
-  categories,
-  autoFill,
-  onChangeFocus,
-  onChangeAutofill,
-  onSubmitForm,
-  onChangeForm,
-  onChangeOptionCost,
-  onClickDeleteOption,
-  onClickAddOption,
-  onChangeCheck,
-  onCLickCancel,
-  onClickDelete,
-  onFileChange,
+  product,
+  storage,
+  onClickEdit,
+  onChangeStorage,
 }: Props) => {
+  const { addNewNotification } = useNotificationContext();
+  const { categories, updateServiceInCache, deleteServicesFromCache } =
+    useServicesContext();
+
+  const [{ isChecked, autoFill }, setOptionState] = useState({
+    isChecked: product.options.length !== 0,
+    autoFill: false,
+  });
+
+  const [form, setForm] = useState<ServicesAPI>({
+    name: product.name,
+    category: product.category,
+    cost: product.cost,
+    image: null,
+    options: product.options,
+  });
+
+  useEffect(() => {
+    onChangeStorage(form);
+  }, []);
+
+  const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "cost" ? Number(value) : value,
+    }));
+  };
+
+  const handleChangeCheck = () => {
+    const newIsChecked = !isChecked;
+    setOptionState((prev) => ({ ...prev, isChecked: newIsChecked }));
+
+    if (storage === null) return;
+
+    const { options, cost } = storage;
+
+    if (options.length !== 0) {
+      setForm((prev) => ({
+        ...prev,
+        options: newIsChecked ? options : [],
+        cost: newIsChecked ? cost : 0,
+      }));
+    }
+
+    if (options.length === 0) {
+      setForm((prev) => ({
+        ...prev,
+        options: newIsChecked ? ["Nowa opcja 1", "Nowa opcja 2"] : [],
+        cost: newIsChecked ? [0, 0] : cost,
+      }));
+    }
+  };
+
+  const { mutate: mutateUpdate } = useMutation({
+    mutationFn: async ({ id, form }: { id: number; form: ServicesAPI }) =>
+      await updateService(id, form),
+    onSuccess: (updated: Services) => {
+      console.log(updated);
+      updateServiceInCache(updated);
+      onClickEdit();
+
+      addNewNotification(
+        "success",
+        "Zmieniono treść",
+        `Usługa "${updated.name}" zoztała dodana pomyślnie.`,
+      );
+    },
+    onError: (err) => {
+      console.error(err);
+      addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Coś poszło nie tak, spróbuj ponownie",
+      );
+    },
+    onSettled: () => {
+      onChangeStorage(null);
+      setOptionState((prev) => ({
+        ...prev,
+        isEditing: false,
+        isChecked: product.options.length !== 0,
+      }));
+    },
+  });
+
+  const { mutate: mutateDelete } = useMutation({
+    mutationFn: (id: number) => deleteService(id),
+    onSuccess: (_, id) => {
+      deleteServicesFromCache(id);
+
+      addNewNotification(
+        "success",
+        "Zmieniono treść",
+        `Usługa zoztała poprawnie usunięta.`,
+      );
+    },
+    onError: (err) => {
+      console.error(err);
+      addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Coś poszło nie tak, spróbuj ponownie",
+      );
+    },
+  });
+
+  const handleClickAddOption = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+
+    setForm(
+      produce((draft) => {
+        draft.options.push("Nowa opcja");
+        if (Array.isArray(draft.cost)) {
+          draft.cost.push(0);
+        }
+      }),
+    );
+  };
+
+  const handleClickDeleteOption = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    i: number,
+  ) => {
+    e.preventDefault();
+
+    setForm(
+      produce((draft) => {
+        draft.options = draft.options.filter((_, index) => index !== i);
+        if (Array.isArray(draft.cost)) {
+          draft.cost = draft.cost.filter((_, index) => index !== i);
+        }
+      }),
+    );
+  };
+
+  const handleChangeOptionCost = (
+    e: ChangeEvent<HTMLInputElement>,
+    name: "options" | "cost",
+    i: number,
+  ) => {
+    const { value } = e.target;
+
+    setForm(
+      produce((draft) => {
+        if (Array.isArray(draft[name])) {
+          draft[name][i] = name === "options" ? value : Number(value);
+        }
+      }),
+    );
+  };
+
+  const handleClickCancel = () => {
+    setForm(storage as ServicesAPI);
+    onChangeStorage(null);
+    onClickEdit();
+    setOptionState((prev) => ({
+      ...prev,
+      isChecked: product.options.length !== 0,
+    }));
+  };
+
+  const handleSubmitForm = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (form.options.some((el) => el.length === 0))
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Nie można zostawiać pustych pól w formularzu.",
+      );
+
+    if (form.name.trim() === "" || form.category.trim() === "")
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Nazwa albo kategoria nie mogą być puste.",
+      );
+
+    if (
+      (form.cost as number) < 0 ||
+      (Array.isArray(form.cost) && form.cost.some((el) => el < 0))
+    )
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Cena nie może być niegatywną.",
+      );
+
+    mutateUpdate({ id: product.id, form });
+  };
+
+  const handleClickDelete = async () => {
+    mutateDelete(product.id);
+  };
+
+  const handleChangeAutofill = (text: string) => {
+    setForm((prev) => ({ ...prev, category: text }));
+  };
+
+  const handleChangeFocus = (newState: boolean) => {
+    setOptionState((prev) => ({ ...prev, autoFill: newState }));
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+
+    if (!files) return;
+
+    setForm((prev) => ({
+      ...prev,
+      image: files[0],
+    }));
+  };
+
   return (
     <>
-      <form onSubmit={onSubmitForm}>
+      <form onSubmit={handleSubmitForm}>
         <section className="midpoint:grid-cols-2 mx-1 grid gap-4">
           <div className="space-y-2">
             {INPUT_TEXT.map((inp) => (
               <label key={inp}>
                 <p className="font-bold">{nameSwitcher(inp)}</p>
                 <input
-                  onChange={onChangeForm}
-                  onFocus={() => onChangeFocus(true)}
-                  onBlur={() => onChangeFocus(false)}
+                  onChange={handleChangeForm}
+                  onFocus={() => handleChangeFocus(true)}
+                  onBlur={() => handleChangeFocus(false)}
                   value={form[inp]}
                   name={inp}
                   type="text"
@@ -80,7 +273,7 @@ const ServiceManagementProductEdit = ({
                   <DropdownHelper
                     options={categories}
                     query={form[inp]}
-                    onChange={onChangeAutofill}
+                    onChange={handleChangeAutofill}
                   />
                 ) : null}
               </label>
@@ -89,7 +282,7 @@ const ServiceManagementProductEdit = ({
             <label>
               <p className="font-bold">Obrazek</p>
               <input
-                onChange={onFileChange}
+                onChange={handleFileChange}
                 accept="image/*"
                 name="image"
                 type="file"
@@ -108,7 +301,9 @@ const ServiceManagementProductEdit = ({
                         className="flex items-center justify-center gap-4 space-y-1"
                       >
                         <input
-                          onChange={(e) => onChangeOptionCost(e, "options", i)}
+                          onChange={(e) =>
+                            handleChangeOptionCost(e, "options", i)
+                          }
                           value={option}
                           name={`option ${i}`}
                           type="text"
@@ -123,7 +318,9 @@ const ServiceManagementProductEdit = ({
                           <label className="flex items-center justify-center gap-4 space-y-1">
                             <p className="font-bold">Zł:</p>
                             <input
-                              onChange={(e) => onChangeOptionCost(e, "cost", i)}
+                              onChange={(e) =>
+                                handleChangeOptionCost(e, "cost", i)
+                              }
                               value={+price}
                               name={`price ${i}`}
                               type="number"
@@ -131,7 +328,7 @@ const ServiceManagementProductEdit = ({
                           </label>
                           <button
                             type="button"
-                            onClick={(e) => onClickDeleteOption(e, i)}
+                            onClick={(e) => handleClickDeleteOption(e, i)}
                             className="aspect-square size-8 rounded-xl border"
                           >
                             <img src={Cancel} alt="Cancel" />
@@ -142,7 +339,7 @@ const ServiceManagementProductEdit = ({
                 </div>
                 <button
                   type="button"
-                  onClick={onClickAddOption}
+                  onClick={handleClickAddOption}
                   className="w-fit rounded-full border px-2 py-1"
                 >
                   Dodaj opcję
@@ -154,7 +351,7 @@ const ServiceManagementProductEdit = ({
                       className=""
                       name="options"
                       checked={isChecked}
-                      onChange={onChangeCheck}
+                      onChange={handleChangeCheck}
                     />
                     <span className="checkmark peer-checked::after:size-3"></span>
                     Wieloopcyjna usługa
@@ -170,7 +367,7 @@ const ServiceManagementProductEdit = ({
                       className=""
                       name="options"
                       checked={isChecked}
-                      onChange={onChangeCheck}
+                      onChange={handleChangeCheck}
                     />
                     <span className="checkmark peer-checked::after:size-3"></span>
                     Wieloopcyjna usługa
@@ -180,7 +377,7 @@ const ServiceManagementProductEdit = ({
                   <label className="flex items-center justify-center gap-4 space-y-1">
                     <p className="font-bold">Zł:</p>
                     <input
-                      onChange={onChangeForm}
+                      onChange={handleChangeForm}
                       value={form.cost as number}
                       name="cost"
                       type="number"
@@ -195,14 +392,14 @@ const ServiceManagementProductEdit = ({
           <button
             type="button"
             className="serviceManagementButton bg-amber-200"
-            onClick={onClickDelete}
+            onClick={handleClickDelete}
           >
             <img src={Delete} alt="Delete" loading="lazy" />
           </button>
           <button
             type="button"
             className="serviceManagementButton bg-red-200"
-            onClick={onCLickCancel}
+            onClick={handleClickCancel}
           >
             <img src={Cancel} alt="Cancel" loading="lazy" />
           </button>

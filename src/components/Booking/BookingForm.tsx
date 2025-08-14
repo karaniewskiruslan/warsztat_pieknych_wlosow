@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import DropdownSelect from "../../UI/DropdownSelect";
 import { mastersInfo } from "../Masters/Masters.data";
 import TimeSelection from "../../UI/TimeSection/TimeSelection";
-import { BookingAPI } from "../../types/booking.type";
+import { Booking, BookingAPI } from "../../types/booking.type";
 import { addBookings } from "../../api/booking.api";
 import classNames from "classnames";
 import { proveForm } from "./Booking.data";
@@ -11,12 +11,15 @@ import { useNotificationContext } from "../../context/notificationContent";
 import { useServicesContext } from "../../context/servicesContext";
 import loadingImage from "/loading.svg";
 import { useMutation } from "@tanstack/react-query";
+import { useBookingContext } from "../../context/bookingContext";
 
 const mastersNames = mastersInfo.map((el) => el.name);
 
 const BookingForm = () => {
-  const { categories, servicesOnCategory, isPending } = useServicesContext();
+  const { categories, servicesOnCategory, loadingServices } =
+    useServicesContext();
   const { addNewNotification } = useNotificationContext();
+  const { addBookingToCache } = useBookingContext();
   const initialServices = servicesOnCategory(categories[0]);
 
   const [bookingForm, setBookingForm] = useState<
@@ -63,13 +66,13 @@ const BookingForm = () => {
 
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (newBooking: BookingAPI) => addBookings(newBooking),
-    onSuccess: () => {
+    onSuccess: (update: Booking) => {
+      addBookingToCache(update);
       addNewNotification(
         "added",
         "Wizyta zapisana",
         "Wizyta została wysłana do weryfikacji. Proszę poczekać na potwierdzenie od salonu.",
       );
-
       setBookingForm({
         fullName: "",
         email: "",
@@ -114,7 +117,7 @@ const BookingForm = () => {
       <form
         onSubmit={handleSubmitForm}
         className={classNames("mobile:grid-cols-2 grid gap-4", {
-          "pointer-events-none opacity-50": isPending,
+          "pointer-events-none opacity-50": loadingServices,
         })}
       >
         <label>
@@ -172,6 +175,7 @@ const BookingForm = () => {
                 <img
                   src={loadingImage}
                   alt="Loading"
+                  loading="lazy"
                   className="size-4 animate-spin"
                 />
               </>

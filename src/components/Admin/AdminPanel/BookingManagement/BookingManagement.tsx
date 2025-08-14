@@ -1,53 +1,48 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router";
 import PageButton from "../../../../UI/PageButton";
-import { useQuery } from "@tanstack/react-query";
-import { getBookings } from "../../../../api/booking.api";
-import { useEffect, useMemo, useState } from "react";
-import { Booking } from "../../../../types/booking.type";
+import { useEffect, useRef } from "react";
 import BookingManagementInfo from "./BookingManagementInfo";
 import { AnimatePresence } from "motion/react";
 
 import loadingImage from "/loading.svg";
+import { useNotificationContext } from "../../../../context/notificationContent";
+import { useBookingContext } from "../../../../context/bookingContext";
 
 const BookingManagement = () => {
+  const { addNewNotification } = useNotificationContext();
+  const { bookings, loadingBooking, errorBooking } = useBookingContext();
+
   const nav = useNavigate();
-  const [bookingList, setBookingList] = useState<Booking[]>([]);
-
-  const handleChangeState = (updatedItem: Booking) => {
-    setBookingList((prev) =>
-      prev.map((el) => {
-        if (el.id === updatedItem.id) return updatedItem;
-
-        return el;
-      }),
-    );
-  };
+  const ref = useRef<boolean>(true);
 
   const handleClickBack = () => {
     nav(-1);
   };
 
-  const { data, error, isPending } = useQuery({
-    queryKey: ["booking"],
-    queryFn: getBookings,
-    refetchInterval: 10000,
-  });
-
   useEffect(() => {
-    if (data) setBookingList(data);
-  }, [data]);
+    const prevLength = bookings.length;
+    const token = sessionStorage.getItem("token");
 
-  const filteredList = useMemo(
-    () =>
-      [...bookingList].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      ),
-    [bookingList],
-  );
+    if (ref.current) {
+      ref.current = false;
+      return;
+    }
 
-  if (error)
+    if (bookings.length !== prevLength && token) {
+      addNewNotification(
+        "added",
+        "Nowa wizyta",
+        "Masz nową wizytę w salon. Sprawdź zarządzanie wizytami",
+      );
+    }
+  }, [bookings]);
+
+  if (errorBooking)
     return (
-      <h1>Niestety nie udało się pobrać dane z powodu: {error.toString()}</h1>
+      <h1>
+        Niestety nie udało się pobrać dane z powodu: {errorBooking.toString()}
+      </h1>
     );
 
   return (
@@ -58,7 +53,7 @@ const BookingManagement = () => {
         <p>Tutaj masz wszystkie wizytę, umowione poprzez stronę WPW</p>
         <section className="grid gap-2">
           <AnimatePresence>
-            {isPending && (
+            {loadingBooking && (
               <div className="flex size-5">
                 <img
                   src={loadingImage}
@@ -69,17 +64,16 @@ const BookingManagement = () => {
               </div>
             )}
 
-            {!isPending &&
-              bookingList.length > 0 &&
-              filteredList.map((booking) => (
+            {!loadingBooking &&
+              bookings.length > 0 &&
+              bookings.map((booking) => (
                 <BookingManagementInfo
                   key={booking.id}
                   booking={booking}
-                  handleChangeState={handleChangeState}
                 />
               ))}
 
-            {!isPending && bookingList.length === 0 && (
+            {!loadingBooking && bookings.length === 0 && (
               <h3>Nie ma umówionych wizyt</h3>
             )}
           </AnimatePresence>

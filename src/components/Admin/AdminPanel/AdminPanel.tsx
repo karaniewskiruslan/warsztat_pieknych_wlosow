@@ -7,7 +7,7 @@ const AdminPanel = () => {
   const nav = useNavigate();
 
   const handleClickLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     nav("/admin");
   };
 

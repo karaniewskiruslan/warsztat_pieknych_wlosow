@@ -13,7 +13,7 @@ const Notifications = () => {
         "font-poppins mobile:w-[550px] pointer-events-none h-dvh w-dvw",
       )}
     >
-      <section className="flex flex-col justify-end gap-4">
+      <section className="flex w-full flex-col justify-end gap-4">
         <AnimatePresence>
           {notifications.map((item) => (
             <NotificationsContainer key={item.id} notification={item} />

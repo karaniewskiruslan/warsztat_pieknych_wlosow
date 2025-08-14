@@ -64,7 +64,7 @@ const NotificationsContainer = ({ notification }: Props) => {
         transition={{
           duration: 0.25,
         }}
-        className="pointer-events-auto relative overflow-hidden rounded-2xl border-2 bg-white px-4 pt-4 pb-2"
+        className="pointer-events-auto relative w-full overflow-hidden rounded-2xl border-2 bg-white px-4 pt-4 pb-2"
       >
         <hgroup>
           <h4>{title}</h4>
