@@ -13,6 +13,7 @@ type ServicesContentProps = {
   splittedServices: Record<string, Services[]>;
   categories: string[];
   servicesOnCategory: (category: string) => string[];
+  mastersOnService: (service: string) => string[];
   loadingServices: boolean;
   errorServices: Error | null;
   updateServiceInCache: (service: Services) => void;
@@ -67,6 +68,12 @@ export const ServicesContextContainer = ({ children }: Props) => {
       .map((el: Services) => el.name);
   };
 
+  const mastersOnService = (service: string) => {
+    return services
+      .filter((el: Services) => el.name === service)
+      .map((el: Services) => el.masters);
+  };
+
   const updateServiceInCache = (updated: Services) => {
     if (!updated) return;
 
@@ -97,6 +104,7 @@ export const ServicesContextContainer = ({ children }: Props) => {
         splittedServices,
         categories,
         servicesOnCategory,
+        mastersOnService,
         loadingServices: isPending,
         errorServices: error,
         updateServiceInCache,

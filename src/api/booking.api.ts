@@ -1,7 +1,6 @@
 import { BookingAPI } from "../types/booking.type";
 
-const baseUrl =
-  "https://warsztat-pieknych-wlosow-backend.onrender.com/api/booking";
+const baseUrl = import.meta.env.VITE_API_URL + "api/booking";
 
 export const getBookings = async () => {
   const res = await fetch(baseUrl, {

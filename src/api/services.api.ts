@@ -1,7 +1,6 @@
 import { ServicesAPI } from "../types/services.type";
 
-const baseUrl =
-  "https://warsztat-pieknych-wlosow-backend.onrender.com/api/services";
+const baseUrl = import.meta.env.VITE_API_URL + "api/services";
 
 export const getServices = async () => {
   const res = await fetch(baseUrl, {
@@ -22,6 +21,7 @@ export const postService = async (newService: ServicesAPI) => {
   formData.append("category", newService.category);
   formData.append("options", JSON.stringify(newService.options));
   formData.append("cost", JSON.stringify(newService.cost));
+  formData.append("masters", JSON.stringify(newService.masters));
   formData.append("last", JSON.stringify(newService.last));
   formData.append("image", newService.image!);
 
@@ -42,6 +42,7 @@ export const updateService = async (id: number, newService: ServicesAPI) => {
   formData.append("category", newService.category);
   formData.append("options", JSON.stringify(newService.options));
   formData.append("cost", JSON.stringify(newService.cost));
+  formData.append("masters", JSON.stringify(newService.masters));
   formData.append("last", JSON.stringify(newService.last));
   formData.append("image", newService.image!);
 

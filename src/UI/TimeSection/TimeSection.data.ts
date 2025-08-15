@@ -35,3 +35,24 @@ export const dataChange = (date: Date, h: number, m: number) => {
 
   return newDate;
 };
+
+export const dateAvailable = (date: Date, last: number) => {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let prover = last;
+  const neededTime = [];
+
+  while (prover > 0) {
+    minutes += 15;
+    if (minutes >= 60) {
+      minutes -= 60;
+      hours = (hours + 1) % 24;
+    }
+
+    neededTime.push(timeString(hours, minutes));
+
+    prover--;
+  }
+
+  return neededTime;
+};

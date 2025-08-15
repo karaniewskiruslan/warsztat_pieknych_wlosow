@@ -14,7 +14,12 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
         <CategoryText category="Kategoria" body={product.category} />
         <CategoryText category="ID" body={String(product.id)} />
       </hgroup>
-      <section className="mobile:grid-cols-[1fr_150px] grid grid-cols-1 items-center">
+      <CategoryText
+        category="Czas trwania"
+        body={`${product.last * 15} minut`}
+      />
+      <CategoryText category="Mistrz" body={`${product.masters.join(", ")}`} />
+      <section className="mobile:grid-cols-[1fr_150px] grid grid-cols-1 items-center border-t">
         <article>
           {Array.isArray(product.cost) ? (
             product.cost.map((el, i) => (
@@ -32,10 +37,6 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
               isCost={true}
             />
           )}
-          <CategoryText
-            category="Czas trwania"
-            body={`${product.last * 15} minut`}
-          />
         </article>
         <img src={product.image} alt={product.name} loading="lazy" />
       </section>

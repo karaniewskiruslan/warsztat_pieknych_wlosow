@@ -11,6 +11,7 @@ const testProduct1 = {
   category: "Test category 1",
   last: 2,
   options: [],
+  masters: ["Name 1"],
   cost: 20,
 };
 
@@ -21,6 +22,7 @@ const testProduct2 = {
   category: "Test category 2",
   last: 3,
   options: ["Option 1", "Option 2", "Option 3"],
+  masters: ["Name 2"],
   cost: [25, 35, 45],
 };
 

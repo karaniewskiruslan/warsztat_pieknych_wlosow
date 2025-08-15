@@ -4,13 +4,20 @@ import { Value } from "react-calendar/dist/shared/types.js";
 import TimeSelectionCalendar from "./TimeSelectionCalendar";
 import { useEffect, useState, useMemo } from "react";
 import { useBookingContext } from "../../context/bookingContext";
-import { dataChange, newTimes, timeString } from "./TimeSection.data";
+import {
+  dataChange,
+  dateAvailable,
+  newTimes,
+  timeString,
+} from "./TimeSection.data";
 
 type Props = {
+  last: number;
+  onChangesValidDate: (fullTime: string[], timeService: string[]) => void;
   onChangeDate: (newDate: Date | null) => void;
 };
 
-const TimeSelection = ({ onChangeDate }: Props) => {
+const TimeSelection = ({ last, onChangesValidDate, onChangeDate }: Props) => {
   const { bookings } = useBookingContext();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -60,6 +67,10 @@ const TimeSelection = ({ onChangeDate }: Props) => {
   useEffect(() => {
     onChangeDate(bookTime);
   }, [bookTime]);
+
+  useEffect(() => {
+    onChangesValidDate(timeArray, dateAvailable(bookTime, last));
+  }, [timeArray, bookTime, last]);
 
   const handleClickDate = (e: Value) => {
     const newDate = new Date(e as Date);

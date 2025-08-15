@@ -14,6 +14,8 @@ function App() {
   const fits = usePageHeight();
   const { pathname } = useLocation();
 
+  console.log(import.meta.env.VITE_API_URL + "api/login");
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);

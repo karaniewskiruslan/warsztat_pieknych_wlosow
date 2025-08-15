@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import DropdownSelect from "../../UI/DropdownSelect";
-import { mastersInfo } from "../Masters/Masters.data";
 import TimeSelection from "../../UI/TimeSection/TimeSelection";
 import { Booking, BookingAPI } from "../../types/booking.type";
 import { addBookings } from "../../api/booking.api";
@@ -13,14 +12,19 @@ import loadingImage from "/loading.svg";
 import { useMutation } from "@tanstack/react-query";
 import { useBookingContext } from "../../context/bookingContext";
 
-const mastersNames = mastersInfo.map((el) => el.name);
-
 const BookingForm = () => {
-  const { services, categories, servicesOnCategory, loadingServices } =
-    useServicesContext();
+  const {
+    services,
+    categories,
+    servicesOnCategory,
+    mastersOnService,
+    loadingServices,
+  } = useServicesContext();
   const { addNewNotification } = useNotificationContext();
   const { addBookingToCache } = useBookingContext();
   const initialServices = servicesOnCategory(categories[0]);
+
+  const [isValidDate, setIsValidDate] = useState(true);
 
   const [bookingForm, setBookingForm] = useState<
     BookingAPI & { category: string }
@@ -30,11 +34,12 @@ const BookingForm = () => {
     category: "",
     service: initialServices[0],
     last: 0,
-    master: mastersNames[0],
+    master: "",
     date: null,
   });
 
-  const { fullName, email, category, service, master, date } = bookingForm;
+  const { fullName, email, category, service, master, date, last } =
+    bookingForm;
 
   const onChangeFormInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,8 +58,14 @@ const BookingForm = () => {
   useEffect(() => {
     const found = services.find((el) => el.name === service);
     if (found) {
-      setBookingForm((prev) => ({ ...prev, last: found.last }));
+      setBookingForm((prev) => ({
+        ...prev,
+        last: found.last,
+        master: found.masters[0] ?? "",
+      }));
     }
+
+    console.log(bookingForm);
   }, [service, services]);
 
   useEffect(() => {
@@ -86,7 +97,7 @@ const BookingForm = () => {
         category: categories[0],
         service: servicesOnCategory(categories[0])[0],
         last: 0,
-        master: mastersNames[0],
+        master: "",
         date: null,
       });
     },
@@ -117,10 +128,24 @@ const BookingForm = () => {
         "Nie została wybrana data wizyty",
       );
 
+    if (!isValidDate)
+      return addNewNotification(
+        "error",
+        "Nieprawidłowe dane",
+        "Ustawiony przez ciebie czas będzie się nakładał na inną wizytę. Wybierz troczę inny czas.",
+      );
+
     const found = services.find((el) => el.name === service);
     const lastValue = found ? found.last : 0;
 
     mutate({ fullName, email, service, master, last: lastValue, date });
+  };
+
+  const handleChangesValidDate = (
+    fullTime: string[],
+    timeService: string[],
+  ) => {
+    setIsValidDate(timeService.every((time) => fullTime.includes(time)));
   };
 
   return (
@@ -166,11 +191,15 @@ const BookingForm = () => {
         <DropdownSelect
           name="master"
           current={master}
-          options={mastersNames}
+          options={mastersOnService(service)}
           onClickChangeCurrent={onChangeFormOption}
           title="Wybież mistrza"
         />
-        <TimeSelection onChangeDate={handleChangeDate} />
+        <TimeSelection
+          last={last}
+          onChangesValidDate={handleChangesValidDate}
+          onChangeDate={handleChangeDate}
+        />
         <div className="mobile:col-span-2 grid place-items-center">
           <button
             type="submit"

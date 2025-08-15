@@ -37,11 +37,12 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     category: "",
     cost: 0,
     options: [],
+    masters: ["Master name"],
     last: 1,
     image: null,
   });
 
-  const { name, category, last, cost, options } = newForm;
+  const { name, category, last, cost, options, masters } = newForm;
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -100,7 +101,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
 
   const handleChangeOptionCost = (
     e: ChangeEvent<HTMLInputElement>,
-    name: "options" | "cost",
+    name: "options" | "cost" | "masters",
     i: number,
   ) => {
     const { value } = e.target;
@@ -108,7 +109,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     setNewForm(
       produce((draft) => {
         if (Array.isArray(draft[name])) {
-          draft[name][i] = name === "options" ? value : Number(value);
+          draft[name][i] = name === "cost" ? Number(value) : value;
         }
       }),
     );
@@ -129,11 +130,20 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     );
   };
 
-  const handleClickDeleteOption = (
+  const handleClickAddMaster = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    i: number,
   ) => {
     e.preventDefault();
+
+    setNewForm(
+      produce((draft) => {
+        draft.masters.push("Nowy Mistrz");
+      }),
+    );
+  };
+
+  const handleClickDeleteOption = (i: number) => {
+    if (options.length === 2) return;
 
     setNewForm(
       produce((draft) => {
@@ -145,14 +155,39 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     );
   };
 
+  const handleClickDeleteMaster = (i: number) => {
+    if (masters.length === 1) return;
+
+    setNewForm(
+      produce((draft) => {
+        draft.masters = draft.masters.filter((_, index) => index !== i);
+      }),
+    );
+  };
+
   const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (options.some((el) => el.length === 0))
+    console.log(newForm);
+
+    if (
+      options.some((el) => el.length === 0) ||
+      new Set(options).size !== options.length
+    )
       return addNewNotification(
         "error",
         "Wystąpił błąd",
-        "Nie można zostawiać pustych pól w formularzu.",
+        "Nie można zostawiać pustych pól w formularzu opcji.",
+      );
+
+    if (
+      masters.some((el) => el.length === 0) ||
+      new Set(masters).size !== masters.length
+    )
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Nie można zostawiać pustych pól w formularzu mistrzów.",
       );
 
     if (name.trim() === "" || category.trim() === "")
@@ -240,6 +275,38 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
                   type="file"
                 />
               </label>
+
+              <div className="space-y-1">
+                <p className="font-bold">Mistrzowie</p>
+                {masters.map((master, i) => (
+                  <section key={i} className="flex items-center gap-2">
+                    <label className="flex items-center justify-center gap-4">
+                      <input
+                        onChange={(e) =>
+                          handleChangeOptionCost(e, "masters", i)
+                        }
+                        value={master}
+                        name={`master ${i}`}
+                        type="text"
+                      />
+                    </label>
+                    <button
+                      onClick={() => handleClickDeleteMaster(i)}
+                      className="aspect-square size-8 rounded-xl border"
+                      type="button"
+                    >
+                      <img src={Cancel} alt="Cancel" loading="lazy" />
+                    </button>
+                  </section>
+                ))}
+                <button
+                  onClick={(e) => handleClickAddMaster(e)}
+                  className="w-fit rounded-full border px-2 py-1"
+                  type="button"
+                >
+                  Dodaj Mistrza
+                </button>
+              </div>
             </div>
             <div className="space-y-1">
               {isChecked ? (
@@ -279,7 +346,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
                               />
                             </label>
                             <button
-                              onClick={(e) => handleClickDeleteOption(e, i)}
+                              onClick={() => handleClickDeleteOption(i)}
                               className="aspect-square size-8 rounded-xl border"
                               type="button"
                             >

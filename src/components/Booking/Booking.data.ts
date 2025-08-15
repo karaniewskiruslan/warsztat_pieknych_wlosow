@@ -11,3 +11,4 @@ export const proveForm = (form: BookingAPI) => {
 
   return fullnameProve && emailProve;
 };
+

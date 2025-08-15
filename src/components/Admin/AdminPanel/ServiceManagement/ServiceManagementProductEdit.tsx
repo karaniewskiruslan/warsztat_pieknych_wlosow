@@ -49,11 +49,12 @@ const ServiceManagementProductEdit = ({
     category: product.category,
     cost: product.cost,
     last: product.last,
+    masters: product.masters,
     image: null,
     options: product.options,
   });
 
-  const { name, options, category, cost, last } = form;
+  const { name, options, category, cost, last, masters } = form;
 
   useEffect(() => {
     onChangeStorage(form);
@@ -179,7 +180,7 @@ const ServiceManagementProductEdit = ({
 
   const handleChangeOptionCost = (
     e: ChangeEvent<HTMLInputElement>,
-    name: "options" | "cost",
+    name: "options" | "cost" | "masters",
     i: number,
   ) => {
     const { value } = e.target;
@@ -189,6 +190,18 @@ const ServiceManagementProductEdit = ({
         if (Array.isArray(draft[name])) {
           draft[name][i] = name === "options" ? value : Number(value);
         }
+      }),
+    );
+  };
+
+  const handleClickAddMaster = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+
+    setForm(
+      produce((draft) => {
+        draft.masters.push("Nowy Mistrz");
       }),
     );
   };
@@ -231,6 +244,16 @@ const ServiceManagementProductEdit = ({
       );
 
     mutateUpdate({ id: product.id, form });
+  };
+
+  const handleClickDeleteMaster = (i: number) => {
+    if (masters.length === 1) return;
+
+    setForm(
+      produce((draft) => {
+        draft.masters = draft.masters.filter((_, index) => index !== i);
+      }),
+    );
   };
 
   const handleClickDelete = async () => {
@@ -291,6 +314,36 @@ const ServiceManagementProductEdit = ({
                 type="file"
               />
             </label>
+
+            <div className="space-y-1">
+              <p className="font-bold">Mistrzowie</p>
+              {masters.map((master, i) => (
+                <section key={i} className="flex items-center gap-2">
+                  <label className="flex items-center justify-center gap-4">
+                    <input
+                      onChange={(e) => handleChangeOptionCost(e, "masters", i)}
+                      value={master}
+                      name={`master ${i}`}
+                      type="text"
+                    />
+                  </label>
+                  <button
+                    onClick={() => handleClickDeleteMaster(i)}
+                    className="aspect-square size-8 rounded-xl border"
+                    type="button"
+                  >
+                    <img src={Cancel} alt="Cancel" loading="lazy" />
+                  </button>
+                </section>
+              ))}
+              <button
+                onClick={(e) => handleClickAddMaster(e)}
+                className="w-fit rounded-full border px-2 py-1"
+                type="button"
+              >
+                Dodaj Mistrza
+              </button>
+            </div>
           </div>
           <div className="space-y-1">
             {isChecked ? (
