@@ -1,42 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router";
 import PageButton from "../../../../UI/PageButton";
-import { useEffect, useRef } from "react";
 import BookingManagementInfo from "./BookingManagementInfo";
 import { AnimatePresence } from "motion/react";
-
 import loadingImage from "/loading.svg";
-import { useNotificationContext } from "../../../../context/notificationContent";
 import { useBookingContext } from "../../../../context/bookingContext";
 
 const BookingManagement = () => {
-  const { addNewNotification } = useNotificationContext();
   const { bookings, loadingBooking, errorBooking } = useBookingContext();
 
   const nav = useNavigate();
-  const ref = useRef<boolean>(true);
 
   const handleClickBack = () => {
     nav(-1);
   };
-
-  useEffect(() => {
-    const prevLength = bookings.length;
-    const token = sessionStorage.getItem("token");
-
-    if (ref.current) {
-      ref.current = false;
-      return;
-    }
-
-    if (bookings.length !== prevLength && token) {
-      addNewNotification(
-        "added",
-        "Nowa wizyta",
-        "Masz nową wizytę w salon. Sprawdź zarządzanie wizytami",
-      );
-    }
-  }, [bookings]);
 
   if (errorBooking)
     return (
@@ -67,10 +43,7 @@ const BookingManagement = () => {
             {!loadingBooking &&
               bookings.length > 0 &&
               bookings.map((booking) => (
-                <BookingManagementInfo
-                  key={booking.id}
-                  booking={booking}
-                />
+                <BookingManagementInfo key={booking.id} booking={booking} />
               ))}
 
             {!loadingBooking && bookings.length === 0 && (

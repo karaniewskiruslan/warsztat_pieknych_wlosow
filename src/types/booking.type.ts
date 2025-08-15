@@ -4,6 +4,7 @@ export type BookingAPI = {
   service: string;
   master: string;
   date: Date | null;
+  last: number;
 };
 
 export type Booking = {
@@ -13,5 +14,6 @@ export type Booking = {
   service: string;
   master: string;
   date: Date;
+  last: number;
   isConfirmed: boolean;
 };

@@ -9,6 +9,7 @@ type Props = {
 };
 
 type ServicesContentProps = {
+  services: Services[];
   splittedServices: Record<string, Services[]>;
   categories: string[];
   servicesOnCategory: (category: string) => string[];
@@ -92,6 +93,7 @@ export const ServicesContextContainer = ({ children }: Props) => {
   return (
     <ServicesContext.Provider
       value={{
+        services,
         splittedServices,
         categories,
         servicesOnCategory,

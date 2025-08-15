@@ -1,105 +1,84 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import classNames from "classnames";
 import { Value } from "react-calendar/dist/shared/types.js";
 import TimeSelectionCalendar from "./TimeSelectionCalendar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useBookingContext } from "../../context/bookingContext";
+import { dataChange, newTimes, timeString } from "./TimeSection.data";
 
 type Props = {
   onChangeDate: (newDate: Date | null) => void;
 };
 
-const newTimes = (date: Date) => {
-  const timeArray = [];
-  const today = new Date();
-  const currentMinutes = today.getMinutes();
-  const currentHour = date.getHours();
-  const isToday =
-    today.getFullYear() === date.getFullYear() &&
-    today.getMonth() === date.getMonth() &&
-    today.getDate() === date.getDate();
-  const hourProve = isToday
-    ? Math.max(today.getHours() + 2, 9)
-    : Math.max(currentHour + 2, 9);
-
-  for (let h = hourProve; h < 20; h++) {
-    for (
-      let m =
-        h === hourProve && isToday ? Math.ceil(currentMinutes / 15) * 15 : 0;
-      m < 60;
-      m += 15
-    ) {
-      timeArray.push(
-        `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
-      );
-    }
-  }
-
-  return timeArray;
-};
-
-const dataChange = (date: Date, h: number, m: number) => {
-  const newDate = new Date(date);
-  newDate.setHours(h);
-  newDate.setMinutes(m);
-
-  return newDate;
-};
-
 const TimeSelection = ({ onChangeDate }: Props) => {
-  const dayToday = new Date();
-  const [timeArray, setTimeArray] = useState<string[]>(newTimes(dayToday));
+  const { bookings } = useBookingContext();
 
-  const initialBookTimeTime = () => {
-    let firstAvailableTime: string | undefined;
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-    if (timeArray.length > 0) {
-      firstAvailableTime = timeArray[0];
-    } else {
-      const tomorrowTimes = newTimes(
-        new Date(new Date().setDate(dayToday.getDate() + 1)),
+  const timeArray = useMemo(() => {
+    const filteredArray = newTimes(selectedDate);
+
+    const filteredBookings = bookings.filter((el) => {
+      const bookingDate = new Date(el.date);
+      return (
+        bookingDate.getDate() === selectedDate.getDate() &&
+        bookingDate.getMonth() === selectedDate.getMonth() &&
+        bookingDate.getFullYear() === selectedDate.getFullYear()
       );
-      firstAvailableTime = tomorrowTimes[0];
+    });
+
+    for (const bk of filteredBookings) {
+      const t = new Date(bk.date);
+      const timeText = timeString(t.getHours(), t.getMinutes());
+      const timeTextId = filteredArray.indexOf(timeText);
+      if (timeTextId !== -1) {
+        filteredArray.splice(timeTextId, bk.last + 1);
+      }
     }
 
-    if (!firstAvailableTime) {
-      // No available time today or tomorrow — return "now" or a safe fallback
-      return new Date(dayToday);
-    }
+    return filteredArray;
+  }, [selectedDate, bookings]);
 
-    const [h, m] = firstAvailableTime.split(":").map(Number);
-
-    const date = new Date(dayToday);
+  const [bookTime, setBookTime] = useState<Date>(() => {
+    const firstTime = timeArray[0] ?? "09:00";
+    const [h, m] = firstTime.split(":").map(Number);
+    const date = new Date(selectedDate);
     date.setHours(h, m, 0, 0);
-
     return date;
-  };
-
-  const [bookTime, setBookTime] = useState<Date>(initialBookTimeTime());
+  });
 
   useEffect(() => {
-    onChangeDate(null);
-  }, []);
+    if (timeArray.length === 0) return;
+
+    const currentTime = timeString(bookTime.getHours(), bookTime.getMinutes());
+    if (!timeArray.includes(currentTime)) {
+      const [h, m] = timeArray[0].split(":").map(Number);
+      setBookTime(dataChange(selectedDate, h, m));
+    }
+  }, [timeArray, selectedDate]);
+
+  useEffect(() => {
+    onChangeDate(bookTime);
+  }, [bookTime]);
 
   const handleClickDate = (e: Value) => {
     const newDate = new Date(e as Date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (newDate.setHours(0, 0, 0, 0) < today.getTime()) return;
 
-    if (newDate.setHours(0, 0, 0, 0) < dayToday.setHours(0, 0, 0, 0)) return;
+    setSelectedDate(newDate);
 
-    const newArray = newTimes(newDate);
-    const [h, m] = newArray[0].split(":").map(Number);
-    setTimeArray(newArray);
-
+    const newTimesArray = newTimes(newDate);
+    const firstTime = newTimesArray[0] ?? "09:00";
+    const [h, m] = firstTime.split(":").map(Number);
     setBookTime(dataChange(newDate, h, m));
   };
 
   const handleClickBookClock = (time: string) => {
     const [h, m] = time.split(":").map(Number);
-
-    setBookTime((prev) => dataChange(prev, h, m));
+    setBookTime(dataChange(selectedDate, h, m));
   };
-
-  useEffect(() => {
-    onChangeDate(bookTime);
-  }, [bookTime]);
 
   return (
     <section className="mobile:col-span-2 space-y-2">
@@ -110,19 +89,19 @@ const TimeSelection = ({ onChangeDate }: Props) => {
             timeArray.length,
         })}
       >
-        {timeArray.length ? (
+        {timeArray.length > 0 ? (
           timeArray.map((t, i) => {
-            const timeText = `${String(bookTime.getHours()).padStart(2, "0")}:${String(bookTime.getMinutes()).padStart(2, "0")}`;
-
+            const currentTime = timeString(
+              bookTime.getHours(),
+              bookTime.getMinutes(),
+            );
             return (
               <article
                 key={i}
                 onClick={() => handleClickBookClock(t)}
                 className={classNames(
                   "cursor-pointer rounded-full border px-4 py-1 text-center",
-                  {
-                    "bg-black text-white": t === timeText,
-                  },
+                  { "bg-black text-white": t === currentTime },
                 )}
               >
                 {t}
@@ -133,12 +112,10 @@ const TimeSelection = ({ onChangeDate }: Props) => {
           <p>Nie ma terminów w dany dzień</p>
         )}
       </section>
-      <section>
-        <TimeSelectionCalendar
-          currentChoice={bookTime}
-          onClick={handleClickDate}
-        />
-      </section>
+      <TimeSelectionCalendar
+        currentChoice={bookTime}
+        onClick={handleClickDate}
+      />
     </section>
   );
 };

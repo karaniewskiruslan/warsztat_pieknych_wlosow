@@ -32,6 +32,10 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
               isCost={true}
             />
           )}
+          <CategoryText
+            category="Czas trwania"
+            body={`${product.last * 15} minut`}
+          />
         </article>
         <img src={product.image} alt={product.name} loading="lazy" />
       </section>

@@ -37,10 +37,11 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     category: "",
     cost: 0,
     options: [],
+    last: 1,
     image: null,
   });
 
-  const { name, category, cost, options } = newForm;
+  const { name, category, last, cost, options } = newForm;
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,7 +53,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   };
 
   const { mutate: mutateAdd } = useMutation({
-    mutationFn: async (form: ServicesAPI) => await postService(form),
+    mutationFn: (form: ServicesAPI) => postService(form),
     onSuccess: (updated: Services) => {
       console.log(updated);
       addServiceToCache(updated);
@@ -337,6 +338,17 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
                   </section>
                 </div>
               )}
+              <label>
+                <p className="font-bold">
+                  Czas trwania usługi:({last * 15} min)
+                </p>
+                <input
+                  onChange={handleChangeForm}
+                  value={last}
+                  name="last"
+                  type="number"
+                />
+              </label>
             </div>
           </section>
           <section className="flex justify-end gap-2">

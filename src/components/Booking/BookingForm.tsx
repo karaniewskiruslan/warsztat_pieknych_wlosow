@@ -16,7 +16,7 @@ import { useBookingContext } from "../../context/bookingContext";
 const mastersNames = mastersInfo.map((el) => el.name);
 
 const BookingForm = () => {
-  const { categories, servicesOnCategory, loadingServices } =
+  const { services, categories, servicesOnCategory, loadingServices } =
     useServicesContext();
   const { addNewNotification } = useNotificationContext();
   const { addBookingToCache } = useBookingContext();
@@ -29,6 +29,7 @@ const BookingForm = () => {
     email: "",
     category: "",
     service: initialServices[0],
+    last: 0,
     master: mastersNames[0],
     date: null,
   });
@@ -50,7 +51,13 @@ const BookingForm = () => {
   };
 
   useEffect(() => {
-    console.log(categories);
+    const found = services.find((el) => el.name === service);
+    if (found) {
+      setBookingForm((prev) => ({ ...prev, last: found.last }));
+    }
+  }, [service, services]);
+
+  useEffect(() => {
     setBookingForm((prev) => ({
       ...prev,
       category: categories[0],
@@ -78,6 +85,7 @@ const BookingForm = () => {
         email: "",
         category: categories[0],
         service: servicesOnCategory(categories[0])[0],
+        last: 0,
         master: mastersNames[0],
         date: null,
       });
@@ -109,7 +117,10 @@ const BookingForm = () => {
         "Nie została wybrana data wizyty",
       );
 
-    mutate({ fullName, email, service, master, date });
+    const found = services.find((el) => el.name === service);
+    const lastValue = found ? found.last : 0;
+
+    mutate({ fullName, email, service, master, last: lastValue, date });
   };
 
   return (

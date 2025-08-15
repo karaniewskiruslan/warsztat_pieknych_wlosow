@@ -4,6 +4,7 @@ export type Services = {
   name: string;
   options: string[];
   category: string;
+  last: number;
   cost: number | number[];
 };
 
@@ -12,5 +13,6 @@ export type ServicesAPI = {
   name: string;
   options: string[];
   category: string;
+  last: number;
   cost: number | number[];
 };

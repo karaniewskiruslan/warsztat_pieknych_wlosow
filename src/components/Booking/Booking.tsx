@@ -32,12 +32,9 @@ const Booking = () => {
             Będzie gotowe wkrótce.
           </p>
         </hgroup>
-        <p></p>
       </section>
 
-      <section 
-      className="space-y-2"
-      >
+      <section className="space-y-2">
         <BookingForm />
       </section>
     </div>

@@ -48,9 +48,12 @@ const ServiceManagementProductEdit = ({
     name: product.name,
     category: product.category,
     cost: product.cost,
+    last: product.last,
     image: null,
     options: product.options,
   });
+
+  const { name, options, category, cost, last } = form;
 
   useEffect(() => {
     onChangeStorage(form);
@@ -203,14 +206,14 @@ const ServiceManagementProductEdit = ({
   const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (form.options.some((el) => el.length === 0))
+    if (options.some((el) => el.length === 0))
       return addNewNotification(
         "error",
         "Wystąpił błąd",
         "Nie można zostawiać pustych pól w formularzu.",
       );
 
-    if (form.name.trim() === "" || form.category.trim() === "")
+    if (name.trim() === "" || category.trim() === "")
       return addNewNotification(
         "error",
         "Wystąpił błąd",
@@ -218,8 +221,8 @@ const ServiceManagementProductEdit = ({
       );
 
     if (
-      (form.cost as number) < 0 ||
-      (Array.isArray(form.cost) && form.cost.some((el) => el < 0))
+      (cost as number) < 0 ||
+      (Array.isArray(cost) && cost.some((el) => el < 0))
     )
       return addNewNotification(
         "error",
@@ -295,7 +298,7 @@ const ServiceManagementProductEdit = ({
                 <p className="font-bold">Opcje</p>
                 <div className="grid grid-cols-2 gap-4">
                   <section className="space-y-2">
-                    {form.options.map((option, i) => (
+                    {options.map((option, i) => (
                       <label
                         key={i}
                         className="flex items-center justify-center gap-4 space-y-1"
@@ -312,8 +315,8 @@ const ServiceManagementProductEdit = ({
                     ))}
                   </section>
                   <section className="space-y-2">
-                    {Array.isArray(form.cost) &&
-                      form.cost.map((price, i) => (
+                    {Array.isArray(cost) &&
+                      cost.map((price, i) => (
                         <section key={i} className="flex items-center gap-2">
                           <label className="flex items-center justify-center gap-4 space-y-1">
                             <p className="font-bold">Zł:</p>
@@ -378,7 +381,7 @@ const ServiceManagementProductEdit = ({
                     <p className="font-bold">Zł:</p>
                     <input
                       onChange={handleChangeForm}
-                      value={form.cost as number}
+                      value={cost as number}
                       name="cost"
                       type="number"
                     />
@@ -386,6 +389,15 @@ const ServiceManagementProductEdit = ({
                 </section>
               </div>
             )}
+            <label>
+              <p className="font-bold">Czas trwania usługi:({last * 15} min)</p>
+              <input
+                onChange={handleChangeForm}
+                value={last}
+                name="last"
+                type="number"
+              />
+            </label>
           </div>
         </section>
         <section className="flex justify-end gap-2">

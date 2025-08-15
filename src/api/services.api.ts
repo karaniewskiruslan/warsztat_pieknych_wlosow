@@ -22,6 +22,7 @@ export const postService = async (newService: ServicesAPI) => {
   formData.append("category", newService.category);
   formData.append("options", JSON.stringify(newService.options));
   formData.append("cost", JSON.stringify(newService.cost));
+  formData.append("last", JSON.stringify(newService.last));
   formData.append("image", newService.image!);
 
   const res = await fetch(baseUrl, {
@@ -41,6 +42,7 @@ export const updateService = async (id: number, newService: ServicesAPI) => {
   formData.append("category", newService.category);
   formData.append("options", JSON.stringify(newService.options));
   formData.append("cost", JSON.stringify(newService.cost));
+  formData.append("last", JSON.stringify(newService.last));
   formData.append("image", newService.image!);
 
   const res = await fetch(baseUrl + `/${id}`, {

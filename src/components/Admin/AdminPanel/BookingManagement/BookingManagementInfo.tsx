@@ -5,10 +5,11 @@ import Expand from "/Expand.svg";
 import { useState } from "react";
 import CategoryText from "../../../../UI/CategoryText";
 import { motion, Variants } from "framer-motion";
-import { updateBookings } from "../../../../api/booking.api";
+import { updateBookings, deleteBookings } from "../../../../api/booking.api";
 import { useNotificationContext } from "../../../../context/notificationContent";
 import { useMutation } from "@tanstack/react-query";
 import { useBookingContext } from "../../../../context/bookingContext";
+import ButtonServices from "../../../../UI/BookingServices/ButtonServices";
 
 type Props = {
   booking: Booking;
@@ -28,7 +29,7 @@ const containerSectionVariants: Variants = {
 
 const BookingManagementInfo = ({ booking }: Props) => {
   const { addNewNotification } = useNotificationContext();
-  const { updateBookingInCache } = useBookingContext();
+  const { updateBookingInCache, deleteBookingFromCache } = useBookingContext();
   const [isOpen, setOpen] = useState(false);
   const { id, fullName, isConfirmed, date, service, master, email } = booking;
   const idText = id.slice(0, 8);
@@ -39,7 +40,7 @@ const BookingManagementInfo = ({ booking }: Props) => {
     ["Email", email],
   ];
 
-  const { mutate } = useMutation({
+  const { mutate: updateBooking, isPending: loadingAccept } = useMutation({
     mutationFn: ({ id, isConfirmed }: { id: string; isConfirmed: boolean }) =>
       updateBookings(id, isConfirmed),
     onSuccess: (update: Booking) => {
@@ -61,8 +62,35 @@ const BookingManagementInfo = ({ booking }: Props) => {
     },
   });
 
+  const { mutate: deleteBooking, isPending: loadingDelete } = useMutation({
+    mutationFn: (id: string) => deleteBookings(id),
+    onSuccess: () => {
+      deleteBookingFromCache(id);
+      addNewNotification(
+        "success",
+        "Wizyta usunięta",
+        `Wizyta ${idText} została pomyślnie usunięta`,
+      );
+      setOpen(false);
+    },
+    onError: (err) => {
+      console.error(err);
+      addNewNotification(
+        "error",
+        "Nieudana próba potwierdzenia",
+        `Nie udało się potwierdzić wizytę ${idText}. Spróbuj ponownie.`,
+      );
+    },
+  });
+
   const handleAcceptVisit = () => {
-    mutate({ id, isConfirmed: true });
+    updateBooking({ id, isConfirmed: true });
+  };
+
+  const handleChangeVisit = () => {};
+
+  const handleDeleteVisit = () => {
+    deleteBooking(id);
   };
 
   return (
@@ -141,21 +169,18 @@ const BookingManagementInfo = ({ booking }: Props) => {
               ))}
             </article>
             <section className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
+              <ButtonServices
+                title="Potwierdź"
                 onClick={handleAcceptVisit}
-                className={classNames("bookingButton", {
-                  "pointer-events-none bg-gray-300 opacity-50": isConfirmed,
-                })}
-              >
-                Potwierdź
-              </button>
-              <button type="button" className="bookingButton">
-                Zmień
-              </button>
-              <button type="button" className="bookingButton">
-                Usuń
-              </button>
+                isConfirmed={isConfirmed}
+                loading={loadingAccept}
+              />
+              <ButtonServices onClick={handleChangeVisit} title="Zmień" />
+              <ButtonServices
+                title="Usuń"
+                onClick={handleDeleteVisit}
+                loading={loadingDelete}
+              />
             </section>
           </section>
         </div>
