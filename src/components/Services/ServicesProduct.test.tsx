@@ -9,6 +9,7 @@ const testProduct1 = {
   image: "image2",
   name: "Test prod 1",
   category: "Test category 1",
+  last: 2,
   options: [],
   cost: 20,
 };
@@ -18,6 +19,7 @@ const testProduct2 = {
   image: "image1",
   name: "Test prod 2",
   category: "Test category 2",
+  last: 3,
   options: ["Option 1", "Option 2", "Option 3"],
   cost: [25, 35, 45],
 };
