@@ -18,6 +18,7 @@ const DropdownSelect = ({
   onClickChangeCurrent,
 }: Props) => {
   const [open, setOpen] = useState(false);
+  const isOneOption = options.length === 1;
 
   const handleClickOpen = () => {
     setOpen((prev) => !prev);
@@ -29,7 +30,10 @@ const DropdownSelect = ({
       <button
         type="button"
         onClick={handleClickOpen}
-        className="flex w-full justify-between rounded-xl border px-2 py-1 text-lg"
+        className={classNames(
+          "flex w-full justify-between rounded-xl border px-2 py-1 text-lg",
+          { "cursor-not-allowed": isOneOption },
+        )}
       >
         <span>{current}</span>
         <img
@@ -37,6 +41,7 @@ const DropdownSelect = ({
           alt={open ? "Close" : "Open"}
           className={classNames("size-8 duration-150", {
             "-rotate-180": open,
+            hidden: isOneOption,
           })}
         />
       </button>
@@ -47,6 +52,7 @@ const DropdownSelect = ({
           {
             "pointer-events-none grid-rows-[0fr] opacity-0": !open,
             "grid-rows-[1fr]": open,
+            hidden: isOneOption,
           },
         )}
       >

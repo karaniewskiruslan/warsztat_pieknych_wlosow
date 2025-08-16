@@ -9,7 +9,7 @@ import { updateBookings, deleteBookings } from "../../../../api/booking.api";
 import { useNotificationContext } from "../../../../context/notificationContent";
 import { useMutation } from "@tanstack/react-query";
 import { useBookingContext } from "../../../../context/bookingContext";
-import ButtonServices from "../../../../UI/BookingServices/ButtonServices";
+import ButtonBooking from "../../../../UI/BookingManagement/ButtonBooking";
 
 type Props = {
   booking: Booking;
@@ -31,13 +31,15 @@ const BookingManagementInfo = ({ booking }: Props) => {
   const { addNewNotification } = useNotificationContext();
   const { updateBookingInCache, deleteBookingFromCache } = useBookingContext();
   const [isOpen, setOpen] = useState(false);
-  const { id, fullName, isConfirmed, date, service, master, email } = booking;
+  const { id, fullName, isConfirmed, date, service, master, email, last } =
+    booking;
   const idText = id.slice(0, 8);
 
   const infoArray = [
     ["Usługa", service],
     ["Wybrany mistrz", master],
     ["Email", email],
+    ["Czas trawania", `${last * 15} minut`],
   ];
 
   const { mutate: updateBooking, isPending: loadingAccept } = useMutation({
@@ -123,7 +125,7 @@ const BookingManagementInfo = ({ booking }: Props) => {
               )}
             ></div>
             <p className={classNames("duration-150", { "opacity-0": isOpen })}>
-              {`${fullName.split(" ")[0]} - ${master}`}
+              {`${fullName.split(" ")[0]} ➡️ ${master}`}
             </p>
           </section>
           <section className="flex items-center gap-2">
@@ -169,17 +171,18 @@ const BookingManagementInfo = ({ booking }: Props) => {
               ))}
             </article>
             <section className="grid grid-cols-3 gap-2">
-              <ButtonServices
+              <ButtonBooking
                 title="Potwierdź"
                 onClick={handleAcceptVisit}
                 isConfirmed={isConfirmed}
                 loading={loadingAccept}
               />
-              <ButtonServices onClick={handleChangeVisit} title="Zmień" />
-              <ButtonServices
+              <ButtonBooking onClick={handleChangeVisit} title="Zmień" />
+              <ButtonBooking
                 title="Usuń"
                 onClick={handleDeleteVisit}
                 loading={loadingDelete}
+                isDeleting={true}
               />
             </section>
           </section>

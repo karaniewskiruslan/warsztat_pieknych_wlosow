@@ -21,8 +21,12 @@ function App() {
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    if (!token || !bookings || prevLengthRef.current === 0) {
+
+    if (prevLengthRef.current === 0) {
       prevLengthRef.current = bookings.length;
+    }
+
+    if (!token || !bookings) {
       return;
     }
 

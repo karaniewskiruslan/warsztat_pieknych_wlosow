@@ -48,7 +48,7 @@ const TimeSelection = ({
       const timeText = timeString(t.getHours(), t.getMinutes());
       const timeTextId = filteredArray.indexOf(timeText);
       if (timeTextId !== -1) {
-        filteredArray.splice(timeTextId, bk.last + 1);
+        filteredArray.splice(timeTextId, bk.last);
       }
     }
 
@@ -102,7 +102,9 @@ const TimeSelection = ({
 
   return (
     <section className="mobile:col-span-2 space-y-2">
-      <p className="font-bold">Wybież czas i datę</p>
+      <p className="font-bold">
+        Wybież czas i datę ({`Czas trwania usługi - ${last * 15} minut`})
+      </p>
       <section
         className={classNames("grid gap-2", {
           "tablet:grid-cols-10 midpoint:grid-cols-8 mobile:grid-cols-6 grid-cols-4":

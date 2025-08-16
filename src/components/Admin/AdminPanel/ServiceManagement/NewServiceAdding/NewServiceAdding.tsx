@@ -4,33 +4,37 @@ import { postService } from "../../../../../api/services.api";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import { produce } from "immer";
-import DropdownHelper from "../../../../../UI/DropdownHelper";
 import { useNotificationContext } from "../../../../../context/notificationContent";
 import { useServicesContext } from "../../../../../context/servicesContext";
 import { useMutation } from "@tanstack/react-query";
+import { motion, Variants } from "framer-motion";
+import ButtonServices from "../../../../../UI/ServicesManagement/ButtonServices";
+import InputServicesString from "../../../../../UI/ServicesManagement/Inputs/InputServicesString";
+import InputServicesFile from "../../../../../UI/ServicesManagement/Inputs/InputServicesFile";
+import Masters from "../../../../../UI/ServicesManagement/Inputs/Masters/Masters";
+import OptionsMultiple from "../../../../../UI/ServicesManagement/Inputs/Options/OptionsMultiple/OptionsMultiple";
+import OptionsSingle from "../../../../../UI/ServicesManagement/Inputs/Options/OptionsSingle/OptionsSingle";
+import InputServiceTime from "../../../../../UI/ServicesManagement/Inputs/InputServiceTime";
 
 type Props = {
   onClickAddNewService: () => void;
 };
 
-const INPUT_TEXT: ("name" | "category")[] = ["name", "category"];
+const INPUT_TEXT: ["name" | "category", string][] = [
+  ["name", "Nazwa"],
+  ["category", "Kategoria"],
+];
 
-const nameSwitcher = (name: "name" | "category") => {
-  switch (name) {
-    case "name":
-      return "Nazwa:";
-    default:
-      return "Kategoria:";
-  }
+const newServiceVariants: Variants = {
+  initial: { opacity: 0, scale: 1.05 },
+  exit: { opacity: 0, scale: 1.05 },
+  animate: { opacity: 1, scale: 1 },
 };
 
 const NewServiceAdding = ({ onClickAddNewService }: Props) => {
-  const { categories, addServiceToCache } = useServicesContext();
+  const { addServiceToCache } = useServicesContext();
   const { addNewNotification } = useNotificationContext();
-  const [{ isChecked, autoFill }, setNewServiceOptions] = useState({
-    isChecked: false,
-    autoFill: false,
-  });
+  const [isChecked, setIsChecked] = useState(false);
 
   const [newForm, setNewForm] = useState<ServicesAPI>({
     name: "",
@@ -53,7 +57,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     }));
   };
 
-  const { mutate: mutateAdd } = useMutation({
+  const { mutate: mutateAdd, isPending: addLoading } = useMutation({
     mutationFn: (form: ServicesAPI) => postService(form),
     onSuccess: (updated: Services) => {
       console.log(updated);
@@ -78,8 +82,8 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   });
 
   const handleChangeChecked = () => {
-    setNewServiceOptions((prev) => {
-      const nextChecked = !prev.isChecked;
+    setIsChecked((prev) => {
+      const nextChecked = !prev;
 
       setNewForm((prev) => ({
         ...prev,
@@ -87,19 +91,15 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
         cost: nextChecked ? [0, 0] : 0,
       }));
 
-      return { ...prev, isChecked: nextChecked };
+      return nextChecked;
     });
   };
 
-  const handleCLickCancel = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.preventDefault();
-
+  const handleCLickCancel = () => {
     onClickAddNewService();
   };
 
-  const handleChangeOptionCost = (
+  const handleChangeOptionsValues = (
     e: ChangeEvent<HTMLInputElement>,
     name: "options" | "cost" | "masters",
     i: number,
@@ -115,11 +115,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     );
   };
 
-  const handleClickAddOption = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.preventDefault();
-
+  const handleClickAddOption = () => {
     setNewForm(
       produce((draft) => {
         draft.options.push("Nowa opcja");
@@ -130,11 +126,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     );
   };
 
-  const handleClickAddMaster = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.preventDefault();
-
+  const handleClickAddMaster = () => {
     setNewForm(
       produce((draft) => {
         draft.masters.push("Nowy Mistrz");
@@ -211,9 +203,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   };
 
   const handleChangeFocus = (newState: boolean) => {
-    setTimeout(() => {
-      setNewServiceOptions((prev) => ({ ...prev, autoFill: newState }));
-    }, 10);
+    setIsChecked(newState);
   };
 
   const handleChangeAutofill = (text: string) => {
@@ -233,209 +223,87 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   };
 
   return (
-    <section className="fixed top-0 left-0 grid h-dvh w-dvw place-items-center bg-[#0000006e]">
+    <motion.section
+      variants={newServiceVariants}
+      initial="initial"
+      exit="exit"
+      animate="animate"
+      transition={{
+        duration: 0.3,
+      }}
+      className="fixed top-0 left-0 grid h-dvh w-dvw place-items-center bg-[#0000006e]"
+    >
       <div className="mobile:w-[max(400px,60dvw)] m-6 w-full space-y-3 rounded-2xl bg-white p-6">
         <h2>Dodawanie nowej usługi</h2>
         <form onSubmit={handleSubmitForm}>
           <section className="midpoint:grid-cols-2 mx-1 grid gap-4">
             <div className="space-y-2">
-              {INPUT_TEXT.map((inp) => (
-                <label
-                  key={inp}
-                  onFocus={() => {
-                    if (inp === "category") handleChangeFocus(true);
-                  }}
-                  onBlur={() => {
-                    if (inp === "category") handleChangeFocus(false);
-                  }}
-                >
-                  <p className="font-bold">{nameSwitcher(inp)}</p>
-                  <input
-                    onChange={handleChangeForm}
-                    value={newForm[inp]}
-                    name={inp}
-                    type="text"
-                  />
-                  {inp === "category" && autoFill ? (
-                    <DropdownHelper
-                      options={categories}
-                      query={category}
-                      onChange={handleChangeAutofill}
-                    />
-                  ) : null}
-                </label>
+              {INPUT_TEXT.map(([name, title]) => (
+                <InputServicesString
+                  key={title}
+                  name={name}
+                  title={title}
+                  value={newForm[name]}
+                  onChange={handleChangeForm}
+                  onChangeAutoFill={handleChangeAutofill}
+                />
               ))}
 
-              <label>
-                <p className="font-bold">Obrazek</p>
-                <input
-                  onChange={handleFileChange}
-                  accept="image/*"
-                  name="image"
-                  type="file"
-                />
-              </label>
+              <InputServicesFile
+                name="image"
+                title="Obrazek"
+                onChange={handleFileChange}
+              />
 
-              <div className="space-y-1">
-                <p className="font-bold">Mistrzowie</p>
-                {masters.map((master, i) => (
-                  <section key={i} className="flex items-center gap-2">
-                    <label className="flex items-center justify-center gap-4">
-                      <input
-                        onChange={(e) =>
-                          handleChangeOptionCost(e, "masters", i)
-                        }
-                        value={master}
-                        name={`master ${i}`}
-                        type="text"
-                      />
-                    </label>
-                    <button
-                      onClick={() => handleClickDeleteMaster(i)}
-                      className="aspect-square size-8 rounded-xl border"
-                      type="button"
-                    >
-                      <img src={Cancel} alt="Cancel" loading="lazy" />
-                    </button>
-                  </section>
-                ))}
-                <button
-                  onClick={(e) => handleClickAddMaster(e)}
-                  className="w-fit rounded-full border px-2 py-1"
-                  type="button"
-                >
-                  Dodaj Mistrza
-                </button>
-              </div>
+              <Masters
+                masters={masters}
+                title="Mistrzowie"
+                onChangeMasterName={handleChangeOptionsValues}
+                onClickDeleteMaster={handleClickDeleteMaster}
+                onClickAddMaster={handleClickAddMaster}
+              />
             </div>
             <div className="space-y-1">
               {isChecked ? (
-                <>
-                  <p className="font-bold">Opcje</p>
-                  <div className="grid grid-cols-2 gap-4">
-                    <section className="space-y-2">
-                      {options.map((option, i) => (
-                        <label
-                          key={i}
-                          className="flex items-center justify-center gap-4 space-y-1"
-                        >
-                          <input
-                            onChange={(e) =>
-                              handleChangeOptionCost(e, "options", i)
-                            }
-                            value={option}
-                            name={`option ${i}`}
-                            type="text"
-                          />
-                        </label>
-                      ))}
-                    </section>
-                    <section className="space-y-2">
-                      {Array.isArray(cost) &&
-                        cost.map((price, i) => (
-                          <section key={i} className="flex items-center gap-2">
-                            <label className="flex items-center justify-center gap-4 space-y-1">
-                              <p className="font-bold">Zł:</p>
-                              <input
-                                onChange={(e) =>
-                                  handleChangeOptionCost(e, "cost", i)
-                                }
-                                value={+price}
-                                name={`price ${i}`}
-                                type="number"
-                              />
-                            </label>
-                            <button
-                              onClick={() => handleClickDeleteOption(i)}
-                              className="aspect-square size-8 rounded-xl border"
-                              type="button"
-                            >
-                              <img src={Cancel} alt="Cancel" loading="lazy" />
-                            </button>
-                          </section>
-                        ))}
-                    </section>
-                  </div>
-                  <button
-                    onClick={handleClickAddOption}
-                    className="w-fit rounded-full border px-2 py-1"
-                    type="button"
-                  >
-                    Dodaj opcję
-                  </button>
-                  <div>
-                    <label>
-                      <input
-                        type="checkbox"
-                        className=""
-                        name="options"
-                        checked={isChecked}
-                        onChange={handleChangeChecked}
-                      />
-                      <span className="checkmark peer-checked::after:size-3"></span>
-                      Wieloopcyjna usługa
-                    </label>
-                  </div>
-                </>
-              ) : (
-                <div className="grid grid-cols-2">
-                  <section className="">
-                    <label>
-                      <input
-                        type="checkbox"
-                        className=""
-                        name="options"
-                        checked={isChecked}
-                        onChange={handleChangeChecked}
-                      />
-                      <span className="checkmark peer-checked::after:size-3"></span>
-                      Wieloopcyjna usługa
-                    </label>
-                  </section>
-                  <section>
-                    <label className="flex items-center justify-center gap-4 space-y-1">
-                      <p className="font-bold">Zł:</p>
-                      <input
-                        onChange={handleChangeForm}
-                        value={cost as number}
-                        name="cost"
-                        type="number"
-                      />
-                    </label>
-                  </section>
-                </div>
-              )}
-              <label>
-                <p className="font-bold">
-                  Czas trwania usługi:({last * 15} min)
-                </p>
-                <input
-                  onChange={handleChangeForm}
-                  value={last}
-                  name="last"
-                  type="number"
+                <OptionsMultiple
+                  options={options}
+                  costs={cost as number[]}
+                  isChecked={isChecked}
+                  onChangeValue={handleChangeOptionsValues}
+                  onClickAddOption={handleClickAddOption}
+                  onClickDeleteOption={handleClickDeleteOption}
+                  onChangeCheckbox={handleChangeChecked}
                 />
-              </label>
+              ) : (
+                <OptionsSingle
+                  cost={cost as number}
+                  isChecked={isChecked}
+                  onChangeCost={handleChangeForm}
+                  onChangeCheckbox={handleChangeChecked}
+                />
+              )}
+              <InputServiceTime last={last} onChangeTime={handleChangeForm} />
             </div>
           </section>
           <section className="flex justify-end gap-2">
-            <button
-              type="button"
-              className="serviceManagementButton bg-red-200"
-              onClick={(e) => handleCLickCancel(e)}
-            >
-              <img src={Cancel} alt="Cancel" loading="lazy" />
-            </button>
-            <button
-              className="serviceManagementButton bg-emerald-200"
-              type="submit"
-            >
-              <img src={Confirm} alt="Confirm" loading="lazy" />
-            </button>
+            <ButtonServices
+              name="Cancel"
+              buttonType="button"
+              image={Cancel}
+              color="#ffc9c9"
+              onClick={handleCLickCancel}
+            />
+            <ButtonServices
+              name="Confirm"
+              buttonType="submit"
+              image={Confirm}
+              loading={addLoading}
+              color="#a4f4cf"
+            />
           </section>
         </form>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

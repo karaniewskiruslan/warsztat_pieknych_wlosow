@@ -7,6 +7,7 @@ import classNames from "classnames";
 import NewServiceAdding from "./NewServiceAdding/NewServiceAdding";
 import useScrollLock from "../../../../hooks/useScrollLock.hook";
 import { useServicesContext } from "../../../../context/servicesContext";
+import { AnimatePresence } from "framer-motion";
 
 const ServiceManagement = () => {
   const { splittedServices, errorServices, loadingServices } =
@@ -68,9 +69,11 @@ const ServiceManagement = () => {
 
       <PageButton text="< Wstecz" onClick={handleClickBack} />
 
-      {newServiceAdding ? (
-        <NewServiceAdding onClickAddNewService={handleClickAddNewService} />
-      ) : null}
+      <AnimatePresence>
+        {newServiceAdding ? (
+          <NewServiceAdding onClickAddNewService={handleClickAddNewService} />
+        ) : null}
+      </AnimatePresence>
     </section>
   );
 };

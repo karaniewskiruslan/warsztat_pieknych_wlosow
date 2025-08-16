@@ -141,5 +141,5 @@ label input[type="checkbox"]:checked ~ .checkmark::after {
 }
 
 .bookingButton {
-  @apply grid place-items-center rounded-xl border px-2 py-1 duration-200 hover:bg-gray-200;
+  @apply relative grid place-items-center rounded-xl border px-2 py-1 duration-200 hover:bg-gray-200;
 }
