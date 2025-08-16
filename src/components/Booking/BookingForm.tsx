@@ -23,6 +23,7 @@ const BookingForm = () => {
   const { addNewNotification } = useNotificationContext();
   const { addBookingToCache } = useBookingContext();
   const initialServices = servicesOnCategory(categories[0]);
+  const initialService = services.find((el) => el.name === initialServices[0]);
 
   const [isValidDate, setIsValidDate] = useState(true);
 
@@ -31,10 +32,10 @@ const BookingForm = () => {
   >({
     fullName: "",
     email: "",
-    category: "",
+    category: categories[0],
     service: initialServices[0],
-    last: 0,
-    master: "",
+    last: initialService?.last ?? 0,
+    master: initialService?.masters[0] ?? "",
     date: null,
   });
 
@@ -57,15 +58,14 @@ const BookingForm = () => {
 
   useEffect(() => {
     const found = services.find((el) => el.name === service);
+
     if (found) {
       setBookingForm((prev) => ({
         ...prev,
         last: found.last,
-        master: found.masters[0] ?? "",
+        master: found.masters[0] || prev.master || "",
       }));
     }
-
-    console.log(bookingForm);
   }, [service, services]);
 
   useEffect(() => {
@@ -197,6 +197,7 @@ const BookingForm = () => {
         />
         <TimeSelection
           last={last}
+          master={master}
           onChangesValidDate={handleChangesValidDate}
           onChangeDate={handleChangeDate}
         />

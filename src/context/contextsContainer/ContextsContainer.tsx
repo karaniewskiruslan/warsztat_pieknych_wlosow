@@ -9,11 +9,11 @@ type Props = {
 
 const ContextsContainer = ({ children }: Props) => {
   return (
-    <ServicesContextContainer>
-      <NotificationContextContainer>
+    <NotificationContextContainer>
+      <ServicesContextContainer>
         <BookingContextContainer>{children}</BookingContextContainer>
-      </NotificationContextContainer>
-    </ServicesContextContainer>
+      </ServicesContextContainer>
+    </NotificationContextContainer>
   );
 };
 

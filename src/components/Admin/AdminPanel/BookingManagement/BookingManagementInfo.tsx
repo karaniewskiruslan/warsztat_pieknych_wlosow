@@ -123,7 +123,7 @@ const BookingManagementInfo = ({ booking }: Props) => {
               )}
             ></div>
             <p className={classNames("duration-150", { "opacity-0": isOpen })}>
-              {fullName}
+              {`${fullName.split(" ")[0]} - ${master}`}
             </p>
           </section>
           <section className="flex items-center gap-2">

@@ -15,7 +15,7 @@ export const newTimes = (date: Date) => {
     ? Math.max(today.getHours() + 2, 9)
     : Math.max(currentHour + 2, 9);
 
-  for (let h = hourProve; h < 20; h++) {
+  for (let h = hourProve; h < 21; h++) {
     for (
       let m =
         h === hourProve && isToday ? Math.ceil(currentMinutes / 15) * 15 : 0;

@@ -1,20 +1,41 @@
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import Loading from "./components/Loading.tsx";
 import { motion, useScroll } from "motion/react";
 import usePageHeight from "./hooks/usePageHeight.hook.ts";
 import { useLocation } from "react-router";
 import Notifications from "./UI/Notifications/Notifications.tsx";
+import { useBookingContext } from "./context/bookingContext.tsx";
+import { useNotificationContext } from "./context/notificationContent.tsx";
 
 const Layout = lazy(() => import("./components/Layout.tsx"));
 
 function App() {
   const { scrollYProgress } = useScroll();
+  const { bookings } = useBookingContext();
+  const { addNewNotification } = useNotificationContext();
   const fits = usePageHeight();
   const { pathname } = useLocation();
+  const prevLengthRef = useRef<number>(0);
 
-  console.log(import.meta.env.VITE_API_URL + "api/login");
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token || !bookings || prevLengthRef.current === 0) {
+      prevLengthRef.current = bookings.length;
+      return;
+    }
+
+    if (bookings.length > prevLengthRef.current) {
+      addNewNotification(
+        "added",
+        "Nowe umowienie wizyty",
+        "Masz nową wizytę do salonu. Sprawdź swoje zarządzanie wizytami.",
+      );
+    }
+
+    prevLengthRef.current = bookings.length;
+  }, [bookings, addNewNotification]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,11 +66,3 @@ function App() {
 }
 
 export default App;
-
-// const xxx: ServicesAPI = {
-//   name: "Test name",
-//   image: "/testImage.webp",
-//   category: "Podstawowe usługi fryzjera",
-//   options: [],
-//   cost: 120,
-// };

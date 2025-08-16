@@ -13,16 +13,24 @@ import {
 
 type Props = {
   last: number;
+  master: string;
   onChangesValidDate: (fullTime: string[], timeService: string[]) => void;
   onChangeDate: (newDate: Date | null) => void;
 };
 
-const TimeSelection = ({ last, onChangesValidDate, onChangeDate }: Props) => {
+const TimeSelection = ({
+  last,
+  master,
+  onChangesValidDate,
+  onChangeDate,
+}: Props) => {
   const { bookings } = useBookingContext();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const timeArray = useMemo(() => {
+    if (!master) return [];
+
     const filteredArray = newTimes(selectedDate);
 
     const filteredBookings = bookings.filter((el) => {
@@ -30,7 +38,8 @@ const TimeSelection = ({ last, onChangesValidDate, onChangeDate }: Props) => {
       return (
         bookingDate.getDate() === selectedDate.getDate() &&
         bookingDate.getMonth() === selectedDate.getMonth() &&
-        bookingDate.getFullYear() === selectedDate.getFullYear()
+        bookingDate.getFullYear() === selectedDate.getFullYear() &&
+        el.master === master
       );
     });
 
@@ -44,7 +53,7 @@ const TimeSelection = ({ last, onChangesValidDate, onChangeDate }: Props) => {
     }
 
     return filteredArray;
-  }, [selectedDate, bookings]);
+  }, [selectedDate, bookings, master]);
 
   const [bookTime, setBookTime] = useState<Date>(() => {
     const firstTime = timeArray[0] ?? "09:00";
@@ -62,7 +71,7 @@ const TimeSelection = ({ last, onChangesValidDate, onChangeDate }: Props) => {
       const [h, m] = timeArray[0].split(":").map(Number);
       setBookTime(dataChange(selectedDate, h, m));
     }
-  }, [timeArray, selectedDate]);
+  }, [timeArray, selectedDate, master]);
 
   useEffect(() => {
     onChangeDate(bookTime);

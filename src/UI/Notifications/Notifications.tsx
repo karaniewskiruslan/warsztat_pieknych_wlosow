@@ -9,7 +9,7 @@ const Notifications = () => {
   return (
     <section
       className={classNames(
-        "fixed top-0 right-0 flex justify-end p-4",
+        "fixed top-0 right-0 z-50 flex justify-end p-4",
         "font-poppins mobile:w-[550px] pointer-events-none h-dvh w-dvw",
       )}
     >
