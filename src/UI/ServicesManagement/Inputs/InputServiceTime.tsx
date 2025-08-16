@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 
 type Props = {
   last: number;
@@ -9,12 +9,7 @@ const InputServiceTime = ({ last, onChangeTime }: Props) => {
   return (
     <label>
       <p className="font-bold">Czas trwania usługi:({last * 15} min)</p>
-      <input
-        onChange={onChangeTime}
-        value={last}
-        name="last"
-        type="number"
-      />
+      <input onChange={onChangeTime} value={last} name="last" type="number" />
     </label>
   );
 };
