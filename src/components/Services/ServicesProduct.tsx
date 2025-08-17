@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Services } from "../../types/services.type";
 import classNames from "classnames";
+import Image from "../../UI/Image";
 
 type Props = {
   product: Services;
@@ -14,13 +15,8 @@ const ServicesProduct = ({ product }: Props) => {
       data-testid="servicesProd"
       className="relative grid aspect-[4/5] flex-col place-items-center gap-4 rounded-2xl bg-gray-100 p-3"
     >
-      <div className="flex w-full justify-center">
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          className="mobile:size-24 size-16"
-        />
+      <div className="mobile:size-24 flex size-16 w-full justify-center overflow-hidden rounded-xl">
+        <Image src={product.image} alt={product.name} />
       </div>
 
       {product.options.length ? (

@@ -1,4 +1,5 @@
 import { ContactOpt } from "../../types/contact.type";
+import Image from "../../UI/Image";
 
 type Props = {
   contactOpt: ContactOpt;
@@ -9,12 +10,9 @@ const ContactText = ({ contactOpt }: Props) => {
     <>
       <article className="w-fit">
         <a href={contactOpt.link} target="_blank" className="flex gap-2">
-          <img
-            src={contactOpt.image}
-            alt={contactOpt.title}
-            loading="lazy"
-            className="size-9"
-          />
+          <div className="size-9">
+            <Image src={contactOpt.image!} alt={contactOpt.title} />
+          </div>
           <h2 className="underline">{contactOpt.title}</h2>
         </a>
       </article>

@@ -1,3 +1,5 @@
+import Image from "../../../UI/Image";
+
 type Props = {
   name: string;
   masterWorks: string[];
@@ -13,12 +15,7 @@ const MasterWorks = ({ name, masterWorks }: Props) => {
             key={image}
             className="aspect-square overflow-hidden rounded-xl bg-amber-100"
           >
-            <img
-              data-testid="master-work-photo"
-              src={image}
-              alt={`Master ${name} photo ${i}`}
-              loading="lazy"
-            />
+            <Image src={image} alt={`Master ${name} photo ${i}`} />
           </div>
         ))}
       </div>

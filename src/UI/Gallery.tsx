@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AnimatePresence, motion, Transition } from "framer-motion";
+import { AnimatePresence, Transition } from "framer-motion";
 import { useEffect, useState } from "react";
+import ImageMain from "./ImageMain";
 
 type Props = {
   gallery: string[];
@@ -88,16 +89,13 @@ const Gallery = ({ gallery, scrollDirection }: Props) => {
   return (
     <section className="pointer-events-none relative aspect-square size-full overflow-hidden rounded-2xl">
       <AnimatePresence initial={false} custom={direction}>
-        <motion.img
+        <ImageMain
           key={image}
           src={gallery[imageIndex]}
-          custom={direction}
+          direction={direction}
+          alt={gallery[imageIndex]}
           variants={variantsOption.animation}
-          initial="enter"
-          animate="center"
-          exit="exit"
           transition={variantsOption.transition as Transition}
-          className="absolute size-full"
         />
       </AnimatePresence>
     </section>

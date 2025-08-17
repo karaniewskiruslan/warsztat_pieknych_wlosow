@@ -7,6 +7,7 @@ import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import useWindowSize from "../../hooks/useWindowSize.hook";
 import useScrollLock from "../../hooks/useScrollLock.hook";
 import { AnimatePresence } from "framer-motion";
+import Image from "../../UI/Image";
 
 const Header = () => {
   const [isBurgerMenu, toggleBurgerMenu] = useState(false);
@@ -27,9 +28,11 @@ const Header = () => {
   return (
     <header
       data-testid="header"
-      className="z-50 font-buford flex w-full justify-between bg-black px-8 py-4 text-3xl text-white"
+      className="font-buford z-50 flex w-full justify-between bg-black px-8 py-4 text-3xl text-white"
     >
-      <img src={logo} alt="Logo" loading="lazy" className="h-10" />
+      <div className="aspect-[65/16] h-10">
+        <Image src={logo} alt="Logo" />
+      </div>
       <nav className="flex items-center gap-8 text-xl">
         {screenWidth ? (
           <button onClick={() => toggleMenu(true)} className="size-10">

@@ -15,6 +15,7 @@ const TEST_MASTER_FROM_LIST = mastersInfo[0];
 const testMaster = {
   id: 2,
   name: TEST_NAME,
+  frontImage: "test-image",
   profession: TEST_PROFESSION,
   experience: TEST_EXPERIENCE,
   description: [""],

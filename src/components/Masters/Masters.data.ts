@@ -4,6 +4,7 @@ export const mastersInfo: masterType[] = [
   {
     id: 0,
     name: "Natalia",
+    frontImage: "/warsztat_pieknych_wlosow/img/masters/Natalia/frontImage.webp",
     profession: "Fryzier",
     experience: "30 lat doświadczenia",
     description: ["Lorem 11", "Lorem 12", "Lorem 13", "Lorem 14"],
@@ -23,6 +24,7 @@ export const mastersInfo: masterType[] = [
   {
     id: 1,
     name: "Waleria",
+    frontImage: "/warsztat_pieknych_wlosow/img/masters/Waleria/frontImage.webp",
     profession: "Manicure | Pedicure",
     experience: "15 lat doświadczenia",
     description: ["Lorem 21", "Lorem 22", "Lorem 23", "Lorem 24"],

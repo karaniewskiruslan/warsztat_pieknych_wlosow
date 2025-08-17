@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import { masterType } from "../../types/masterType.type";
 import { motion } from "framer-motion";
+import Image from "../../UI/Image";
 
 type Props = {
   master: masterType;
@@ -23,13 +24,7 @@ const MastersIcon = ({ master }: Props) => {
       transition={{ duration: 0.3 }}
       className="relative flex aspect-square items-end overflow-hidden rounded-3xl border-transparent bg-gray-100 duration-300 hover:scale-105 hover:border-2 hover:border-gray-200"
     >
-      <img
-        src="time"
-        alt={master.name}
-        loading="lazy"
-        className="pointer-events-none absolute h-full w-full"
-      />
-      <motion.article className="px-4 py-2" layout>
+      <motion.article className="px-4 py-2 z-10 text-white" layout>
         <h2>{master.name}</h2>
         <h3>{master.profession}</h3>
         <motion.section
@@ -40,6 +35,7 @@ const MastersIcon = ({ master }: Props) => {
           <p>{master.experience}</p>
         </motion.section>
       </motion.article>
+      <Image src={master.frontImage} alt={master.name} isAbsolute={true} />
     </MotionNavLink>
   );
 };

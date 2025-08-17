@@ -1,5 +1,6 @@
 import { Services } from "../../../../types/services.type";
 import CategoryText from "../../../../UI/CategoryText";
+import Image from "../../../../UI/Image";
 import Edit from "/Edit.svg";
 
 type Props = {
@@ -38,7 +39,9 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
             />
           )}
         </article>
-        <img src={product.image} alt={product.name} loading="lazy" />
+        <section className="size-full overflow-hidden rounded-xl">
+          <Image src={product.image} alt={product.name} />
+        </section>
       </section>
       <section className="flex justify-end gap-2">
         <button className="serviceManagementButton" onClick={onCLickOpen}>
