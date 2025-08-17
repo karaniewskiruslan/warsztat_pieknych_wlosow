@@ -13,6 +13,7 @@ const TEST_EXPERIENCE = "17 year of experience";
 const testMaster = {
   id: 2,
   name: TEST_NAME,
+  frontImage: "test-images",
   profession: TEST_PROFESSION,
   experience: TEST_EXPERIENCE,
   description: ["Lorem 1", "Lorem 2", "Lorem 3"],
