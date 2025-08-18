@@ -78,7 +78,7 @@ const TimeSelection = ({
   }, [bookTime]);
 
   useEffect(() => {
-    onChangesValidDate(timeArray, dateAvailable(bookTime, last));
+    onChangesValidDate(timeArray, dateAvailable(bookTime, last - 1));
   }, [timeArray, bookTime, last]);
 
   const handleClickDate = (e: Value) => {
@@ -112,18 +112,32 @@ const TimeSelection = ({
         })}
       >
         {timeArray.length > 0 ? (
-          timeArray.map((t, i) => {
+          timeArray.map((t, i, arr) => {
             const currentTime = timeString(
               bookTime.getHours(),
               bookTime.getMinutes(),
             );
+
+            const dateAvailableArray = dateAvailable(bookTime, last - 1);
+            const proveDates = () => {
+              return dateAvailableArray.every((el) => arr.includes(el));
+            };
+
             return (
               <article
                 key={i}
                 onClick={() => handleClickBookClock(t)}
                 className={classNames(
-                  "cursor-pointer rounded-full border px-4 py-1 text-center",
-                  { "bg-black text-white": t === currentTime },
+                  "cursor-pointer rounded-full border px-4 py-1 text-center text-black",
+                  { "bg-black text-white": t === currentTime && proveDates() },
+                  { "bg-gray-200": dateAvailableArray.includes(t) },
+                  {
+                    "bg-red-400": t === currentTime && !proveDates(),
+                  },
+                  {
+                    "bg-orange-300":
+                      dateAvailableArray.includes(t) && !proveDates(),
+                  },
                 )}
               >
                 {t}

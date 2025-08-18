@@ -11,6 +11,7 @@ import { useServicesContext } from "../../context/servicesContext";
 import loadingImage from "/loading.svg";
 import { useMutation } from "@tanstack/react-query";
 import { useBookingContext } from "../../context/bookingContext";
+import BookingExplaining from "./BookingExplaining";
 
 const BookingForm = () => {
   const {
@@ -184,17 +185,19 @@ const BookingForm = () => {
         <DropdownSelect
           name="service"
           current={service}
-          options={servicesOnCategory(category)}
+          options={servicesOnCategory(category) ?? []}
           title="Wybież usługę"
           onClickChangeCurrent={onChangeFormOption}
         />
         <DropdownSelect
           name="master"
           current={master}
-          options={mastersOnService(service)}
+          options={mastersOnService(service) ?? []}
           onClickChangeCurrent={onChangeFormOption}
           title="Wybież mistrza"
         />
+        <BookingExplaining />
+
         <TimeSelection
           last={last}
           master={master}

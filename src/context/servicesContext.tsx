@@ -67,11 +67,9 @@ export const ServicesContextContainer = ({ children }: Props) => {
       .filter((el: Services) => el.category === category)
       .map((el: Services) => el.name);
   };
-
   const mastersOnService = (service: string) => {
-    return services
-      .filter((el: Services) => el.name === service)
-      .map((el: Services) => String(el.masters));
+    const matched = (services as Services[]).find((el) => el.name === service);
+    return matched ? matched.masters : [];
   };
 
   const updateServiceInCache = (updated: Services) => {

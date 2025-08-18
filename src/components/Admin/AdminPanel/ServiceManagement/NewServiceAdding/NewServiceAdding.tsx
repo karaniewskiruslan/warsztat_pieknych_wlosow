@@ -46,7 +46,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     image: null,
   });
 
-  const { name, category, last, cost, options, masters } = newForm;
+  const { name, category, last, cost, options, masters, image } = newForm;
 
   const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -160,8 +160,6 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(newForm);
-
     if (
       options.some((el) => el.length === 0) ||
       new Set(options).size !== options.length
@@ -169,7 +167,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
       return addNewNotification(
         "error",
         "Wystąpił błąd",
-        "Nie można zostawiać pustych pól w formularzu opcji.",
+        "Nie można zostawiać pustych pól w formularzu opcje.",
       );
 
     if (
@@ -197,6 +195,13 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
         "error",
         "Wystąpił błąd",
         "Cena nie może być niegatywną.",
+      );
+
+    if (!image)
+      return addNewNotification(
+        "error",
+        "Wystąpił błąd",
+        "Musisz wybrać obrazek.",
       );
 
     mutateAdd(newForm);

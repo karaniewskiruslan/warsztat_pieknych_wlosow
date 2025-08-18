@@ -11,10 +11,7 @@ const MasterWorks = ({ name, masterWorks }: Props) => {
       <h3>Robory mistrza</h3>
       <div className="mobile:grid-cols-4 grid grid-cols-2 gap-6">
         {masterWorks.map((image, i) => (
-          <div
-            key={image}
-            className="aspect-square overflow-hidden rounded-xl bg-amber-100"
-          >
+          <div key={image} className="aspect-square overflow-hidden rounded-xl">
             <Image src={image} alt={`Master ${name} photo ${i}`} />
           </div>
         ))}

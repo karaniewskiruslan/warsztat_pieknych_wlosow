@@ -12,3 +12,32 @@ export const proveForm = (form: BookingAPI) => {
   return fullnameProve && emailProve;
 };
 
+export const bookingText = [
+  {
+    title: "Umówienie wizyty na stronie WPW",
+    text: "Zapisz się do nas na wizytę. Wybierz najbardziej pasujący sobie termin i wpisz swoje dane.",
+  },
+  {
+    title: "Booksy",
+    text: " Wybierz najbardziej dogodny dzień i godzinę, a my przemienimy tę chwilę w pełną zachwytu podróż do świata piękna i relaksu.",
+  },
+];
+
+export const bookingTimeExplanation = [
+  {
+    title: "Wybrana godzina",
+    color: "#000",
+  },
+  {
+    title: "Zarezerwowane",
+    color: "#e5e7eb",
+  },
+  {
+    title: "Niedostępne",
+    color: "#ff6467",
+  },
+  {
+    title: "Kolizja terminów",
+    color: "#ffb86a",
+  },
+];

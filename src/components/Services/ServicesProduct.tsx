@@ -52,7 +52,7 @@ const ServicesProduct = ({ product }: Props) => {
             onClick={() => setIsOpen((prev) => !prev)}
             className="z-40 h-7 w-28 rounded-full bg-gray-200 px-2 uppercase"
           >
-            {isOpen ? "ukryj" : "opcji"}
+            {isOpen ? "ukryj" : "opcje"}
           </button>
         </>
       ) : (
