@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns6:Dokument xmlns:ns6="http://crd.gov.pl/wzor/2024/11/28/" xmlns:adr="http://crd.gov.pl/xml/schematy/adres/2009/11/09/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:inst="http://crd.gov.pl/xml/schematy/instytucja/2009/11/16/" xmlns:meta="http://crd.gov.pl/xml/schematy/meta/2009/11/16/" xmlns:oso="http://crd.gov.pl/xml/schematy/osoba/2009/11/16/" xmlns:str="http://crd.gov.pl/xml/schematy/struktura/2009/11/16/" xsi:schemaLocation="http://crd.gov.pl/wzor/2024/11/28/ schemat.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ns6:OpisDokumentu>
+		<str:CID></str:CID>
+	</ns6:OpisDokumentu>
+	<ns6:TrescDokumentu format="text/xml" kodowanie="XML">
+		<ns6:Wartosc zlozonyPrzez="przedsiębiorca">
+			<ns6:RodzajWniosku>1</ns6:RodzajWniosku>
+			
+			<ns6:DataZlozeniaWniosku typDaty="stworzony">
+				<meta:Czas>2025-08-19</meta:Czas>
+			</ns6:DataZlozeniaWniosku>
+			<ns6:MiejsceZlozeniaWniosku>
+				<ns6:NazwaInstytucji>CEIDG</ns6:NazwaInstytucji>
+			</ns6:MiejsceZlozeniaWniosku>
+			<ns6:Wnioskodawca>
+				<ns6:DaneWnioskodawcy>
+					<ns6:Identyfikatory brakNIP="1" brakPESEL="0" brakREGON="1">
+						<ns6:DokumentTozsamosci>
+							<ns6:Rodzaj>dowód osobisty</ns6:Rodzaj>
+							<ns6:Numer>DVG422101</ns6:Numer>
+							<ns6:Nazwa></ns6:Nazwa>
+						</ns6:DokumentTozsamosci>
+						<ns6:REGON></ns6:REGON>
+						<ns6:NIP></ns6:NIP>
+						<ns6:PESEL>99042313294</ns6:PESEL>
+					</ns6:Identyfikatory>
+					<ns6:Plec>M</ns6:Plec>
+					<ns6:Imie>Rusłan</ns6:Imie>
+					<ns6:ImieDrugie></ns6:ImieDrugie>
+					<ns6:Nazwisko>Karaniewski</ns6:Nazwisko>
+					<ns6:NazwiskoRodowe>Karaniewski</ns6:NazwiskoRodowe>
+					<ns6:ImieMatki>Alena</ns6:ImieMatki>
+					<ns6:ImieOjca>Henadz</ns6:ImieOjca>
+					<ns6:DataUrodzenia typDaty="zdarzenia">
+						<meta:Czas>1999-04-23</meta:Czas>
+					</ns6:DataUrodzenia>
+					<ns6:MiejsceUrodzenia>Mińsk</ns6:MiejsceUrodzenia>
+					<ns6:PosiadaneObywatelstwa brakObywatelstwa="0">
+						<ns6:Obywatelstwo>PL</ns6:Obywatelstwo>
+					</ns6:PosiadaneObywatelstwa>
+				</ns6:DaneWnioskodawcy>
+				<ns6:Oswiadczenia>
+					<ns6:BrakZakazuDzialalnosciGospodarczej>1</ns6:BrakZakazuDzialalnosciGospodarczej>
+				</ns6:Oswiadczenia>
+				<ns6:AdresZamieszkania>
+					<ns6:KodPocztowy>03-252</ns6:KodPocztowy>
+					<ns6:Miejscowosc>Warszawa</ns6:Miejscowosc>
+					<ns6:Ulica>ul. Suwalska</ns6:Ulica>
+					<ns6:Budynek>18</ns6:Budynek>
+					<ns6:Lokal>58</ns6:Lokal>
+					<ns6:Kraj>PL</ns6:Kraj>
+					<ns6:TERC>1465011</ns6:TERC>
+					<ns6:SIMC>0988827</ns6:SIMC>
+					<ns6:ULIC>21614</ns6:ULIC>
+					<ns6:Wojewodztwo>MAZOWIECKIE</ns6:Wojewodztwo>
+					<ns6:Powiat>Warszawa</ns6:Powiat>
+					<ns6:Gmina>Warszawa</ns6:Gmina>
+					<ns6:Uwagi></ns6:Uwagi>
+				</ns6:AdresZamieszkania>
+			</ns6:Wnioskodawca>
+			<ns6:WpisDoEwidencji>
+				<ns6:EwidencjaGospodarcza>
+					<ns6:FirmaPrzedsiebiorcy>KARANELUS - Rusłan Karaniewski</ns6:FirmaPrzedsiebiorcy>
+					<ns6:NazwaSkrocona>KARANELUS</ns6:NazwaSkrocona>
+					<ns6:DataRozpoczeciaDzialalnosci typDaty="zdarzenia">
+						<meta:Czas>2025-08-25</meta:Czas>
+					</ns6:DataRozpoczeciaDzialalnosci>
+					<ns6:MiejscaWykonywaniaDzialalnosci>
+						<ns6:GlowneMiejsceDzialalnosci jakZamieszkania="0" brak="1">
+						</ns6:GlowneMiejsceDzialalnosci>
+					</ns6:MiejscaWykonywaniaDzialalnosci>
+					<ns6:AdresDoDoreczen jakDzialalnosci="0">
+						<ns6:KodPocztowy>03-252</ns6:KodPocztowy>
+						<ns6:Miejscowosc>Warszawa</ns6:Miejscowosc>
+						<ns6:Ulica>ul. Suwalska</ns6:Ulica>
+						<ns6:Budynek>18</ns6:Budynek>
+						<ns6:Lokal>58</ns6:Lokal>
+						<ns6:SkrytkaPocztowa></ns6:SkrytkaPocztowa>
+						<ns6:Kraj>PL</ns6:Kraj>
+						<ns6:TERC>1465011</ns6:TERC>
+						<ns6:SIMC>0988827</ns6:SIMC>
+						<ns6:ULIC>21614</ns6:ULIC>
+						<ns6:Wojewodztwo>MAZOWIECKIE</ns6:Wojewodztwo>
+						<ns6:Powiat>Warszawa</ns6:Powiat>
+						<ns6:Gmina>Warszawa</ns6:Gmina>
+						<ns6:Adresat>Rusłan Karaniewski</ns6:Adresat>
+					</ns6:AdresDoDoreczen>
+					
+					<ns6:AdresDoEDoreczen UtworzenieAktualizacjaDanych="1" Regulamin="1">
+						
+						<ns6:Email>karaniewski.ruslan@gmail.com</ns6:Email>
+
+					</ns6:AdresDoEDoreczen>
+					<ns6:LiczbaPracujacych>1</ns6:LiczbaPracujacych>
+					<ns6:RodzajeDzialalnosciGospodarczej>
+						<ns6:Przewazajacy modyfikacja="0">6210B</ns6:Przewazajacy>
+					</ns6:RodzajeDzialalnosciGospodarczej>
+					<ns6:DaneDoKontaktu sprzeciwWobecUdostepnienia="1">
+						<ns6:StronaWWW></ns6:StronaWWW>
+						<ns6:Email>karaniewski.ruslan@gmail.com</ns6:Email>
+						<ns6:InnaFormaKontaktu></ns6:InnaFormaKontaktu>
+						<ns6:NrTelefonu>519825196</ns6:NrTelefonu>
+					</ns6:DaneDoKontaktu>
+				</ns6:EwidencjaGospodarcza>
+				<ns6:RejestrUbezpieczeniowy rodzaj="ZUS">
+					<ns6:WnioskiZus dolaczamZZA="0" dolaczamZWUA="0" dolaczamZUA="0" dolaczamZIUA="0" dolaczamZCNA="0" iloscZCNA="0"/>
+					<ns6:ObowiazekSkladkowy ZusZUA="0">
+						<meta:Data typDaty="zdarzenia">
+							<meta:Czas>2025-08-25</meta:Czas>
+						</meta:Data>
+					</ns6:ObowiazekSkladkowy>
+				</ns6:RejestrUbezpieczeniowy>
+				<ns6:DokumentacjaRachunkowa>
+					<ns6:NaczelnikUrzeduSkarbowego>
+						<ns6:AktualnyDoSprawEwidencji>Naczelnik Urzędu Skarbowego Warszawa-Targówek</ns6:AktualnyDoSprawEwidencji>
+					</ns6:NaczelnikUrzeduSkarbowego>
+
+					<ns6:PodmiotProwadzacy sposobProwadzenia="samodzielnie">
+					</ns6:PodmiotProwadzacy>				
+					<ns6:AdresPrzechowywania miejscePrzechowywania="inny">
+						<ns6:KodPocztowy>03-252</ns6:KodPocztowy>
+						<ns6:Miejscowosc>Warszawa</ns6:Miejscowosc>
+						<ns6:Ulica>ul. Suwalska</ns6:Ulica>
+						<ns6:Budynek>18</ns6:Budynek>
+						<ns6:Lokal>58</ns6:Lokal>
+						<ns6:Kraj>PL</ns6:Kraj>
+						<ns6:TERC>1465011</ns6:TERC>
+						<ns6:SIMC>0988827</ns6:SIMC>
+						<ns6:ULIC>21614</ns6:ULIC>						
+						<ns6:Wojewodztwo>MAZOWIECKIE</ns6:Wojewodztwo>
+						<ns6:Powiat>Warszawa</ns6:Powiat>
+						<ns6:Gmina>Warszawa</ns6:Gmina>
+					</ns6:AdresPrzechowywania>
+					<ns6:ZakladPracyChronionej>0</ns6:ZakladPracyChronionej>
+					<ns6:WylacznieSpolkiCywilne>0</ns6:WylacznieSpolkiCywilne>
+					<ns6:MalzenskaWspolnoscMajatkowa>
+						<ns6:Stan>1</ns6:Stan>
+					</ns6:MalzenskaWspolnoscMajatkowa>
+				</ns6:DokumentacjaRachunkowa>
+			</ns6:WpisDoEwidencji>
+        <str:Zalaczniki>
+        </str:Zalaczniki>
+		</ns6:Wartosc>
+	</ns6:TrescDokumentu>
+</ns6:Dokument>

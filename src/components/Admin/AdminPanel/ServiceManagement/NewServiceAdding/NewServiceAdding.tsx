@@ -236,7 +236,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
       transition={{
         duration: 0.3,
       }}
-      className="fixed top-0 left-0 grid h-dvh w-dvw place-items-center bg-[#0000006e]"
+      className="module"
     >
       <div className="mobile:w-[max(400px,60dvw)] m-6 w-full space-y-3 rounded-2xl bg-white p-6">
         <h2>Dodawanie nowej usługi</h2>

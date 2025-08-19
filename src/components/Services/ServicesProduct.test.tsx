@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { renderWithRouter } from "../../renderWithRouter";
-import ServicesProduct from "./ServicesProduct";
+import ServicesProduct from "./ServicesProduct/ServicesProduct";
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
