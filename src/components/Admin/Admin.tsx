@@ -7,7 +7,7 @@ import {
 } from "react";
 import AdminLogin from "./AdminLogin";
 import { Outlet, useNavigate } from "react-router";
-import { logIn } from "../../api/admin.api";
+import { logIn } from "../../@api/admin.api";
 import { useMutation } from "@tanstack/react-query";
 
 const Admin = () => {
@@ -23,10 +23,10 @@ const Admin = () => {
   const { mutate, isPending, error } = useMutation({
     mutationFn: ({ login, password }: { login: string; password: string }) =>
       logIn(login, password),
-    onSuccess: ({ data, res }) => {
+    onSuccess: (data) => {
       setAdminData({ login: "", password: "" });
 
-      if (res.ok) {
+      if (data.token) {
         sessionStorage.setItem("token", data.token);
         logInAdmin();
       } else {

@@ -1,41 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { getServices } from "../../api/services.api";
-import { Services as ServicesType } from "../../types/services.type";
 import ServicesCategory from "./ServicesCategory";
-import { useEffect, useMemo, useState } from "react";
 import loadingImage from "/loading.svg";
+import { useServicesContext } from "../../@context/servicesContext";
 
 const Services = () => {
-  const [services, setServices] = useState<ServicesType[]>([]);
+  const { splittedServices, errorServices, loadingServices } =
+    useServicesContext();
 
-  const { data, isPending, error } = useQuery({
-    queryKey: ["services"],
-    queryFn: getServices,
-  });
-
-  useEffect(() => {
-    if (data) setServices(data);
-  }, [data]);
-
-  const spitedServices = useMemo(() => {
-    return services.reduce(
-      (
-        acc: Record<ServicesType["category"], ServicesType[]>,
-        cur: ServicesType,
-      ) => {
-        const key = cur.category;
-
-        acc[key] = acc[key] ? [...acc[key], cur] : [cur];
-
-        return acc;
-      },
-      {},
-    );
-  }, [services]);
-
-  if (error)
+  if (errorServices)
     return (
-      <h1>Niestety nie udało się pobrać dane z powodu: {error.toString()}</h1>
+      <h1>
+        Niestety nie udało się pobrać dane z powodu: {errorServices.toString()}
+      </h1>
     );
 
   return (
@@ -43,7 +18,7 @@ const Services = () => {
       <h1>Nasze usłigi</h1>
 
       <section className="space-y-8">
-        {isPending ? (
+        {loadingServices ? (
           <div className="flex size-5">
             <img
               src={loadingImage}
@@ -53,7 +28,7 @@ const Services = () => {
             />
           </div>
         ) : (
-          Object.entries(spitedServices).map(([name, products]) => (
+          Object.entries(splittedServices).map(([name, products]) => (
             <ServicesCategory
               key={name}
               categoryName={name}

@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import MainParagraf from "./MainParagraf";
-import { MainContent } from "../../types/main.type";
+import { MainContent } from "../../@types/main.type";
 import { renderWithRouter } from "../../renderWithRouter";
 
 const TEXT_TITLE = "Here is title";

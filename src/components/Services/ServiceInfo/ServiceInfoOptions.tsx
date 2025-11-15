@@ -1,4 +1,4 @@
-import CategoryText from "../../../UI/CategoryText";
+import CategoryText from "../../../@ui/CategoryText";
 
 type Props = {
   options: string[];
@@ -16,7 +16,7 @@ const ServiceInfoOptions = ({ options, cost }: Props) => {
 
   return (
     <>
-      <h4>Opcji usługi</h4>
+      <h4>Opcje usługi</h4>
       {options.map((option, i) => (
         <CategoryText
           category={option}

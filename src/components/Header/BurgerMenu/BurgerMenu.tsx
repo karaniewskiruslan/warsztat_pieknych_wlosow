@@ -3,7 +3,7 @@ import logo from "/img/logo_transparent_name.webp";
 import burgerMenuClose from "/img/CloseBurgerMenu.svg";
 import { menuOptions } from "../Header.data";
 import { motion } from "framer-motion";
-import Image from "../../../UI/Image";
+import Image from "../../../@ui/Image";
 
 type Props = {
   onClickCloseMenu: (state: boolean) => void;

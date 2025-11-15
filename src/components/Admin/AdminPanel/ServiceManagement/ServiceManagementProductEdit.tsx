@@ -1,27 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Services, ServicesAPI } from "../../../../types/services.type";
+import { Services } from "../../../../@types/services.type";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import Delete from "/Delete.svg";
-import { useServicesContext } from "../../../../context/servicesContext";
-import { useNotificationContext } from "../../../../context/notificationContent";
+import { useServicesContext } from "../../../../@context/servicesContext";
+import { useNotificationContext } from "../../../../@context/notificationContent";
 import { produce } from "immer";
 import { useMutation } from "@tanstack/react-query";
-import { deleteService, updateService } from "../../../../api/services.api";
-import ButtonServices from "../../../../UI/ServicesManagement/ButtonServices";
-import InputServicesString from "../../../../UI/ServicesManagement/Inputs/InputServicesString";
-import InputServicesFile from "../../../../UI/ServicesManagement/Inputs/InputServicesFile";
-import Masters from "../../../../UI/ServicesManagement/Inputs/Masters/Masters";
-import OptionsMultiple from "../../../../UI/ServicesManagement/Inputs/Options/OptionsMultiple/OptionsMultiple";
-import OptionsSingle from "../../../../UI/ServicesManagement/Inputs/Options/OptionsSingle/OptionsSingle";
-import InputServiceTime from "../../../../UI/ServicesManagement/Inputs/InputServiceTime";
+import { deleteService, updateService } from "../../../../@api/services.api";
+import ButtonServices from "../../../../@ui/ServicesManagement/ButtonServices";
+import InputServicesString from "../../../../@ui/ServicesManagement/Inputs/InputServicesString";
+import InputServicesFile from "../../../../@ui/ServicesManagement/Inputs/InputServicesFile";
+import OptionsMultiple from "../../../../@ui/ServicesManagement/Inputs/Option/OptionsMultiple/OptionsMultiple";
+import OptionsSingle from "../../../../@ui/ServicesManagement/Inputs/Option/OptionsSingle/OptionsSingle";
+import InputServiceTime from "../../../../@ui/ServicesManagement/Inputs/InputServiceTime";
+import Masters from "../../../../@ui/ServicesManagement/Inputs/Masters/Masters";
 
 type Props = {
   product: Services;
-  storage: ServicesAPI | null;
+  storage: (Omit<Services, "id" | "image"> & { image: File | null }) | null;
   onClickEdit: () => void;
-  onChangeStorage: (newItem: ServicesAPI | null) => void;
+  onChangeStorage: (
+    newItem: Omit<Services, "id" | "image"> & {
+      image: File | null;
+    },
+  ) => void;
 };
 
 const INPUT_TEXT: ["name" | "category", string][] = [
@@ -41,7 +45,9 @@ const ServiceManagementProductEdit = ({
 
   const [isChecked, setIsChecked] = useState(product.options.length !== 0);
 
-  const [form, setForm] = useState<ServicesAPI>({
+  const [form, setForm] = useState<
+    Omit<Services, "id" | "image"> & { image: File | null }
+  >({
     name: product.name,
     category: product.category,
     cost: product.cost,
@@ -92,8 +98,13 @@ const ServiceManagementProductEdit = ({
   };
 
   const { mutate: mutateUpdate, isPending: updateLoading } = useMutation({
-    mutationFn: async ({ id, form }: { id: number; form: ServicesAPI }) =>
-      await updateService(id, form),
+    mutationFn: async ({
+      id,
+      form,
+    }: {
+      id: number;
+      form: Omit<Services, "id" | "image"> & { image: File | null };
+    }) => await updateService(id, form),
     onSuccess: (updated: Services) => {
       console.log(updated);
       updateServiceInCache(updated);
@@ -187,7 +198,7 @@ const ServiceManagementProductEdit = ({
   };
 
   const handleClickCancel = () => {
-    setForm(storage as ServicesAPI);
+    setForm(storage as Omit<Services, "id" | "image"> & { image: File | null });
     onChangeStorage(null);
     onClickEdit();
     setIsChecked(product.options.length !== 0);
@@ -248,7 +259,7 @@ const ServiceManagementProductEdit = ({
 
     setForm((prev) => ({
       ...prev,
-      image: files[0],
+      image: files[0].name,
     }));
   };
 

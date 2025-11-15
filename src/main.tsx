@@ -3,7 +3,7 @@ import "./index.css";
 import { RouterProvider } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { router } from "./router.tsx";
-import ContextsContainer from "./context/contextsContainer/ContextsContainer.tsx";
+import ContextsContainer from "./@context/contextsContainer/ContextsContainer.tsx";
 
 const queryClient = new QueryClient();
 

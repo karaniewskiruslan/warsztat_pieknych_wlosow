@@ -1,10 +1,10 @@
 import { NavLink } from "react-router";
-import { masterType } from "../../types/masterType.type";
+import { MasterType } from "../../@types/MasterType.type";
 import { motion } from "framer-motion";
-import Image from "../../UI/Image";
+import Image from "../../@ui/Image";
 
 type Props = {
-  master: masterType;
+  master: MasterType;
 };
 
 const detailsVariants = {
@@ -24,7 +24,7 @@ const MastersIcon = ({ master }: Props) => {
       transition={{ duration: 0.3 }}
       className="relative flex aspect-square items-end overflow-hidden rounded-3xl border-transparent bg-gray-100 duration-300 hover:scale-105 hover:border-2 hover:border-gray-200"
     >
-      <motion.article className="px-4 py-2 z-10 text-white" layout>
+      <motion.article className="z-10 px-4 py-2 text-white" layout>
         <h2>{master.name}</h2>
         <h3>{master.profession}</h3>
         <motion.section
@@ -35,7 +35,7 @@ const MastersIcon = ({ master }: Props) => {
           <p>{master.experience}</p>
         </motion.section>
       </motion.article>
-      <Image src={master.frontImage} alt={master.name} isAbsolute={true} />
+      <Image src={master.image} alt={master.name} isAbsolute={true} />
     </MotionNavLink>
   );
 };

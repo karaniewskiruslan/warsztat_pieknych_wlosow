@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Services, ServicesAPI } from "../../../../types/services.type";
+import { Services } from "../../../../@types/services.type";
 import { motion, Variants } from "framer-motion";
 import ServiceManagementProductInfo from "./ServiceManagementProductInfo";
 import classNames from "classnames";
@@ -29,7 +29,9 @@ const ServiceManagementProduct = ({ product }: Props) => {
     isEditing: false,
   });
 
-  const [optionStorage, setOptionStorage] = useState<ServicesAPI | null>(null);
+  const [optionStorage, setOptionStorage] = useState<
+    (Omit<Services, "id" | "image"> & { image: File | null }) | null
+  >(null);
 
   const handleClickEditing = () => {
     setOptionState((prev) => ({ ...prev, isEditing: !prev.isEditing }));
@@ -39,7 +41,9 @@ const ServiceManagementProduct = ({ product }: Props) => {
     setOptionState((prev) => ({ ...prev, isOpen: !prev.isOpen }));
   };
 
-  const handleChangeStorage = (newItem: ServicesAPI | null) => {
+  const handleChangeStorage = (
+    newItem: Omit<Services, "id" | "image"> & { image: File | null },
+  ) => {
     setOptionStorage(() => newItem);
   };
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Services } from "../../../types/services.type";
-import Image from "../../../UI/Image";
+import { Services } from "../../../@types/services.type";
+import Image from "../../../@ui/Image";
 import ServicesProductText from "./ServicesProductText";
 import ServiceInfo from "../ServiceInfo/ServiceInfo";
-import useScrollLock from "../../../hooks/useScrollLock.hook";
+import useScrollLock from "../../../@hooks/useScrollLock.hook";
 import { AnimatePresence } from "framer-motion";
 
 type Props = {
@@ -30,7 +30,7 @@ const ServicesProduct = ({ product }: Props) => {
       className="mobile:flex-row relative flex flex-1 flex-col place-items-center gap-4 rounded-2xl bg-gray-100 p-6"
     >
       <div className="mobile:size-40 size-30 shrink-0 rounded-xl">
-        <Image src={image} alt={name} />
+        <Image src={image!} alt={name} />
       </div>
       <section className="flex h-full flex-col justify-between">
         <hgroup className="space-y-3">

@@ -1,6 +1,6 @@
-import { Services } from "../../../../types/services.type";
-import CategoryText from "../../../../UI/CategoryText";
-import Image from "../../../../UI/Image";
+import { Services } from "../../../../@types/services.type";
+import CategoryText from "../../../../@ui/CategoryText";
+import Image from "../../../../@ui/Image";
 import Edit from "/Edit.svg";
 
 type Props = {

@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router";
-import PageButton from "../../../../UI/PageButton";
+import PageButton from "../../../../@ui/PageButton";
 import BookingManagementInfo from "./BookingManagementInfo";
 import { AnimatePresence } from "motion/react";
 import loadingImage from "/loading.svg";
-import { useBookingContext } from "../../../../context/bookingContext";
+import { useBookingContext } from "../../../../@context/bookingContext";
 
 const BookingManagement = () => {
   const { bookings, loadingBooking, errorBooking } = useBookingContext();

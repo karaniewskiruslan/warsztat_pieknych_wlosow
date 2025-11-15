@@ -1,15 +1,15 @@
 import classNames from "classnames";
-import { Booking } from "../../../../types/booking.type";
+import { Booking } from "../../../../@types/booking.type";
 import { dataText } from "./BookingManagement.data";
 import Expand from "/Expand.svg";
 import { useState } from "react";
-import CategoryText from "../../../../UI/CategoryText";
+import CategoryText from "../../../../@ui/CategoryText";
 import { motion, Variants } from "framer-motion";
-import { updateBookings, deleteBookings } from "../../../../api/booking.api";
-import { useNotificationContext } from "../../../../context/notificationContent";
+import { updateBookings, deleteBookings } from "../../../../@api/booking.api";
+import { useNotificationContext } from "../../../../@context/notificationContent";
 import { useMutation } from "@tanstack/react-query";
-import { useBookingContext } from "../../../../context/bookingContext";
-import ButtonBooking from "../../../../UI/BookingManagement/ButtonBooking";
+import { useBookingContext } from "../../../../@context/bookingContext";
+import ButtonBooking from '../../../../@ui/BookingManagement/ButtonBooking';
 
 type Props = {
   booking: Booking;

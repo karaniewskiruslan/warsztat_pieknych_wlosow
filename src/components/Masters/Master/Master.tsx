@@ -1,19 +1,20 @@
 import { motion } from "framer-motion";
 import { useParams, useNavigate } from "react-router";
-import { mastersInfo } from "../Masters.data";
-import { masterType } from "../../../types/masterType.type";
+import { MasterType } from "../../../@types/MasterType.type";
 import MasterInfo from "./MasterInfo";
 import MasterWorks from "./MasterWorks";
-import PageButton from "../../../UI/PageButton";
+import PageButton from "../../../@ui/PageButton";
+import { useMastersContext } from "../../../@context/mastersContext";
 
 type Props = {
-  masterInfo?: masterType;
+  masterInfo?: MasterType;
 };
 
 const Master = ({ masterInfo }: Props) => {
+  const { masters } = useMastersContext();
   const { name } = useParams();
   const navigate = useNavigate();
-  const info = masterInfo ?? mastersInfo.find((master) => master.name === name);
+  const info = masterInfo ?? masters.find((master) => master.name === name);
 
   const handleClickBack = () => {
     navigate(-1);

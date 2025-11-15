@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import DropdownSelect from "../../UI/DropdownSelect";
-import TimeSelection from "../../UI/TimeSection/TimeSelection";
-import { Booking, BookingAPI } from "../../types/booking.type";
-import { addBookings } from "../../api/booking.api";
+import DropdownSelect from "../../@ui/DropdownSelect";
+import TimeSelection from "../../@ui/TimeSection/TimeSelection";
+import { addBookings } from "../../@api/booking.api";
 import classNames from "classnames";
 import { proveForm } from "./Booking.data";
-import { useNotificationContext } from "../../context/notificationContent";
-import { useServicesContext } from "../../context/servicesContext";
+import { useNotificationContext } from "../../@context/notificationContent";
+import { useServicesContext } from "../../@context/servicesContext";
 import loadingImage from "/loading.svg";
 import { useMutation } from "@tanstack/react-query";
-import { useBookingContext } from "../../context/bookingContext";
+import { useBookingContext } from "../../@context/bookingContext";
 import BookingExplaining from "./BookingExplaining";
+import { Booking } from "../../@types/booking.type";
 
 const BookingForm = () => {
   const {
@@ -29,7 +29,7 @@ const BookingForm = () => {
   const [isValidDate, setIsValidDate] = useState(true);
 
   const [bookingForm, setBookingForm] = useState<
-    BookingAPI & { category: string }
+    Omit<Booking, "id" | "isConfirmed"> & { category: string }
   >({
     fullName: "",
     email: "",
@@ -84,7 +84,8 @@ const BookingForm = () => {
   }, [category]);
 
   const { mutate, isPending: loading } = useMutation({
-    mutationFn: (newBooking: BookingAPI) => addBookings(newBooking),
+    mutationFn: (newBooking: Omit<Booking, "id" | "isConfirmed">) =>
+      addBookings(newBooking),
     onSuccess: (update: Booking) => {
       addBookingToCache(update);
       addNewNotification(
@@ -209,7 +210,7 @@ const BookingForm = () => {
             type="submit"
             className={classNames(
               "grid place-items-center px-4 py-2",
-              "aspect-[4/1] w-44 rounded-xl border",
+              "aspect-4/1 w-44 rounded-xl border",
               "duration-150 hover:bg-black hover:text-white",
               { "cursor-not-allowed": loading },
             )}

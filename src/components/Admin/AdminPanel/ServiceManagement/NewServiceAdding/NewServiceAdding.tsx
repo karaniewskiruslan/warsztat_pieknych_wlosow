@@ -1,20 +1,21 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Services, ServicesAPI } from "../../../../../types/services.type";
-import { postService } from "../../../../../api/services.api";
+import { Services } from "../../../../../@types/services.type";
+import { postService } from "../../../../../@api/services.api";
 import Confirm from "/Confirm.svg";
 import Cancel from "/Cancel.svg";
 import { produce } from "immer";
-import { useNotificationContext } from "../../../../../context/notificationContent";
-import { useServicesContext } from "../../../../../context/servicesContext";
+import { useNotificationContext } from "../../../../../@context/notificationContent";
+import { useServicesContext } from "../../../../../@context/servicesContext";
 import { useMutation } from "@tanstack/react-query";
 import { motion, Variants } from "framer-motion";
-import ButtonServices from "../../../../../UI/ServicesManagement/ButtonServices";
-import InputServicesString from "../../../../../UI/ServicesManagement/Inputs/InputServicesString";
-import InputServicesFile from "../../../../../UI/ServicesManagement/Inputs/InputServicesFile";
-import Masters from "../../../../../UI/ServicesManagement/Inputs/Masters/Masters";
-import OptionsMultiple from "../../../../../UI/ServicesManagement/Inputs/Options/OptionsMultiple/OptionsMultiple";
-import OptionsSingle from "../../../../../UI/ServicesManagement/Inputs/Options/OptionsSingle/OptionsSingle";
-import InputServiceTime from "../../../../../UI/ServicesManagement/Inputs/InputServiceTime";
+import ButtonServices from "../../../../../@ui/ServicesManagement/ButtonServices";
+import InputServicesString from "../../../../../@ui/ServicesManagement/Inputs/InputServicesString";
+import InputServicesFile from "../../../../../@ui/ServicesManagement/Inputs/InputServicesFile";
+import OptionsMultiple from "../../../../../@ui/ServicesManagement/Inputs/Option/OptionsMultiple/OptionsMultiple";
+import OptionsSingle from "../../../../../@ui/ServicesManagement/Inputs/Option/OptionsSingle/OptionsSingle";
+import InputServiceTime from "../../../../../@ui/ServicesManagement/Inputs/InputServiceTime";
+import { useKeydown } from "../../../../../@hooks/useKeydown.hook";
+import Masters from "../../../../../@ui/ServicesManagement/Inputs/Masters/Masters";
 
 type Props = {
   onClickAddNewService: () => void;
@@ -36,7 +37,11 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   const { addNewNotification } = useNotificationContext();
   const [isChecked, setIsChecked] = useState(false);
 
-  const [newForm, setNewForm] = useState<ServicesAPI>({
+  useKeydown("Escape", onClickAddNewService);
+
+  const [newForm, setNewForm] = useState<
+    Omit<Services, "id" | "image"> & { image: File | null }
+  >({
     name: "",
     category: "",
     cost: 0,
@@ -58,7 +63,9 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   };
 
   const { mutate: mutateAdd, isPending: addLoading } = useMutation({
-    mutationFn: (form: ServicesAPI) => postService(form),
+    mutationFn: (
+      form: Omit<Services, "id" | "image"> & { image: File | null },
+    ) => postService(form),
     onSuccess: (updated: Services) => {
       console.log(updated);
       addServiceToCache(updated);

@@ -1,4 +1,4 @@
-import { Services } from "../../types/services.type";
+import { Services } from "../../@types/services.type";
 import ServicesProduct from "./ServicesProduct/ServicesProduct";
 
 type Props = {

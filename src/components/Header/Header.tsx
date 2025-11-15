@@ -4,10 +4,10 @@ import burgerMenuIcon from "/img/BurgerMenu.svg";
 import { menuOptions } from "./Header.data";
 import { useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
-import useWindowSize from "../../hooks/useWindowSize.hook";
-import useScrollLock from "../../hooks/useScrollLock.hook";
+import useWindowSize from "../../@hooks/useWindowSize.hook";
+import useScrollLock from "../../@hooks/useScrollLock.hook";
 import { AnimatePresence } from "framer-motion";
-import Image from "../../UI/Image";
+import Image from "../../@ui/Image";
 
 const Header = () => {
   const [isBurgerMenu, toggleBurgerMenu] = useState(false);

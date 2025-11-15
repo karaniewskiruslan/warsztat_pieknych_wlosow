@@ -1,4 +1,4 @@
-import CategoryText from "../../../UI/CategoryText";
+import CategoryText from "../../../@ui/CategoryText";
 import { masterText, timeLast } from "../Services.data";
 
 type Props = { name: string; masters: string[]; last: number };

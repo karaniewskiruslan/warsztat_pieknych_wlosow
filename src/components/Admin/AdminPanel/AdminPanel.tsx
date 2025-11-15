@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import PageButton from "../../../UI/PageButton";
+import PageButton from "../../../@ui/PageButton";
 import AdminPanelOption from "./AdminPanelOption";
 import { adminOptions } from "./AdminPanel.data";
 

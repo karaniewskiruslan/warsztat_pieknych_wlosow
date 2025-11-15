@@ -1,4 +1,4 @@
-import { ContactOpt } from "../../types/contact.type";
+import { ContactOpt } from "../../@types/contact.type";
 
 export const contact: ContactOpt[] = [
   {

@@ -1,5 +1,5 @@
-import { ContactOpt } from "../../types/contact.type";
-import Image from "../../UI/Image";
+import { ContactOpt } from "../../@types/contact.type";
+import Image from "../../@ui/Image";
 
 type Props = {
   contactOpt: ContactOpt;

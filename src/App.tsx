@@ -3,11 +3,11 @@ import Footer from "./components/Footer/Footer";
 import { lazy, Suspense, useEffect, useRef } from "react";
 import Loading from "./components/Loading.tsx";
 import { motion, useScroll } from "motion/react";
-import usePageHeight from "./hooks/usePageHeight.hook.ts";
+import usePageHeight from "./@hooks/usePageHeight.hook.ts";
 import { useLocation } from "react-router";
-import Notifications from "./UI/Notifications/Notifications.tsx";
-import { useBookingContext } from "./context/bookingContext.tsx";
-import { useNotificationContext } from "./context/notificationContent.tsx";
+import { useBookingContext } from "./@context/bookingContext.tsx";
+import { useNotificationContext } from "./@context/notificationContent.tsx";
+import Notifications from './@ui/Notifications/Notifications.tsx';
 
 const Layout = lazy(() => import("./components/Layout.tsx"));
 

@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import { NavLink } from "react-router";
-import Image from "../../../UI/Image";
+import Image from "../../../@ui/Image";
 
 type Props = {
   pageSrc: string;

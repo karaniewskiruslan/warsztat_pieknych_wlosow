@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router";
-import PageButton from "../../../../UI/PageButton";
+import PageButton from "../../../../@ui/PageButton";
 import { useState } from "react";
 import ServiceManagementCategory from "./ServiceManagementCategory";
 import loadingImage from "/loading.svg";
 import classNames from "classnames";
 import NewServiceAdding from "./NewServiceAdding/NewServiceAdding";
-import useScrollLock from "../../../../hooks/useScrollLock.hook";
-import { useServicesContext } from "../../../../context/servicesContext";
+import useScrollLock from "../../../../@hooks/useScrollLock.hook";
+import { useServicesContext } from "../../../../@context/servicesContext";
 import { AnimatePresence } from "framer-motion";
 
 const ServiceManagement = () => {
@@ -70,9 +70,9 @@ const ServiceManagement = () => {
       <PageButton text="< Wstecz" onClick={handleClickBack} />
 
       <AnimatePresence>
-        {newServiceAdding ? (
+        {newServiceAdding && (
           <NewServiceAdding onClickAddNewService={handleClickAddNewService} />
-        ) : null}
+        )}
       </AnimatePresence>
     </section>
   );

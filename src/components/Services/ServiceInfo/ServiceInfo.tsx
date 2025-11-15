@@ -1,10 +1,11 @@
 import { Variants, motion } from "framer-motion";
-import { Services } from "../../../types/services.type";
+import { Services } from "../../../@types/services.type";
 import Cancel from "/Cancel.svg";
-import CategoryText from "../../../UI/CategoryText";
+import CategoryText from "../../../@ui/CategoryText";
 import { masterText, timeLast } from "../Services.data";
-import Image from "../../../UI/Image";
+import Image from "../../../@ui/Image";
 import ServiceInfoOptions from "./ServiceInfoOptions";
+import { useKeydown } from "../../../@hooks/useKeydown.hook";
 
 type Props = {
   service: Services;
@@ -19,6 +20,8 @@ const newServiceVariants: Variants = {
 
 const ServiceInfo = ({ service, onClickRemoveService }: Props) => {
   const { name, category, masters, last, image, cost, options } = service;
+
+  useKeydown("Escape", onClickRemoveService, service !== null);
 
   return (
     <motion.section
@@ -49,7 +52,7 @@ const ServiceInfo = ({ service, onClickRemoveService }: Props) => {
             </article>
           </section>
           <div className="mobile:size-80 size-30 shrink-0 rounded-xl">
-            <Image src={image} alt={name} />
+            <Image src={image!} alt={name} />
           </div>
         </section>
 
