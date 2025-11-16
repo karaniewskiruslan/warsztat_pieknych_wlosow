@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Booking } from "../../../../@types/booking.type";
-import { dataText } from "./BookingManagement.data";
+import dayjs from "dayjs";
 import Expand from "/Expand.svg";
 import { useState } from "react";
 import CategoryText from "../../../../@ui/CategoryText";
@@ -9,7 +9,8 @@ import { updateBookings, deleteBookings } from "../../../../@api/booking.api";
 import { useNotificationContext } from "../../../../@context/notificationContent";
 import { useMutation } from "@tanstack/react-query";
 import { useBookingContext } from "../../../../@context/bookingContext";
-import ButtonBooking from '../../../../@ui/BookingManagement/ButtonBooking';
+import ButtonBooking from "../../../../@ui/BookingManagement/ButtonBooking";
+import { DATE_DEFAULT_FORMAT } from "../../../../@constants/dateFormat";
 
 type Props = {
   booking: Booking;
@@ -31,9 +32,9 @@ const BookingManagementInfo = ({ booking }: Props) => {
   const { addNewNotification } = useNotificationContext();
   const { updateBookingInCache, deleteBookingFromCache } = useBookingContext();
   const [isOpen, setOpen] = useState(false);
-  const { id, fullName, isConfirmed, date, service, master, email, last } =
+  const { _id, fullName, isConfirmed, date, service, master, email, last } =
     booking;
-  const idText = id.slice(0, 8);
+  const idText = _id.slice(0, 8);
 
   const infoArray = [
     ["Usługa", service],
@@ -67,7 +68,7 @@ const BookingManagementInfo = ({ booking }: Props) => {
   const { mutate: deleteBooking, isPending: loadingDelete } = useMutation({
     mutationFn: (id: string) => deleteBookings(id),
     onSuccess: () => {
-      deleteBookingFromCache(id);
+      deleteBookingFromCache(_id);
       addNewNotification(
         "success",
         "Wizyta usunięta",
@@ -86,13 +87,13 @@ const BookingManagementInfo = ({ booking }: Props) => {
   });
 
   const handleAcceptVisit = () => {
-    updateBooking({ id, isConfirmed: true });
+    updateBooking({ id: _id, isConfirmed: true });
   };
 
   const handleChangeVisit = () => {};
 
   const handleDeleteVisit = () => {
-    deleteBooking(id);
+    deleteBooking(_id);
   };
 
   return (
@@ -129,7 +130,7 @@ const BookingManagementInfo = ({ booking }: Props) => {
             </p>
           </section>
           <section className="flex items-center gap-2">
-            <p>{dataText(new Date(date))}</p>
+            <p>{dayjs(date!).format(DATE_DEFAULT_FORMAT)}</p>
             <button
               type="button"
               onClick={() => setOpen((prev) => !prev)}

@@ -3,7 +3,7 @@ import { Services } from "../@types/services.type";
 
 const baseUrl = import.meta.env.VITE_API_URL + "api/services";
 
-type ServiceAPI = Omit<Services, "id" | "image"> & { image: File | null };
+type ServiceAPI = Omit<Services, "_id" | "image"> & { image: File | null };
 
 export const getServices = async () => {
   const res = await axios.get<Services[]>(baseUrl);
@@ -12,15 +12,47 @@ export const getServices = async () => {
 };
 
 export const postService = async (newService: ServiceAPI) => {
-  console.log(newService);
+  const formData = new FormData();
 
-  const res = await axios.post<Services>(baseUrl, newService);
+  formData.append("name", newService.name);
+  formData.append("category", newService.category);
+  formData.append("masters", JSON.stringify(newService.masters));
+  formData.append("last", JSON.stringify(newService.last));
+  formData.append("options", JSON.stringify(newService.options));
+  formData.append("cost", JSON.stringify(newService.cost));
+
+  if (newService.image) {
+    formData.append("image", newService.image);
+  }
+
+  const res = await axios.post<Services>(baseUrl, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return res.data;
 };
 
 export const updateService = async (id: number, newService: ServiceAPI) => {
-  const res = await axios.put<Services>(baseUrl + `/${id}`, newService);
+  const formData = new FormData();
+
+  formData.append("name", newService.name);
+  formData.append("category", newService.category);
+  formData.append("masters", JSON.stringify(newService.masters));
+  formData.append("last", JSON.stringify(newService.last));
+  formData.append("options", JSON.stringify(newService.options));
+  formData.append("cost", JSON.stringify(newService.cost));
+
+  if (newService.image) {
+    formData.append("image", newService.image); // ⬅ MUST MATCH multer.single('image')
+  }
+
+  const res = await axios.put<Services>(baseUrl + `/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return res.data;
 };

@@ -2,17 +2,30 @@
 import { createContext, ReactNode, useContext } from "react";
 import { getMasters } from "../@api/masters.api";
 import { useQuery } from "@tanstack/react-query";
-import { MasterType } from "../@types/MasterType.type";
 
 type Props = {
   children: ReactNode;
 };
 
-type MastersContentProps = {
-  masters: MasterType[];
-  mastersLoading: boolean;
-  mastersError: Error | null;
+const useMasters = () => {
+  const {
+    data: masters = [],
+    isPending,
+    error,
+  } = useQuery({
+    queryKey: ["masters"],
+    queryFn: getMasters,
+    refetchInterval: 60000,
+  });
+
+  return {
+    masters,
+    mastersLoading: isPending,
+    mastersError: error,
+  };
 };
+
+type MastersContentProps = ReturnType<typeof useMasters>;
 
 const MastersContext = createContext({} as MastersContentProps);
 
@@ -25,25 +38,9 @@ export const useMastersContext = () => {
 };
 
 export const MastersContextContainer = ({ children }: Props) => {
-  const {
-    data: masters = [],
-    isPending,
-    error,
-  } = useQuery({
-    queryKey: ["masters"],
-    queryFn: getMasters,
-    refetchInterval: 5000,
-  });
+  const value = useMasters();
 
   return (
-    <MastersContext.Provider
-      value={{
-        masters,
-        mastersLoading: isPending,
-        mastersError: error,
-      }}
-    >
-      {children}
-    </MastersContext.Provider>
+    <MastersContext.Provider value={value}>{children}</MastersContext.Provider>
   );
 };

@@ -9,6 +9,7 @@ import {
 } from "react";
 import { Booking } from "../@types/booking.type";
 import { getBookings } from "../@api/booking.api";
+import dayjs from "dayjs";
 
 type Props = {
   children: ReactNode;
@@ -27,11 +28,7 @@ const useBooking = () => {
         setLoadingBooking(true);
         const data = await getBookings();
         if (mounted) {
-          setBookings(
-            [...data].sort(
-              (a, b) => new Date(a.date!).getTime() - new Date(b.date!).getTime(),
-            ),
-          );
+          setBookings([...data].sort((a, b) => dayjs(a.date!).diff(b.date!)));
           setErrorBooking(null);
         }
       } catch (err) {
@@ -42,7 +39,7 @@ const useBooking = () => {
     };
 
     fetchBookings();
-    const interval = setInterval(fetchBookings, 5000);
+    const interval = setInterval(fetchBookings, 60000);
 
     return () => {
       mounted = false;
@@ -56,19 +53,19 @@ const useBooking = () => {
   };
 
   const updateBookingInCache = (updated: Booking) => {
+    console.log(updated);
     if (!updated) return;
-    setBookings((prev) => prev.map((b) => (b.id === updated.id ? updated : b)));
+    setBookings((prev) =>
+      prev.map((b) => (b._id === updated._id ? updated : b)),
+    );
   };
 
   const deleteBookingFromCache = (id: string) => {
-    setBookings((prev) => prev.filter((b) => b.id !== id));
+    setBookings((prev) => prev.filter((b) => b._id !== id));
   };
 
   const sortedBookings = useMemo(
-    () =>
-      [...bookings].sort(
-        (a, b) => new Date(a.date!).getTime() - new Date(b.date!).getTime(),
-      ),
+    () => [...bookings].sort((a, b) => dayjs(a.date!).diff(b.date!)),
     [bookings],
   );
 

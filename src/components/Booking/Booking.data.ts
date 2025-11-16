@@ -3,7 +3,7 @@ import { Booking } from "../../@types/booking.type";
 const FULLNAME_REGEX = /^\s*\p{L}+(?:\s+\p{L}+)+\s*$/u;
 const MAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-export const proveForm = (form: Omit<Booking, "id" | "isConfirmed">) => {
+export const proveForm = (form: Omit<Booking, "_id" | "isConfirmed">) => {
   const fullnameProve = FULLNAME_REGEX.test(form.fullName.trim());
   const emailProve = MAIL_REGEX.test(form.email.trim());
 

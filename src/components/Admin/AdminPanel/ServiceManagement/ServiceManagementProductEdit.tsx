@@ -17,12 +17,14 @@ import OptionsSingle from "../../../../@ui/ServicesManagement/Inputs/Option/Opti
 import InputServiceTime from "../../../../@ui/ServicesManagement/Inputs/InputServiceTime";
 import Masters from "../../../../@ui/ServicesManagement/Inputs/Masters/Masters";
 
+type ServicesData = Omit<Services, "_id" | "image">;
+
 type Props = {
   product: Services;
-  storage: (Omit<Services, "id" | "image"> & { image: File | null }) | null;
+  storage: (ServicesData & { image: File | null }) | null;
   onClickEdit: () => void;
   onChangeStorage: (
-    newItem: Omit<Services, "id" | "image"> & {
+    newItem: ServicesData & {
       image: File | null;
     },
   ) => void;
@@ -45,9 +47,7 @@ const ServiceManagementProductEdit = ({
 
   const [isChecked, setIsChecked] = useState(product.options.length !== 0);
 
-  const [form, setForm] = useState<
-    Omit<Services, "id" | "image"> & { image: File | null }
-  >({
+  const [form, setForm] = useState<ServicesData & { image: File | null }>({
     name: product.name,
     category: product.category,
     cost: product.cost,
@@ -103,7 +103,7 @@ const ServiceManagementProductEdit = ({
       form,
     }: {
       id: number;
-      form: Omit<Services, "id" | "image"> & { image: File | null };
+      form: ServicesData & { image: File | null };
     }) => await updateService(id, form),
     onSuccess: (updated: Services) => {
       console.log(updated);
@@ -198,7 +198,7 @@ const ServiceManagementProductEdit = ({
   };
 
   const handleClickCancel = () => {
-    setForm(storage as Omit<Services, "id" | "image"> & { image: File | null });
+    setForm(storage as ServicesData & { image: File | null });
     onChangeStorage(null);
     onClickEdit();
     setIsChecked(product.options.length !== 0);
@@ -231,7 +231,7 @@ const ServiceManagementProductEdit = ({
         "Cena nie może być niegatywną.",
       );
 
-    mutateUpdate({ id: product.id, form });
+    mutateUpdate({ id: product._id, form });
   };
 
   const handleClickDeleteMaster = (i: number) => {
@@ -245,7 +245,7 @@ const ServiceManagementProductEdit = ({
   };
 
   const handleClickDelete = async () => {
-    mutateDelete(product.id);
+    mutateDelete(product._id);
   };
 
   const handleChangeAutofill = (text: string) => {

@@ -29,7 +29,7 @@ const BookingForm = () => {
   const [isValidDate, setIsValidDate] = useState(true);
 
   const [bookingForm, setBookingForm] = useState<
-    Omit<Booking, "id" | "isConfirmed"> & { category: string }
+    Omit<Booking, "_id" | "isConfirmed"> & { category: string }
   >({
     fullName: "",
     email: "",
@@ -84,7 +84,7 @@ const BookingForm = () => {
   }, [category]);
 
   const { mutate, isPending: loading } = useMutation({
-    mutationFn: (newBooking: Omit<Booking, "id" | "isConfirmed">) =>
+    mutationFn: (newBooking: Omit<Booking, "_id" | "isConfirmed">) =>
       addBookings(newBooking),
     onSuccess: (update: Booking) => {
       addBookingToCache(update);

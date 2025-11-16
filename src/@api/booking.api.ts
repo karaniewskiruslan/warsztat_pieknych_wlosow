@@ -10,7 +10,7 @@ export const getBookings = async () => {
 };
 
 export const addBookings = async (
-  newBooking: Omit<Booking, "id" | "isConfirmed">,
+  newBooking: Omit<Booking, "_id" | "isConfirmed">,
 ) => {
   const res = await axios.post<Booking>(baseUrl, newBooking);
 
@@ -18,8 +18,6 @@ export const addBookings = async (
 };
 
 export const updateBookings = async (id: string, isConfirmed: boolean) => {
-  console.log(id, isConfirmed);
-
   const res = await axios.put<Booking>(baseUrl + `/${id}`, { isConfirmed });
 
   return res.data;

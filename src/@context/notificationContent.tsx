@@ -7,29 +7,7 @@ type Props = {
   children: ReactNode;
 };
 
-type NotificationContentProps = {
-  notifications: Notification[];
-  addNewNotification: (
-    type: "error" | "success" | "added",
-    title: string,
-    body: string,
-  ) => void;
-  closeNotification: (id: string) => void;
-  shortLifetime: (id: string) => void;
-};
-
-const NotificationContext = createContext({} as NotificationContentProps);
-
-export const useNotificationContext = () => {
-  const context = useContext(NotificationContext);
-
-  if (!context)
-    throw new Error("Context must be used within NotificationContext");
-
-  return context;
-};
-
-export const NotificationContextContainer = ({ children }: Props) => {
+const useNotifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addNewNotification = (
@@ -62,15 +40,32 @@ export const NotificationContextContainer = ({ children }: Props) => {
     setNotifications((prev) => prev.filter((el) => el.id !== id));
   };
 
+  return {
+    notifications,
+    addNewNotification,
+    closeNotification,
+    shortLifetime,
+  };
+};
+
+type NotificationContentProps = ReturnType<typeof useNotifications>;
+
+const NotificationContext = createContext({} as NotificationContentProps);
+
+export const useNotificationContext = () => {
+  const context = useContext(NotificationContext);
+
+  if (!context)
+    throw new Error("Context must be used within NotificationContext");
+
+  return context;
+};
+
+export const NotificationContextContainer = ({ children }: Props) => {
+  const value = useNotifications();
+
   return (
-    <NotificationContext.Provider
-      value={{
-        notifications,
-        addNewNotification,
-        closeNotification,
-        shortLifetime,
-      }}
-    >
+    <NotificationContext.Provider value={value}>
       {children}
     </NotificationContext.Provider>
   );

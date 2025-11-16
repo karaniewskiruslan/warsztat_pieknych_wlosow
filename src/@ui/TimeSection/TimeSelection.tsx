@@ -10,6 +10,8 @@ import {
   newTimes,
   timeString,
 } from "./TimeSection.data";
+import dayjs, { Dayjs } from "dayjs";
+import { DATE_HOURS_FORMAT } from "../../@constants/dateFormat";
 
 type Props = {
   last: number;
@@ -26,7 +28,7 @@ const TimeSelection = ({
 }: Props) => {
   const { bookings } = useBookingContext();
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(dayjs());
 
   const timeArray = useMemo(() => {
     if (!master) return [];
@@ -34,19 +36,14 @@ const TimeSelection = ({
     const filteredArray = newTimes(selectedDate);
 
     const filteredBookings = bookings.filter((el) => {
-      const bookingDate = new Date(el.date!);
-      return (
-        bookingDate.getDate() === selectedDate.getDate() &&
-        bookingDate.getMonth() === selectedDate.getMonth() &&
-        bookingDate.getFullYear() === selectedDate.getFullYear() &&
-        el.master === master
-      );
+      const bookingDate = dayjs(el.date);
+      return bookingDate.isSame(selectedDate, "day") && el.master === master;
     });
 
     for (const bk of filteredBookings) {
-      const t = new Date(bk.date!);
-      const timeText = timeString(t.getHours(), t.getMinutes());
-      const timeTextId = filteredArray.indexOf(timeText);
+      const t = dayjs(bk.date).format(DATE_HOURS_FORMAT);
+      const timeTextId = filteredArray.indexOf(t);
+
       if (timeTextId !== -1) {
         filteredArray.splice(timeTextId, bk.last);
       }
@@ -55,18 +52,20 @@ const TimeSelection = ({
     return filteredArray;
   }, [selectedDate, bookings, master]);
 
-  const [bookTime, setBookTime] = useState<Date>(() => {
+  const [bookTime, setBookTime] = useState<Dayjs>(() => {
     const firstTime = timeArray[0] ?? "09:00";
     const [h, m] = firstTime.split(":").map(Number);
-    const date = new Date(selectedDate);
-    date.setHours(h, m, 0, 0);
+
+    const date = dayjs(selectedDate);
+    date.hour(h).minute(m);
+
     return date;
   });
 
   useEffect(() => {
     if (timeArray.length === 0) return;
 
-    const currentTime = timeString(bookTime.getHours(), bookTime.getMinutes());
+    const currentTime = timeString(bookTime.hour(), bookTime.minute());
     if (!timeArray.includes(currentTime)) {
       const [h, m] = timeArray[0].split(":").map(Number);
       setBookTime(dataChange(selectedDate, h, m));
@@ -74,7 +73,7 @@ const TimeSelection = ({
   }, [timeArray, selectedDate, master]);
 
   useEffect(() => {
-    onChangeDate(bookTime);
+    onChangeDate(bookTime.toDate());
   }, [bookTime]);
 
   useEffect(() => {
@@ -82,10 +81,11 @@ const TimeSelection = ({
   }, [timeArray, bookTime, last]);
 
   const handleClickDate = (e: Value) => {
-    const newDate = new Date(e as Date);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (newDate.setHours(0, 0, 0, 0) < today.getTime()) return;
+    const newDate = dayjs(e as Date)
+      .hour(0)
+      .minute(0);
+    const today = dayjs().hour(0).minute(0);
+    if (newDate.isBefore(today)) return;
 
     setSelectedDate(newDate);
 
@@ -113,10 +113,7 @@ const TimeSelection = ({
       >
         {timeArray.length > 0 ? (
           timeArray.map((t, i, arr) => {
-            const currentTime = timeString(
-              bookTime.getHours(),
-              bookTime.getMinutes(),
-            );
+            const currentTime = timeString(bookTime.hour(), bookTime.minute());
 
             const dateAvailableArray = dateAvailable(bookTime, last - 1);
             const proveDates = () => {
@@ -149,7 +146,7 @@ const TimeSelection = ({
         )}
       </section>
       <TimeSelectionCalendar
-        currentChoice={bookTime}
+        currentChoice={bookTime.toDate()}
         onClick={handleClickDate}
       />
     </section>

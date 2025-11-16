@@ -43,7 +43,7 @@ const BookingManagement = () => {
             {!loadingBooking &&
               bookings.length > 0 &&
               bookings.map((booking) => (
-                <BookingManagementInfo key={booking.id} booking={booking} />
+                <BookingManagementInfo key={booking._id} booking={booking} />
               ))}
 
             {!loadingBooking && bookings.length === 0 && (

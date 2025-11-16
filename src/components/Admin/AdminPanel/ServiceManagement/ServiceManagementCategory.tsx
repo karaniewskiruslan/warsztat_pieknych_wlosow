@@ -17,7 +17,7 @@ const ServiceManagementCategory = ({
       <section className="grid gap-2">
         <AnimatePresence initial={false}>
           {categoryServices.map((service) => (
-            <ServiceManagementProduct key={service.id} product={service} />
+            <ServiceManagementProduct key={service._id} product={service} />
           ))}
         </AnimatePresence>
       </section>

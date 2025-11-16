@@ -30,7 +30,7 @@ const ServiceManagementProduct = ({ product }: Props) => {
   });
 
   const [optionStorage, setOptionStorage] = useState<
-    (Omit<Services, "id" | "image"> & { image: File | null }) | null
+    (Omit<Services, "_id" | "image"> & { image: File | null }) | null
   >(null);
 
   const handleClickEditing = () => {
@@ -42,14 +42,14 @@ const ServiceManagementProduct = ({ product }: Props) => {
   };
 
   const handleChangeStorage = (
-    newItem: Omit<Services, "id" | "image"> & { image: File | null },
+    newItem: Omit<Services, "_id" | "image"> & { image: File | null },
   ) => {
     setOptionStorage(() => newItem);
   };
 
   return (
     <motion.section
-      key={product.id}
+      key={product._id}
       variants={mainSectionVariants}
       initial="initial"
       exit="exit"

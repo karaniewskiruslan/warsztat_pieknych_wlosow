@@ -32,6 +32,8 @@ const newServiceVariants: Variants = {
   animate: { opacity: 1, scale: 1 },
 };
 
+type ServiceData = Omit<Services, "_id" | "image">;
+
 const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   const { addServiceToCache } = useServicesContext();
   const { addNewNotification } = useNotificationContext();
@@ -39,9 +41,7 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
 
   useKeydown("Escape", onClickAddNewService);
 
-  const [newForm, setNewForm] = useState<
-    Omit<Services, "id" | "image"> & { image: File | null }
-  >({
+  const [newForm, setNewForm] = useState<ServiceData & { image: File | null }>({
     name: "",
     category: "",
     cost: 0,
@@ -63,9 +63,8 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
   };
 
   const { mutate: mutateAdd, isPending: addLoading } = useMutation({
-    mutationFn: (
-      form: Omit<Services, "id" | "image"> & { image: File | null },
-    ) => postService(form),
+    mutationFn: (form: ServiceData & { image: File | null }) =>
+      postService(form),
     onSuccess: (updated: Services) => {
       console.log(updated);
       addServiceToCache(updated);

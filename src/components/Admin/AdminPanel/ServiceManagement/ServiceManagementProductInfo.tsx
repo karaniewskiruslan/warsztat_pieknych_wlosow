@@ -13,13 +13,16 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
     <>
       <hgroup className="flex justify-between">
         <CategoryText category="Kategoria" body={product.category} />
-        <CategoryText category="ID" body={String(product.id)} />
+        <CategoryText category="ID" body={String(product._id)} />
       </hgroup>
       <CategoryText
         category="Czas trwania"
         body={`${product.last * 15} minut`}
       />
-      <CategoryText category="Mistrz" body={`${product.masters.join(", ")}`} />
+      <CategoryText
+        category="Mistrz"
+        body={`${product.masters.join(", ")}` || ""}
+      />
       <section className="mobile:grid-cols-[1fr_150px] grid grid-cols-1 items-center border-t">
         <article>
           {Array.isArray(product.cost) ? (
@@ -40,7 +43,7 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
           )}
         </article>
         <section className="size-full overflow-hidden rounded-xl">
-          <Image src={product.image} alt={product.name} />
+          <Image src={product.image ?? ""} alt={product.name} />
         </section>
       </section>
       <section className="flex justify-end gap-2">
