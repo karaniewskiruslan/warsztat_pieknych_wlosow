@@ -13,7 +13,7 @@ const Masters = () => {
       {!mastersLoading && (
         <section className="tablet:grid-cols-3 mobile:grid-cols-2 grid grid-cols-1 gap-8">
           {masters.map((master) => (
-            <MastersIcon key={master.id} master={master} />
+            <MastersIcon key={master._id} master={master} />
           ))}
         </section>
       )}

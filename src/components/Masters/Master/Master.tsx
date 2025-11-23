@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useParams, useNavigate } from "react-router";
-import { MasterType } from "../../../@types/MasterType.type";
 import MasterInfo from "./MasterInfo";
 import MasterWorks from "./MasterWorks";
 import PageButton from "../../../@ui/PageButton";
 import { useMastersContext } from "../../../@context/mastersContext";
+import { MasterType } from "../../../@types/masterType.type";
 
 type Props = {
   masterInfo?: MasterType;
@@ -22,6 +22,9 @@ const Master = ({ masterInfo }: Props) => {
 
   if (!info) return <div data-testid="master-not-found">Master not found</div>;
 
+  const masterProfessionText = info.profession.join(", ") ?? "";
+  const masterExpirianceText = `${info.experience} lat doświadczenia`;
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -32,11 +35,11 @@ const Master = ({ masterInfo }: Props) => {
     >
       <h1>Master {info.name}</h1>
       <h2>
-        {info.profession} | {info.experience}
+        {masterProfessionText} | {masterExpirianceText}
       </h2>
       <MasterInfo
         name={info.name}
-        photo={info.masterPhoto}
+        photo={info.image}
         description={info.description}
       />
       <MasterWorks name={info.name} masterWorks={info.masterWorksPhotos} />

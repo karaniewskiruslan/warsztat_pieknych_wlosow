@@ -1,10 +1,9 @@
 export type MasterType = {
-  id: number;
+  _id: number;
   name: string;
   image: string;
-  profession: string;
-  experience: string;
+  profession: string[];
+  experience: number;
   description: string[];
   masterWorksPhotos: string[];
-  masterPhoto: string;
 };

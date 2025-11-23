@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
-import { MasterType } from "../../@types/MasterType.type";
 import { motion } from "framer-motion";
 import Image from "../../@ui/Image";
+import { MasterType } from "../../@types/masterType.type";
 
 type Props = {
   master: MasterType;
@@ -16,6 +16,9 @@ const detailsVariants = {
 const MastersIcon = ({ master }: Props) => {
   const MotionNavLink = motion.create(NavLink);
 
+  const masterProfessionText = master.profession.join(" | ") ?? "";
+  const masterExpirianceText = `${master.experience} lat doświadczenia`;
+
   return (
     <MotionNavLink
       to={`/masters/${master.name}`}
@@ -26,13 +29,13 @@ const MastersIcon = ({ master }: Props) => {
     >
       <motion.article className="z-10 px-4 py-2 text-white" layout>
         <h2>{master.name}</h2>
-        <h3>{master.profession}</h3>
+        <h3>{masterProfessionText}</h3>
         <motion.section
-          key={master.id}
+          key={master._id}
           variants={detailsVariants}
           className="overflow-hidden"
         >
-          <p>{master.experience}</p>
+          <p>{masterExpirianceText}</p>
         </motion.section>
       </motion.article>
       <Image src={master.image} alt={master.name} isAbsolute={true} />
