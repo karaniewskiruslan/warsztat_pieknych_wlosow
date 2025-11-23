@@ -26,7 +26,7 @@ const BurgerMenu = ({ onClickCloseMenu }: Props) => {
       >
         <img src={burgerMenuClose} alt="Close menu" loading="lazy" />
       </button>
-      <div className="aspect-[65/16] h-10">
+      <div className="aspect-65/16 h-10">
         <Image src={logo} alt="Logo" />
       </div>
       <nav className="flex flex-col items-center gap-8 text-xl">

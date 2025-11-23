@@ -4,7 +4,7 @@ type Props = {
 
 const BookingExplainingItem = ({ item }: Props) => {
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex items-center justify-center gap-2">
       <div
         style={{ backgroundColor: item.color }}
         className="size-6 rounded-full border"

@@ -7,7 +7,12 @@ type Props = {
   title: string;
   current: string;
   options: string[];
-  onClickChangeCurrent: (name: string, newOption: string) => void;
+  param?: string;
+  onClickChangeCurrent: (
+    name: string,
+    newOption: string,
+    param?: string,
+  ) => void;
 };
 
 const DropdownSelect = ({
@@ -15,6 +20,7 @@ const DropdownSelect = ({
   title,
   current,
   options,
+  param,
   onClickChangeCurrent,
 }: Props) => {
   const [open, setOpen] = useState(false);
@@ -62,7 +68,7 @@ const DropdownSelect = ({
               <li
                 key={i}
                 onMouseDown={() => {
-                  onClickChangeCurrent(name, option);
+                  onClickChangeCurrent(name, option, param);
                   setOpen(false);
                 }}
                 className={classNames(

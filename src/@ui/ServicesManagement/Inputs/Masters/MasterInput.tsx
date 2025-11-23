@@ -18,15 +18,27 @@ const MasterInput = ({
   onChangeMasterName,
   onClickDeleteMaster,
 }: Props) => {
+  // const { masters } = useMastersContext();
+  // const [autoFill, setAutoFill] = useState(false);
+
   return (
     <section className="flex items-center gap-2">
-      <label className="flex items-center justify-center gap-4">
+      <label className="relative flex items-center justify-center gap-4">
         <input
           onChange={(e) => onChangeMasterName(e, "masters", i)}
           value={master}
+          // onFocus={() => setAutoFill(true)}
+          // onBlur={() => setAutoFill(false)}
           name={"master" + i}
           type="text"
         />
+        {/* {autoFill ? (
+          <DropdownHelper
+            options={masters}
+            query={master}
+            onChange={onChangeMasterName}
+          />
+        ) : null} */}
       </label>
       <button
         onClick={() => onClickDeleteMaster(i)}

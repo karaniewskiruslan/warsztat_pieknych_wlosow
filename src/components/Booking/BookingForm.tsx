@@ -12,6 +12,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useBookingContext } from "../../@context/bookingContext";
 import BookingExplaining from "./BookingExplaining";
 import { Booking } from "../../@types/booking.type";
+import { useUpdateSearchParams } from "../../@hooks/useUpdateSearchParams.hook";
+import dayjs from "dayjs";
+import {
+  CATEGORY_PARAM,
+  SELECTED_DATE_PARAMS,
+  SERVICE_PARAM,
+} from "../../@constants/searchParams";
+import { useSearchParamsList } from "../../@hooks/useSearchParamsList.hook";
 
 const BookingForm = () => {
   const {
@@ -25,6 +33,9 @@ const BookingForm = () => {
   const { addBookingToCache } = useBookingContext();
   const initialServices = servicesOnCategory(categories[0]);
   const initialService = services.find((el) => el.name === initialServices[0]);
+  const updateParam = useUpdateSearchParams();
+  const { category: categoryParam, service: serviceParam } =
+    useSearchParamsList();
 
   const [isValidDate, setIsValidDate] = useState(true);
 
@@ -33,8 +44,8 @@ const BookingForm = () => {
   >({
     fullName: "",
     email: "",
-    category: categories[0],
-    service: initialServices[0],
+    category: categoryParam ?? categories[0],
+    service: serviceParam ?? initialServices[0],
     last: initialService?.last ?? 0,
     master: initialService?.masters[0] ?? "",
     date: null,
@@ -49,13 +60,35 @@ const BookingForm = () => {
     setBookingForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onChangeFormOption = (name: string, newOption: string) => {
+  const handleChangeFormOption = (
+    name: string,
+    newOption: string,
+    param?: string,
+  ) => {
     setBookingForm((prev) => ({ ...prev, [name]: newOption }));
+    if (param) {
+      updateParam({
+        [param]: newOption,
+      });
+    }
   };
 
   const handleChangeDate = (newDate: Date | null) => {
     setBookingForm((prev) => ({ ...prev, date: newDate }));
+    updateParam({
+      [SELECTED_DATE_PARAMS]: dayjs(newDate).toISOString(),
+    });
   };
+
+  useEffect(() => {
+    console.log(!categoryParam || !serviceParam);
+    if (!categoryParam || !serviceParam) {
+      updateParam({
+        [SERVICE_PARAM]: initialServices[0],
+        [CATEGORY_PARAM]: categories[0],
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const found = services.find((el) => el.name === service);
@@ -70,18 +103,17 @@ const BookingForm = () => {
   }, [service, services]);
 
   useEffect(() => {
-    setBookingForm((prev) => ({
-      ...prev,
-      category: categories[0],
-    }));
-  }, [categories]);
-
-  useEffect(() => {
-    setBookingForm((prev) => ({
-      ...prev,
-      service: servicesOnCategory(category)[0],
-    }));
-  }, [category]);
+    if (!categoryParam) {
+      setBookingForm((prev) => ({
+        ...prev,
+        service: servicesOnCategory(category)[0],
+      }));
+      updateParam({
+        [SERVICE_PARAM]: servicesOnCategory(category)[0],
+        [CATEGORY_PARAM]: category,
+      });
+    }
+  }, [category, categoryParam]);
 
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (newBooking: Omit<Booking, "_id" | "isConfirmed">) =>
@@ -180,21 +212,23 @@ const BookingForm = () => {
           name="category"
           current={category}
           options={categories}
+          param={CATEGORY_PARAM}
           title="Wybież kategoriję"
-          onClickChangeCurrent={onChangeFormOption}
+          onClickChangeCurrent={handleChangeFormOption}
         />
         <DropdownSelect
           name="service"
           current={service}
+          param={SERVICE_PARAM}
           options={servicesOnCategory(category) ?? []}
           title="Wybież usługę"
-          onClickChangeCurrent={onChangeFormOption}
+          onClickChangeCurrent={handleChangeFormOption}
         />
         <DropdownSelect
           name="master"
           current={master}
           options={mastersOnService(service) ?? []}
-          onClickChangeCurrent={onChangeFormOption}
+          onClickChangeCurrent={handleChangeFormOption}
           title="Wybież mistrza"
         />
         <BookingExplaining />

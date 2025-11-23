@@ -19,10 +19,12 @@ const ServiceManagementProductInfo = ({ product, onCLickOpen }: Props) => {
         category="Czas trwania"
         body={`${product.last * 15} minut`}
       />
-      <CategoryText
-        category="Mistrz"
-        body={`${product.masters.join(", ")}` || ""}
-      />
+      {product.masters && (
+        <CategoryText
+          category="Mistrz"
+          body={`${product.masters.join(", ")}` || ""}
+        />
+      )}
       <section className="mobile:grid-cols-[1fr_150px] grid grid-cols-1 items-center border-t">
         <article>
           {Array.isArray(product.cost) ? (

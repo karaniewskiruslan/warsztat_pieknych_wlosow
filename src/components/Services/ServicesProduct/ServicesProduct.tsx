@@ -5,23 +5,31 @@ import ServicesProductText from "./ServicesProductText";
 import ServiceInfo from "../ServiceInfo/ServiceInfo";
 import useScrollLock from "../../../@hooks/useScrollLock.hook";
 import { AnimatePresence } from "framer-motion";
+import { useUpdateSearchParams } from "../../../@hooks/useUpdateSearchParams.hook";
+import {
+  CATEGORY_PARAM,
+  SERVICE_PARAM,
+} from "../../../@constants/searchParams";
 
 type Props = {
   product: Services;
 };
 
 const ServicesProduct = ({ product }: Props) => {
-  const { name, image, last, masters } = product;
+  const { name, image, last, masters, category } = product;
   const [service, setService] = useState<Services | null>(null);
+  const updateParams = useUpdateSearchParams();
 
   const handleClickChangeService = (service: Services) => {
     setService(service);
+    updateParams({ [SERVICE_PARAM]: service.name, [CATEGORY_PARAM]: category });
   };
 
   useScrollLock(service !== null);
 
   const handleClickRemoveService = () => {
     setService(null);
+    updateParams({ [SERVICE_PARAM]: undefined, [CATEGORY_PARAM]: undefined });
   };
 
   return (

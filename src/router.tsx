@@ -11,28 +11,29 @@ import App from "./App";
 import AdminPanel from "./components/Admin/AdminPanel/AdminPanel";
 import ServiceManagement from "./components/Admin/AdminPanel/ServiceManagement/ServiceManagement";
 import BookingManagement from "./components/Admin/AdminPanel/BookingManagement/BookingManagement";
+import { appUrls } from './appUrls';
 
 export const router = createHashRouter(
   [
     {
-      path: "/",
+      path: appUrls.ROOT,
       Component: App,
       children: [
         { index: true, Component: Main },
         {
-          path: "admin",
+          path: appUrls.ADMIN,
           Component: Admin,
           children: [
-            { path: "panel", Component: AdminPanel },
-            { path: "servicesManagement", Component: ServiceManagement },
-            { path: "bookingManagement", Component: BookingManagement },
+            { path: appUrls.ADMIN_PANEL, Component: AdminPanel },
+            { path: appUrls.ADMIN_SERVICE, Component: ServiceManagement },
+            { path: appUrls.ADMIN_BOOKING, Component: BookingManagement },
           ],
         },
-        { path: "masters", Component: Masters },
-        { path: "masters/:name", Component: Master },
-        { path: "services", Component: Services },
-        { path: "booking", Component: Booking },
-        { path: "contact", Component: Contact },
+        { path: appUrls.MASTERS, Component: Masters },
+        { path: appUrls.MASTER_INFO, Component: Master },
+        { path: appUrls.SERVICES, Component: Services },
+        { path: appUrls.BOOKING, Component: Booking },
+        { path: appUrls.CONTACT, Component: Contact },
         { path: "*", Component: EmptyPage },
       ],
     },

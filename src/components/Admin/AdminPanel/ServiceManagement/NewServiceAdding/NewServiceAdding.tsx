@@ -66,7 +66,6 @@ const NewServiceAdding = ({ onClickAddNewService }: Props) => {
     mutationFn: (form: ServiceData & { image: File | null }) =>
       postService(form),
     onSuccess: (updated: Services) => {
-      console.log(updated);
       addServiceToCache(updated);
 
       addNewNotification(

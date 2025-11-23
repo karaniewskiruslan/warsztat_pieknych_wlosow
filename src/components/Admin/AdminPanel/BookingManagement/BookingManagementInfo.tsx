@@ -96,6 +96,25 @@ const BookingManagementInfo = ({ booking }: Props) => {
     deleteBooking(_id);
   };
 
+  const bookingButtonList = [
+    {
+      title: "Potwierdź",
+      onClick: handleAcceptVisit,
+      isConfirmed: isConfirmed,
+      loading: loadingAccept,
+    },
+    {
+      title: "Zmień",
+      onClick: handleChangeVisit,
+    },
+    {
+      title: "Usuń",
+      onClick: handleDeleteVisit,
+      loading: loadingDelete,
+      isDeleting: true,
+    },
+  ];
+
   return (
     <motion.div
       variants={mainSectionVariants}
@@ -172,19 +191,18 @@ const BookingManagementInfo = ({ booking }: Props) => {
               ))}
             </article>
             <section className="grid grid-cols-3 gap-2">
-              <ButtonBooking
-                title="Potwierdź"
-                onClick={handleAcceptVisit}
-                isConfirmed={isConfirmed}
-                loading={loadingAccept}
-              />
-              <ButtonBooking onClick={handleChangeVisit} title="Zmień" />
-              <ButtonBooking
-                title="Usuń"
-                onClick={handleDeleteVisit}
-                loading={loadingDelete}
-                isDeleting={true}
-              />
+              {bookingButtonList.map(
+                ({ title, onClick, isConfirmed, isDeleting, loading }) => (
+                  <ButtonBooking
+                    key={title}
+                    title={title}
+                    onClick={onClick}
+                    isConfirmed={isConfirmed}
+                    isDeleting={isDeleting}
+                    loading={loading}
+                  />
+                ),
+              )}
             </section>
           </section>
         </div>

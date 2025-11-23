@@ -29,25 +29,23 @@ const ButtonBooking = ({
   };
 
   return (
-    <section
+    <button
       className={classNames("bookingButton", {
         "pointer-events-none bg-gray-300 opacity-50": isConfirmed,
       })}
+      type="button"
+      onClick={handleClickFunction}
     >
-      <button type="button" onClick={handleClickFunction}>
-        {loading ? (
-          <>
-            <img
-              src={loadingImage}
-              alt="Loading"
-              loading="lazy"
-              className="size-4 animate-spin"
-            />
-          </>
-        ) : (
-          title
-        )}
-      </button>
+      {loading ? (
+        <img
+          src={loadingImage}
+          alt="Loading"
+          loading="lazy"
+          className="size-4 animate-spin"
+        />
+      ) : (
+        title
+      )}
 
       {acceptDelete && (
         <div className="pointer-events-auto absolute top-0 left-0 w-full -translate-y-[115%] rounded-xl border bg-white p-1 text-center">
@@ -66,7 +64,7 @@ const ButtonBooking = ({
           </section>
         </div>
       )}
-    </section>
+    </button>
   );
 };
 

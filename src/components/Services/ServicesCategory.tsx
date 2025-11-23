@@ -12,7 +12,7 @@ const ServicesCategory = ({ categoryName, categoryServices }: Props) => {
       <h2>{categoryName}</h2>
       <section className="tablet:grid-cols-2 grid gap-3">
         {categoryServices.map((service) => (
-          <ServicesProduct key={service.id} product={service} />
+          <ServicesProduct key={service._id} product={service} />
         ))}
       </section>
     </div>

@@ -10,7 +10,7 @@ const ServicesProductText = ({ name, masters, last }: Props) => {
       <article>
         <CategoryText
           category={masterText(masters)}
-          body={masters.join(", ")}
+          body={masters.join(", ") ?? ""}
         />
         <CategoryText category="Trwanie wizyty" body={timeLast(last)} />
       </article>

@@ -12,6 +12,9 @@ import {
 } from "./TimeSection.data";
 import dayjs, { Dayjs } from "dayjs";
 import { DATE_HOURS_FORMAT } from "../../@constants/dateFormat";
+import { useSearchParamsList } from "../../@hooks/useSearchParamsList.hook";
+import { useUpdateSearchParams } from "../../@hooks/useUpdateSearchParams.hook";
+import { SELECTED_DATE_PARAMS } from "../../@constants/searchParams";
 
 type Props = {
   last: number;
@@ -27,8 +30,18 @@ const TimeSelection = ({
   onChangeDate,
 }: Props) => {
   const { bookings } = useBookingContext();
+  const { selectedDate: date } = useSearchParamsList();
+  const updateParam = useUpdateSearchParams();
 
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const initialDate = date ? dayjs(date) : dayjs();
+
+  const [selectedDate, setSelectedDate] = useState(initialDate);
+
+  useEffect(() => {
+    updateParam({
+      [SELECTED_DATE_PARAMS]: selectedDate.toISOString(),
+    });
+  }, []);
 
   const timeArray = useMemo(() => {
     if (!master) return [];
@@ -85,7 +98,8 @@ const TimeSelection = ({
       .hour(0)
       .minute(0);
     const today = dayjs().hour(0).minute(0);
-    if (newDate.isBefore(today)) return;
+
+    if (newDate.isBefore(today, "day")) return;
 
     setSelectedDate(newDate);
 
@@ -146,7 +160,7 @@ const TimeSelection = ({
         )}
       </section>
       <TimeSelectionCalendar
-        currentChoice={bookTime.toDate()}
+        currentChoice={bookTime.isValid() ? bookTime.toDate() : new Date()}
         onClick={handleClickDate}
       />
     </section>

@@ -53,7 +53,6 @@ const useBooking = () => {
   };
 
   const updateBookingInCache = (updated: Booking) => {
-    console.log(updated);
     if (!updated) return;
     setBookings((prev) =>
       prev.map((b) => (b._id === updated._id ? updated : b)),

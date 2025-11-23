@@ -7,8 +7,6 @@ export const proveForm = (form: Omit<Booking, "_id" | "isConfirmed">) => {
   const fullnameProve = FULLNAME_REGEX.test(form.fullName.trim());
   const emailProve = MAIL_REGEX.test(form.email.trim());
 
-  console.log(fullnameProve, emailProve);
-
   return fullnameProve && emailProve;
 };
 

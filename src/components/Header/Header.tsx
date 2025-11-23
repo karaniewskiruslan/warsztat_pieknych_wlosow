@@ -30,7 +30,7 @@ const Header = () => {
       data-testid="header"
       className="font-buford z-50 flex w-full justify-between bg-black px-8 py-4 text-3xl text-white"
     >
-      <div className="aspect-[65/16] h-10">
+      <div className="aspect-65/16 h-10">
         <Image src={logo} alt="Logo" />
       </div>
       <nav className="flex items-center gap-8 text-xl">
@@ -39,13 +39,13 @@ const Header = () => {
             <img src={burgerMenuIcon} alt="Burger menu" loading="lazy" />
           </button>
         ) : (
-          menuOptions.map((option) => (
+          menuOptions.map(({ title, to }) => (
             <NavLink
-              to={option.to}
-              key={option.title}
+              to={{ pathname: to.pathname, search: to.search }}
+              key={title}
               className="tablet:text-2xl text-base"
             >
-              {option.title}
+              {title}
             </NavLink>
           ))
         )}

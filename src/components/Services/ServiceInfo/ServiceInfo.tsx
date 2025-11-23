@@ -6,6 +6,12 @@ import { masterText, timeLast } from "../Services.data";
 import Image from "../../../@ui/Image";
 import ServiceInfoOptions from "./ServiceInfoOptions";
 import { useKeydown } from "../../../@hooks/useKeydown.hook";
+import { NavLink } from "react-router";
+import {
+  CATEGORY_PARAM,
+  SERVICE_PARAM,
+} from "../../../@constants/searchParams";
+import { appUrls, toLink } from "../../../appUrls";
 
 type Props = {
   service: Services;
@@ -43,7 +49,7 @@ const ServiceInfo = ({ service, onClickRemoveService }: Props) => {
               <CategoryText category="Kategoria" body={category} />
               <CategoryText
                 category={masterText(masters)}
-                body={masters.join(", ")}
+                body={masters.join(", ") ?? ""}
               />
               <CategoryText category="Trwanie wizyty" body={timeLast(last)} />
             </article>
@@ -54,6 +60,17 @@ const ServiceInfo = ({ service, onClickRemoveService }: Props) => {
           <div className="mobile:size-80 size-30 shrink-0 rounded-xl">
             <Image src={image!} alt={name} />
           </div>
+        </section>
+
+        <section className="w-fit">
+          <NavLink
+            to={{
+              pathname: toLink(appUrls.BOOKING),
+              search: `${SERVICE_PARAM}=${encodeURI(name)}&${CATEGORY_PARAM}=${encodeURI(category)}`,
+            }}
+          >
+            <button className="bookingButton">Zapisać się</button>
+          </NavLink>
         </section>
 
         <button
