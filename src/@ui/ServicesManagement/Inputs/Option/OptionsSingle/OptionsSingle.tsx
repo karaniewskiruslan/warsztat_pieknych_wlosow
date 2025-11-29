@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import OptionsCheckbox from "../OptionsCheckbox";
-import OptionsSingleInput from './OptionsSingleInput';
+import OptionsSingleInput from "./OptionsSingleInput";
 
 type Props = {
   cost: number;

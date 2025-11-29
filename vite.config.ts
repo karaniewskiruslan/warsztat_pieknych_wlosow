@@ -9,7 +9,7 @@ import { resolve } from "path";
 export default defineConfig({
   base: "/warsztat_pieknych_wlosow/",
   plugins: [react(), tailwindcss()],
-  preview: { port: 3000 },
+  server: { port: 3000 },
   resolve: {
     alias: {
       "@api": resolve(__dirname, "./src/@api"),

@@ -1,4 +1,3 @@
-
 type Props = {
   isChecked: boolean;
   onChangeCheckbox: () => void;

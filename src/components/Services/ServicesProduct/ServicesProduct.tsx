@@ -33,9 +33,7 @@ const ServicesProduct = ({ product }: Props) => {
   };
 
   return (
-    <section
-      className="mobile:flex-row relative flex flex-1 flex-col place-items-center gap-4 rounded-2xl bg-gray-100 p-6"
-    >
+    <section className="mobile:flex-row relative flex flex-1 flex-col place-items-center gap-4 rounded-2xl bg-gray-100 p-6">
       <div className="mobile:size-40 size-30 shrink-0 rounded-xl">
         <Image src={image!} alt={name} />
       </div>

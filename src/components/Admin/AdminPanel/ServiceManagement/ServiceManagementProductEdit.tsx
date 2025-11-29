@@ -24,9 +24,7 @@ type Props = {
   storage: (ServicesData & { image: File | null }) | null;
   onClickEdit: () => void;
   onChangeStorage: (
-    newItem: ServicesData & {
-      image: File | null;
-    },
+    newItem: (Omit<Services, "_id" | "image"> & { image: File | null }) | null,
   ) => void;
 };
 
@@ -259,7 +257,7 @@ const ServiceManagementProductEdit = ({
 
     setForm((prev) => ({
       ...prev,
-      image: files[0].name,
+      image: files[0],
     }));
   };
 

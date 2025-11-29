@@ -7,7 +7,7 @@ import usePageHeight from "./@hooks/usePageHeight.hook.ts";
 import { useLocation } from "react-router";
 import { useBookingContext } from "./@context/bookingContext.tsx";
 import { useNotificationContext } from "./@context/notificationContent.tsx";
-import Notifications from './@ui/Notifications/Notifications.tsx';
+import Notifications from "./@ui/Notifications/Notifications.tsx";
 
 const Layout = lazy(() => import("./components/Layout.tsx"));
 

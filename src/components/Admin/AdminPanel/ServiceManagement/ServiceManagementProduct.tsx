@@ -42,7 +42,7 @@ const ServiceManagementProduct = ({ product }: Props) => {
   };
 
   const handleChangeStorage = (
-    newItem: Omit<Services, "_id" | "image"> & { image: File | null },
+    newItem: (Omit<Services, "_id" | "image"> & { image: File | null }) | null,
   ) => {
     setOptionStorage(() => newItem);
   };
