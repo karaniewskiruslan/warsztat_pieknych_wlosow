@@ -12,18 +12,18 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "rootDir": "./src",
+    "rootDir": "./",
 
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@api/*": ["./@api/*"],
-      "@constants/*": ["./@constants/*"],
-      "@context/*": ["./@context/*"],
-      "@hooks/*": ["./@hooks/*"],
-      "@models/*": ["./@types/*"],
-      "@languages/*": ["./@languages/*"],
-      "@ui/*": ["./@ui/*"]
+      "@api/*": ["./src/@api/*"],
+      "@constants/*": ["./src/@constants/*"],
+      "@context/*": ["./src/@context/*"],
+      "@hooks/*": ["./src/@hooks/*"],
+      "@models/*": ["./src/@types/*"],
+      "@languages/*": ["./src/@languages/*"],
+      "@ui/*": ["./src/@ui/*"]
     },
 
     /* Linting */
