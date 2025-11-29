@@ -27,5 +27,11 @@
 }
 
 .react-calendar__month-view__days__day--neighboringMonth {
-  @apply border-black text-gray-200;
+  @apply border-black bg-gray-200 text-gray-500;
+}
+
+.react-calendar__tile[disabled]:not(
+    .react-calendar__month-view__days__day--neighboringMonth
+  ) {
+  @apply border-black text-gray-300;
 }

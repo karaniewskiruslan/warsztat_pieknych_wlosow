@@ -8,9 +8,22 @@ type Props = {
 
 const TimeSelectionCalendar = ({ onClick, currentChoice }: Props) => {
   return (
-    <>
-      <Calendar onChange={(e) => onClick(e)} value={currentChoice} />
-    </>
+    <Calendar
+      tileDisabled={({ date, view }) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const checkDate = new Date(date);
+        checkDate.setHours(0, 0, 0, 0);
+
+        if (view === "month") {
+          return checkDate < today;
+        }
+        return false;
+      }}
+      onChange={(e) => onClick(e)}
+      value={currentChoice}
+    />
   );
 };
 

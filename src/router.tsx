@@ -11,7 +11,8 @@ import App from "./App";
 import AdminPanel from "./components/Admin/AdminPanel/AdminPanel";
 import ServiceManagement from "./components/Admin/AdminPanel/ServiceManagement/ServiceManagement";
 import BookingManagement from "./components/Admin/AdminPanel/BookingManagement/BookingManagement";
-import { appUrls } from './appUrls';
+import { appUrls } from "./appUrls";
+import MastersManagement from "./components/Admin/AdminPanel/MastersManagement/MastersManagement";
 
 export const router = createHashRouter(
   [
@@ -27,6 +28,7 @@ export const router = createHashRouter(
             { path: appUrls.ADMIN_PANEL, Component: AdminPanel },
             { path: appUrls.ADMIN_SERVICE, Component: ServiceManagement },
             { path: appUrls.ADMIN_BOOKING, Component: BookingManagement },
+            { path: appUrls.ADMIN_MASTERS, Component: MastersManagement },
           ],
         },
         { path: appUrls.MASTERS, Component: Masters },

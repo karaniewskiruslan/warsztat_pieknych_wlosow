@@ -7,9 +7,9 @@ import {
   useMemo,
   useState,
 } from "react";
+import dayjs from "dayjs";
 import { Booking } from "../@types/booking.type";
 import { getBookings } from "../@api/booking.api";
-import dayjs from "dayjs";
 
 type Props = {
   children: ReactNode;

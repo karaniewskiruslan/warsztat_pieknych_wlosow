@@ -21,9 +21,7 @@ export const postService = async (newService: ServiceAPI) => {
   formData.append("options", JSON.stringify(newService.options));
   formData.append("cost", JSON.stringify(newService.cost));
 
-  if (newService.image) {
-    formData.append("image", newService.image);
-  }
+  formData.append("image", newService?.image ?? "");
 
   const res = await axios.post<Services>(baseUrl, formData, {
     headers: {

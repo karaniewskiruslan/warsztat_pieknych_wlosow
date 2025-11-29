@@ -25,4 +25,18 @@ export const adminOptions = [
     optionTitle:
       "Kontroluj umowione wizyty: potwierdzaj, odwołuj albo po prostu prypomnij o niej siebie",
   },
+
+  {
+    pageSrc: "/admin/mastersManagement",
+    mainImage: "/warsztat_pieknych_wlosow/img/admin/MastersManagement.svg",
+    supImage: "/warsztat_pieknych_wlosow/img/admin/loop.svg",
+    supAnimation: {
+      initial: { x: 0 },
+      exit: { x: 0 },
+      hover: { x: [0, 30, -80, 40, -20, 0], y: [0, -10, 20, 10, 22, 0] },
+    },
+    optionName: "Zarządzanie mistrzami",
+    optionTitle:
+      "Zarządzaj obecnymi mistrzami, pracującymi u Ciebie na pokładzie",
+  },
 ];

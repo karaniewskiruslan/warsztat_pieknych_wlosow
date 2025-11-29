@@ -7,18 +7,17 @@ import MastersIcon from "../MastersIcon";
 import userEvent from "@testing-library/user-event";
 
 const TEST_NAME = "Dimitrios";
-const TEST_PROFESSION = "Pedicure";
-const TEST_EXPERIENCE = "17 year of experience";
+const TEST_PROFESSION = ["Pedicure"];
+const TEST_EXPERIENCE = 30;
 
 const testMaster = {
-  id: 2,
+  _id: 2,
   name: TEST_NAME,
-  frontImage: "test-images",
+  image: "test-images",
   profession: TEST_PROFESSION,
   experience: TEST_EXPERIENCE,
   description: ["Lorem 1", "Lorem 2", "Lorem 3"],
   masterWorksPhotos: ["photo 1", "photo 2"],
-  masterPhoto: "photo 1",
 };
 
 describe("Master", () => {

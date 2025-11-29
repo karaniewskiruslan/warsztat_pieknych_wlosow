@@ -14,7 +14,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { DATE_HOURS_FORMAT } from "../../@constants/dateFormat";
 import { useSearchParamsList } from "../../@hooks/useSearchParamsList.hook";
 import { useUpdateSearchParams } from "../../@hooks/useUpdateSearchParams.hook";
-import { SELECTED_DATE_PARAMS } from "../../@constants/searchParams";
+import { SELECTED_DATE_PARAM } from "../../@constants/searchParams";
 
 type Props = {
   last: number;
@@ -39,7 +39,7 @@ const TimeSelection = ({
 
   useEffect(() => {
     updateParam({
-      [SELECTED_DATE_PARAMS]: selectedDate.toISOString(),
+      [SELECTED_DATE_PARAM]: selectedDate.toISOString(),
     });
   }, []);
 

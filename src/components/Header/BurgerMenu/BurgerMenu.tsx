@@ -1,15 +1,50 @@
 import { NavLink } from "react-router";
 import logo from "/img/logo_transparent_name.webp";
 import burgerMenuClose from "/img/CloseBurgerMenu.svg";
-import { menuOptions } from "../Header.data";
 import { motion } from "framer-motion";
 import Image from "../../../@ui/Image";
+import { appUrls, toLink } from "../../../appUrls";
+import {
+  CATEGORY_PARAM,
+  SELECTED_DATE_PARAM,
+  SERVICE_PARAM,
+} from "../../../@constants/searchParams";
+import dayjs from "dayjs";
+import { useServicesContext } from "../../../@context/servicesContext";
 
 type Props = {
   onClickCloseMenu: (state: boolean) => void;
 };
 
 const BurgerMenu = ({ onClickCloseMenu }: Props) => {
+  const { categories, services } = useServicesContext();
+
+  const menuOptions = [
+    {
+      title: "Główna",
+      to: { pathname: toLink(appUrls.ROOT), search: undefined },
+    },
+    {
+      title: "Mistrzowie",
+      to: { pathname: toLink(appUrls.MASTERS), search: undefined },
+    },
+    {
+      title: "Usługi",
+      to: { pathname: toLink(appUrls.SERVICES), search: undefined },
+    },
+    {
+      title: "Zapisać się",
+      to: {
+        pathname: toLink(appUrls.BOOKING),
+        search: `${SELECTED_DATE_PARAM}=${dayjs().toISOString()}&${CATEGORY_PARAM}=${categories[0] ?? ""}&${SERVICE_PARAM}=${services[0]?.name}`,
+      },
+    },
+    {
+      title: "Kontakt",
+      to: { pathname: toLink(appUrls.CONTACT), search: undefined },
+    },
+  ];
+
   return (
     <motion.section
       data-testid="burger-menu"

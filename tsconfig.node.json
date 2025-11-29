@@ -7,12 +7,24 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "rootDir": "./src",
+
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@api/*": ["./@api/*"],
+      "@constants/*": ["./@constants/*"],
+      "@context/*": ["./@context/*"],
+      "@hooks/*": ["./@hooks/*"],
+      "@models/*": ["./@types/*"],
+      "@languages/*": ["./@languages/*"],
+      "@ui/*": ["./@ui/*"]
+    },
 
     /* Linting */
     "strict": true,

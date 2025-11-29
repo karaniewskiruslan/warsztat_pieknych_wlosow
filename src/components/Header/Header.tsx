@@ -1,16 +1,25 @@
 import { NavLink } from "react-router";
 import logo from "/img/logo_transparent_name.webp";
 import burgerMenuIcon from "/img/BurgerMenu.svg";
-import { menuOptions } from "./Header.data";
 import { useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import useWindowSize from "../../@hooks/useWindowSize.hook";
 import useScrollLock from "../../@hooks/useScrollLock.hook";
 import { AnimatePresence } from "framer-motion";
 import Image from "../../@ui/Image";
+import { appUrls, toLink } from "../../appUrls";
+import {
+  CATEGORY_PARAM,
+  SELECTED_DATE_PARAM,
+  SERVICE_PARAM,
+} from "../../@constants/searchParams";
+import dayjs from "dayjs";
+import { useServicesContext } from "../../@context/servicesContext";
 
 const Header = () => {
   const [isBurgerMenu, toggleBurgerMenu] = useState(false);
+  const { categories, services } = useServicesContext();
+
   const { width } = useWindowSize();
   const screenWidth = width < 640;
   useScrollLock(isBurgerMenu && screenWidth);
@@ -24,6 +33,32 @@ const Header = () => {
       toggleBurgerMenu(false);
     }
   }, [screenWidth, toggleBurgerMenu]);
+
+  const menuOptions = [
+    {
+      title: "Główna",
+      to: { pathname: toLink(appUrls.ROOT), search: undefined },
+    },
+    {
+      title: "Mistrzowie",
+      to: { pathname: toLink(appUrls.MASTERS), search: undefined },
+    },
+    {
+      title: "Usługi",
+      to: { pathname: toLink(appUrls.SERVICES), search: undefined },
+    },
+    {
+      title: "Zapisać się",
+      to: {
+        pathname: toLink(appUrls.BOOKING),
+        search: `${SELECTED_DATE_PARAM}=${dayjs().toISOString()}&${CATEGORY_PARAM}=${categories[0] ?? ""}&${SERVICE_PARAM}=${services[0]?.name}`,
+      },
+    },
+    {
+      title: "Kontakt",
+      to: { pathname: toLink(appUrls.CONTACT), search: undefined },
+    },
+  ];
 
   return (
     <header

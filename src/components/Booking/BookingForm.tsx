@@ -16,7 +16,7 @@ import { useUpdateSearchParams } from "../../@hooks/useUpdateSearchParams.hook";
 import dayjs from "dayjs";
 import {
   CATEGORY_PARAM,
-  SELECTED_DATE_PARAMS,
+  SELECTED_DATE_PARAM,
   SERVICE_PARAM,
 } from "../../@constants/searchParams";
 import { useSearchParamsList } from "../../@hooks/useSearchParamsList.hook";
@@ -76,13 +76,12 @@ const BookingForm = () => {
   const handleChangeDate = (newDate: Date | null) => {
     setBookingForm((prev) => ({ ...prev, date: newDate }));
     updateParam({
-      [SELECTED_DATE_PARAMS]: dayjs(newDate).toISOString(),
+      [SELECTED_DATE_PARAM]: dayjs(newDate).toISOString(),
     });
   };
 
   useEffect(() => {
-    console.log(!categoryParam || !serviceParam);
-    if (!categoryParam || !serviceParam) {
+    if (!categoryParam) {
       updateParam({
         [SERVICE_PARAM]: initialServices[0],
         [CATEGORY_PARAM]: categories[0],
@@ -113,7 +112,7 @@ const BookingForm = () => {
         [CATEGORY_PARAM]: category,
       });
     }
-  }, [category, categoryParam]);
+  }, [categoryParam]);
 
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (newBooking: Omit<Booking, "_id" | "isConfirmed">) =>
